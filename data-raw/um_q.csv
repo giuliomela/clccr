@@ -1,0 +1,15 @@
+﻿um_from;um_to;fct
+g;kg;1000
+mg;kg;1000000
+kJ;MJ;1000
+MJ;MJ;1
+J;MJ;1000000
+pg;kg;1E+15
+kg;kg;1
+ng;kg;1E+12
+µg;kg;1000000000
+dm3;m3;1000
+m3;m3;1
+cu.in;m3;61023.7441
+l;m3;1000
+cm3;m3;1000000
