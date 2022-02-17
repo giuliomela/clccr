@@ -8,6 +8,8 @@
 #' @export
 start_data_finder_fn <- function(path_xlsx){
 
+  address <- NULL # to avoid r CMD check to create notes
+
   xslx_str <- tidyxl::xlsx_cells(path_xlsx)
 
   # identifies the row number of the cell, in the A column, with the "No" string (start of the table)

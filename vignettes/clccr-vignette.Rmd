@@ -1,0 +1,43 @@
+---
+title: "clccr-vignette"
+author: Giulio Mela
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{clccr-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r setup}
+#library(clccr)
+```
+
+# Introduction
+
+The `clccr` package provides a set of functions to compute the *commodity life cycle costing* (or CLCC) indicator, a measure of resource use by a product/process during its life cycle. The indicator can be thought as a life cycle costing (LCC) indicator developed like it were and life cycle assessment (LCA) indicator: costs are treated like characterization factors, while the classification ad characterization phases are carried out like a conventional Life Cycle Impact Assessment (LCIA). Unlike conventional LCC - which takes into account all costs related to the life cycle of a product - the proposed indicator only considers costs related to natural resource use.
+
+In other words, the CLCC indicator quantifies, in monetary units, the extent to which a product exploits natural resources during its life cycle and can represent an important tool for policy making, highlighting - together with conventional LCA - non-renewable resource consumption by products.
+
+The CLCC indicator is based on market prices (or their proxies, as detailed below), which are a measure of resource scarcity, and can be interpreted as a measure of the extent to which a product/process exploits natural resources during its life cycle. Other LCA indicators of resource use/depletion are available in the literature but only a few of them are of economic type. Furthermore, most of them rely on strong assumptions regarding available reserves, current and future rates of consumption and supply and demand, undermining the robustness of their results. Our proposed indicator avoids this problem using market prices as a proxy for resource scarcity. Furthermore, market prices include information on both demand and supply sides and, at least partially, expectation on their future trends, at least in the medium run.
+
+The starting point for the calculation of the indicator is the list of all raw materials and energy flows considered in the LCA indicator Mineral and Fossil and Renewable Resource Depletion from the International Reference Life Cycle Data System (ILCD), while the second step is the identification, for every material and energy flow, of the corresponding market price[^1].
+
+[^1]: The list of raw materials considered can be expanded if needed, even though, at the moment, this operation cannot be done dynamically using `clccr` package functions.
+
+The package allows also the calculation of an alternative version of the indicator, based on the materials included in the European Commission's list of critical raw materials. Such materials are very important for technology-intensive applications but are - at the same time - characterized by high supply risks.
+
+All price data come from open-source databases such as the [International Monetary Fund's Primary Commodity Prices database](https://www.imf.org/en/Research/commodity-prices) or [Eurostat](https://ec.europa.eu/eurostat/data/database). Nonetheless, it is not possible to identify a reference market prices for most of the raw materials considered: for this reason, for such materials, market price is approximated with export unit values at world level. Trade data come from the United Nations' [Comtrade](https://comtrade.un.org/), European Union's [Comext](https://ec.europa.eu/eurostat/web/international-trade-in-goods/data/focus-on-comext) and the United States' [USITC](https://dataweb.usitc.gov/) databases. More specifically, most of unit values are calculated using four or six-digit trade flow data from Comtrade, except for rare earths materials which require a higher level of detail, which is provided by Comext and USITC databases.
+
+Reference prices used for the calculation of the CLCC indicator are, for each commodity, the average of price of the previous ten-year period, converted in euros using market exchange rates and adjusted to the price level of the reference year (which can be defined by the user) with the Euro Area GDP deflator. Minimum and maximum prices recorded in the ten-year period considered, are used as a range for the uncertainty assessment through Monte Carlo simulations.
+
+More information on the methodology developed for the calculation of the CLCC indicator is available in @mela2021, as well as an extensive literature review on other measures of resource scarcity in the LCA framework, a practical application of the CLCC indicator, and a comparison between the CLCC indicator with other popular measures of resource scarcity in the life cycle.

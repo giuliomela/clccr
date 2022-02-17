@@ -134,5 +134,31 @@
 #' \item{um_to}{measurement units to which original data mist be converted)}
 #' \item{fct}{conversion factor, not used}
 #' }
-
 "um_p"
+
+
+#' USD-EUR Nominal exchange rate
+#'
+#' Mean annual nominal exchange rate: USD per EUR. Data are retrived from the
+#' Eurostat database. See script in data-raw for details.
+#'
+#' @format A tibble with two variables:
+#' \describe{
+#' \item{year}{year}
+#' \item{exc_rate}{USD per 1 euro}
+#' }
+#' @source \url{https://ec.europa.eu/eurostat/data/database/}
+"exc_rate_usd"
+
+#' Euro Area GDP deflator
+#'
+#' Annual GDP deflator for the Euro Area. Base year 2015.
+#'
+#' @format A tibble with two variables
+#' \describe{
+#' \item{year}{year}
+#' \item{gdp_dlf}{EA GDP deflator}
+#' }
+#' @source \url{https://ec.europa.eu/eurostat/data/database/}
+"gdp_dfl"
+

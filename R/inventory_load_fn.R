@@ -12,6 +12,10 @@
 #' @export
 inventory_load_fn <- function(data_path){
 
+db_comm_master <- db_comm_master
+
+comm <- file_path <- inventory_raw <- data <- project <- object <- no <- um <-
+  um_to <- quantity <- comp <- no_comm <- NULL # avoids notes (dplyr and NSE)
 
 file_list <- list.files(path = here::here(data_path),
                             full.names = TRUE,
@@ -77,13 +81,13 @@ meas_units <- within(meas_units, {
 comm_names <- unique(db_comm_master$comm)
 
 inventory_tidy <- subset(inventory_tidy,
-                             comp %in% c("Prima", "Raw") & comm %in% comm_names)
+                         comp %in% c("Prima", "Raw") & comm %in% comm_names)
 
 # converting measurement units
 
 inventory_tidy <- merge(inventory_tidy, meas_units, all.x = TRUE)
 
-inventory_tidy$um <- ifelse(inventory_tidy$um == "µg", "ug",
+inventory_tidy$um <- ifelse(inventory_tidy$um == paste0("\u00b5", "g"), "ug", # \u00b5" unicode character for mu
                                 inventory_tidy$um) # micrograms are expressed wit "ug" in the udunits2 package
 
 inventory_tidy <- inventory_tidy %>%

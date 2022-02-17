@@ -4,15 +4,20 @@ Title: CLCC indicator for a product/process during its life cycle
 Version: 0.1.0
 Author: Giulio Mela
 Maintainer: Giulio Mela <giulio.mela@rse-web.it>
-Description: The package provides functions to calculate the CLCC indicator -
-    a measure for resource scarcity - for products/processes during their life cycle
-License: `use_mit_license()`
+Description: provides functions to calculate the commodity life cycle costing indicator,
+    a measure for resource scarcity, for products/processes during their life cycle.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
     R (>= 2.10)
 Imports:
-    tidyverse,
+    dplyr,
+    here,
+    readxl,
+    stringr,
+    tidyr,
+    purrr,
     eurostat,
     imfr,
     magrittr,
@@ -22,5 +27,10 @@ Imports:
     Quandl,
     tidyxl,
     triangle,
-    stats
+    stats,
+    tidyselect
 RoxygenNote: 7.1.2
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr

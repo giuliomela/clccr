@@ -31,6 +31,10 @@ clcc_mc <- function(path, rep = 10000, phase = "total", prob_inf_alt = FALSE){
 
   phase_to_cons <- phase
 
+  phase <- min <- max <- mean <- quantity <- rnd_price <- project <- object <- p_q <-
+    clcc_sim <- ecdf_diff <- clcc_diff <- obj1 <- obj2 <- clcc_sim.y <- clcc_sim.x <-
+    obj_combinations <- nested_data <- ecdf_fn <- clcc <- NULL # removes notes when running R RMD check
+
   baseline <- clcc(path = path) %>%
     dplyr::filter(phase == phase_to_cons)
 
@@ -87,12 +91,16 @@ clcc_mc <- function(path, rep = 10000, phase = "total", prob_inf_alt = FALSE){
     comb_all <- sim %>%
       dplyr::select(project, object) %>%
       dplyr::mutate(object1 = object) %>%
-      dplyr::group_by(project) %>%
-      tidyr::nest() %>%
-      dplyr::rowwise() %>%
-      dplyr::mutate(obj_combinations = list(tidyr::expand_grid(obj1 = data$object, obj2= data$object1)),
-             data = NULL) %>%
+      tidyr::nest(nested_data = !project) %>%
+      dplyr::mutate(obj_combinations = purrr::map(nested_data,
+                                                  function(x){
+                                                    tidyr::expand_grid(
+                                                      obj1 = x$object,
+                                                      obj2 = x$object1)
+                                                  })) %>%
       dplyr::ungroup()
+
+    comb_all$nested_data <- NULL
 
     # creating a tibble with all clcc simulations
     sim_only <- sim %>%
@@ -106,10 +114,13 @@ clcc_mc <- function(path, rep = 10000, phase = "total", prob_inf_alt = FALSE){
       dplyr::left_join(sim_only, by = c("project", "obj1" = "object")) %>%
       dplyr::left_join(sim_only, by = c("project", "obj2" = "object")) %>%
       dplyr::rowwise() %>%
-      dplyr::mutate(clcc_diff = list(clcc_sim.x - clcc_sim.y),
-             clcc_sim.x = NULL,
-             clcc_sim.y = NULL) %>%
+      dplyr::mutate(clcc_diff = list(clcc_sim.x - clcc_sim.y)) %>%
       dplyr::ungroup()
+
+    sim_diff <- within(sim_diff, {
+      clcc_sim.x  <- NULL
+      clcc_sim.y <- NULL
+    })
 
     # Calculating the ecdf for the clcc differences and probabilities
     # Column prob expresses the probability that clcc of obj1 < clcc of obj2
@@ -117,9 +128,13 @@ clcc_mc <- function(path, rep = 10000, phase = "total", prob_inf_alt = FALSE){
     prob_inf_alt <- sim_diff %>%
       dplyr::rowwise() %>%
       dplyr::mutate(ecdf_diff = list(stats::ecdf(clcc_diff)),
-             prob = dplyr::if_else(obj1 == obj2, NA_real_, ecdf_diff(0)),
-             clcc_diff = NULL, ecdf_diff = NULL) %>%
+             prob = dplyr::if_else(obj1 == obj2, NA_real_, ecdf_diff(0))) %>%
       dplyr::ungroup()
+
+    prob_inf_alt <- within(prob_inf_alt, {
+      clcc_diff <- NULL
+      ecdf_diff <- NULL
+    })
 
     prob_inf_alt
 

@@ -12,6 +12,7 @@
 #' @param critical An optional argument. If set to TRUE, the function returns a tibble
 #' containing both the clcc and the critical clcc indicators. Default set to FALSE.
 #' @return A tibble containing the CLCC indicator calculated for each object and phase.
+#' @importFrom magrittr '%>%'
 #' @export
 clcc <- function(path, critical = FALSE){
 
@@ -23,6 +24,8 @@ clcc <- function(path, critical = FALSE){
 
   inv_prices <- inv_prices[, -which(names(inv_prices) %in% c("um", "source", "code"))]
 
+  project <- object <- phase <- mean <- quantity <- NULL # avoids notes (dplyr and NSE)
+
   # Comouting the CLCC indicator
 
   clcc <- inv_prices %>%
@@ -32,7 +35,7 @@ clcc <- function(path, critical = FALSE){
 
   if(critical == TRUE){
 
-    inv_prices <- subset(inv_prices, critical == "yes")
+    inv_prices <- inv_prices[inv_prices$critical == "yes", ]
 
     clcc_critical <- inv_prices %>%
       dplyr::group_by(project, object, phase) %>%

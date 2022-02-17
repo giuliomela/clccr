@@ -22,6 +22,9 @@ ref_prices <- function(){
 
   }
 
+  cur <- price <- exc_rate <- code <- year <- comtrade_code <- comext_code <-
+    usitc_code <- NULL # to avoid R RMD check creating notes
+
   # Preparing the final tibble for CLCC calculation ####
 
   # binding all prices togheter
@@ -47,7 +50,7 @@ ref_prices <- function(){
   # Calculating baseline and min&max values, to be used for the analysis
 
   mean_min_max_fn <- function(x){ # a function that calculates min, max and mean values
-    out <- aggregate(price_eur_k ~ code + source, prices_all_def, x)
+    out <- stats::aggregate(price_eur_k ~ code + source, prices_all_def, x)
     out[, x] <- out$price_eur_k
     out$price_eur_k <- NULL
     out
@@ -67,7 +70,7 @@ ref_prices <- function(){
   comm_key_tidy$quandl_code <- NULL
 
 
-  comm_key_tidy <- tidyr::pivot_longer(comm_key_tidy, ends_with("code"),
+  comm_key_tidy <- tidyr::pivot_longer(comm_key_tidy, tidyselect::ends_with("code"),
                                        names_to = "source_code", values_to = "code",
                                        names_pattern = "(.*)_code")
 
