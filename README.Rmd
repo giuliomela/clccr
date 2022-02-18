@@ -13,6 +13,16 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r, libraries, include=FALSE}
+
+library(tidyverse)
+library(clccr)
+
+path_to_folder <- here::here("data-raw/example_data")
+
+```
+
+
 # clccr
 
 <!-- badges: start -->
@@ -31,12 +41,68 @@ devtools::install_github("giuliomela/clccr")
 ## Examples
 
 These are basic examples which show you how to use the `clccr` package to compute the CLCC indicator.
+The baseline indicator is calculated with the function `clcc`.
 
 ```{r example1}
 library(clccr)
 
-# computing the CLCC indicator for a set of 
+# computing the CLCC indicator for three example inventories (cars)
 
+clcc(path = path_to_folder)
+
+
+```
+
+Setting the `critical` argument to `TRUE`, function `clcc` returns the CLCC indicator computed
+considering critical materials only. The output tibble provides also the relative share of 
+critical materials on the baseline CLCC.
+
+```{r example2}
+
+# computing the critical CLCC indicator
+
+clcc(path = path_to_folder, critical = TRUE)
+
+```
+
+Even though data on reference prices cannot be updated programmatically since not all source have
+an API, it is possible to extract a tibble with reference prices and minimum and maximum values (used
+in Monte Carlo simulations) of the last 10-year period. The function `ref_prices()` returns a tibble with
+data sources and reference prices for each commodity considered.
+
+```{r example3}
+
+# Function with no arguments
+ref_prices()
+
+```
+
+The `clccr` package also allows to run a Monte Carlo simulation, given the high volatility that characterizes
+market prices. Minimum and maximum prices are used, for each commodity, to generate random values using 
+triangular distributions. Function `clcc_mc` runs the simulations and allows to pick the desired
+number of simulations with the `rep` parameter (default is `rep = 10000`) and the life cycle phase to consider
+(default is `"total"`). The function returns a tibble nested tibble containing project and object names, baseline clcc, all simulations, and the probability that the indicator is lower than the baseline (probability
+computed using the empirical distribution function).
+
+```{r example4}
+
+# Monte Carlo simulation
+
+rep <- 1000 # number of simulations (default is 10,000)
+phase <- "total" # the life cycle phase for which running the simulation
+
+clcc_mc(path = path_to_folder, rep = rep)
+
+```
+
+Setting the argument `prob_inf_alt` to `TRUE` (default is `FALSE`), `clcc_mc` returns a tibble  with the probability that each object's CLCC is lower than that of every other object (also across projects, even if it is not always appropriate). Such probabilities are computed, for each object pair, using the empirical distribution function computed on the differences between all the simulated values for each object.  
+
+```{r example5}
+
+# Monte Carlo simulation returning the probability that an object's CLCC is lower/higher than that of the
+# other alternatives
+
+clcc_mc(path = path_to_folder, rep = rep, prob_inf_alt = TRUE)
 
 ```
 

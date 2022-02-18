@@ -18,8 +18,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-#library(clccr)
+```{r setup, include=FALSE}
+library(clccr)
 ```
 
 # Introduction
@@ -41,3 +41,92 @@ All price data come from open-source databases such as the [International Moneta
 Reference prices used for the calculation of the CLCC indicator are, for each commodity, the average of price of the previous ten-year period, converted in euros using market exchange rates and adjusted to the price level of the reference year (which can be defined by the user) with the Euro Area GDP deflator. Minimum and maximum prices recorded in the ten-year period considered, are used as a range for the uncertainty assessment through Monte Carlo simulations.
 
 More information on the methodology developed for the calculation of the CLCC indicator is available in @mela2021, as well as an extensive literature review on other measures of resource scarcity in the LCA framework, a practical application of the CLCC indicator, and a comparison between the CLCC indicator with other popular measures of resource scarcity in the life cycle.
+
+# Package installation and load {#installation}
+
+The package can be installed trough the GitHub website of the author:
+
+```{r installation, eval=FALSE}
+
+# installing the package
+
+devtools::install_github("giuliomela/clccr")
+
+# loading the package
+
+library(clccr)
+```
+
+# Usage {#usage}
+
+The package provides a function, `clcc` to load SimaPro inventories in .xlsx format, from a folder designated by the user, and to compute the CLCC indicator. Each spreadsheet contains inventory data for every phase of a given product/process. The `clcc` function computes the CLCC indicator for each product and phase using the latest version of reference prices available. Price are updated manually[^2] on a yearly basis by the package developers even though, in the future, a new function allowing the user to directly download the series or to change the time period along which average prices are computed.
+
+[^2]: Some price series cannot be accessed through API services and must be downloaded manually.
+
+Below is an example of use of the `clcc` function. It is important to highlight that the name of each spreadsheet inventory file must follow a specific template, in order to be read correctly by the `clcc` function. This is designed to facilitate the work within the RSE company, in which the CLCC indicator is often calculated for several products (or objects) in many different projects (i.e.: smart mobility, stationary storage, etc.). The template to be followed to name correctly spreadsheet files is the following: `project_name-object_name.xlsx`. In the future, the CLCC function, can be modified to allow spreadsheets named differently as inputs.
+
+```{r example-clcc}
+
+library(clccr) # loading the package
+
+# identifying the path the the folder with inventory data
+
+path_to_folder <- here::here("data-raw/example_data") 
+
+clcc_results <- clcc(path = path_to_folder)
+
+clcc_results
+
+
+```
+
+The `clcc` function can also return a version of the CLCC indicator which takes into account critical materials only, as shown in the next example.
+
+```{r example-clcc-critical}
+
+clcc_critical <- clcc(path = path_to_folder,
+                      critical = TRUE)
+
+clcc_critical
+
+```
+
+Even though reference prices are loaded manually into the package folders, it is possible to retrieve the price matrix using the function `ref_prices`. The function does not need any argument.
+
+```{r example-price-ref}
+
+ref_prices()
+
+```
+
+Finally, the `clccr` package provides a function which allows to perform a Monte Carlo analysis to take into account price volatility: `clcc_mc`. The analysis is carried out assuming that reference prices follow a triangular distribution, since no information are available on the true shape of price distributions (even though, in the future, it might be possible to use *distribution fitting* techniques to identify the probability distribution that better describes each price series). The user can specify the number of iterations (through the `rep` parameter, default is 10,000), the life cycle phase to consider and the type of output.
+
+```{r example-mc}
+
+# identifying the path the the folder with inventory data
+
+path_to_folder <- here::here("data-raw/example_data") 
+
+monte_carlo <- clcc_mc(path = path_to_folder,
+                       rep = 10000,
+                       phase = "total",
+                       prob_inf_alt = FALSE)
+
+monte_carlo
+
+```
+
+The standard output of the `clcc_mc` function is a tibble containing project and object names, baseline clcc, all simulations, and the probability that the indicator is lower than the baseline value. If the `prob_inf_alt` parameter is set to `TRUE`, the function also computes the probabilities that each object's CLCC is lower than that of every other object (also across projects, even if it is not always appropriate). Probabilities are always calculated using the empirical distribution function.
+
+```{r example-mc-alt}
+
+monte_carlo_alt <- clcc_mc(path = path_to_folder,
+                       rep = 10000,
+                       phase = "total",
+                       prob_inf_alt = TRUE)
+
+monte_carlo_alt
+
+```
+
+Other functions included in the package, such as `inventory_load_fn` and `start_data_finder_fn` are used within `clcc` and `clcc_mc` and are not meant for independent use.

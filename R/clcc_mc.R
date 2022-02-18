@@ -20,8 +20,8 @@
 #' and object names, baseline clcc, all simulations, and the probability that
 #' the indicator is lower than the baseline.
 #' If prob_inf_alt is set to TRUE: a tibble with the probability that each object's
-#' CLCC is lower than that of every other object (also across project, even if it
-#' is not always appropiate.
+#' CLCC is lower than that of every other object (also across projects, even if it
+#' is not always appropriate).
 #' @export
 clcc_mc <- function(path, rep = 10000, phase = "total", prob_inf_alt = FALSE){
 
