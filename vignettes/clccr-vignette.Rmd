@@ -63,7 +63,7 @@ The package provides a function, `clcc` to load SimaPro inventories in .xlsx for
 
 [^2]: Some price series cannot be accessed through API services and must be downloaded manually.
 
-Below is an example of use of the `clcc` function. It is important to highlight that the name of each spreadsheet inventory file must follow a specific template, in order to be read correctly by the `clcc` function. This is designed to facilitate the work within the RSE company, in which the CLCC indicator is often calculated for several products (or objects) in many different projects (i.e.: smart mobility, stationary storage, etc.). The template to be followed to name correctly spreadsheet files is the following: `project_name-object_name.xlsx`. In the future, the CLCC function, can be modified to allow spreadsheets named differently as inputs.
+Below is an example of use of the `clcc` function. The name of each object for which the CLCC indicator is computed is extrapolated from the name of each inventory file.
 
 ```{r example-clcc}
 
@@ -77,8 +77,8 @@ clcc_results <- clcc(path = path_to_folder)
 
 clcc_results
 
-
 ```
+
 
 The `clcc` function can also return a version of the CLCC indicator which takes into account critical materials only, as shown in the next example.
 
@@ -116,7 +116,7 @@ monte_carlo
 
 ```
 
-The standard output of the `clcc_mc` function is a tibble containing project and object names, baseline clcc, all simulations, and the probability that the indicator is lower than the baseline value. If the `prob_inf_alt` parameter is set to `TRUE`, the function also computes the probabilities that each object's CLCC is lower than that of every other object (also across projects, even if it is not always appropriate). Probabilities are always calculated using the empirical distribution function.
+The standard output of the `clcc_mc` function is a tibble object names, baseline clcc, all simulations, and the probability that the indicator is lower than the baseline value. If the `prob_inf_alt` parameter is set to `TRUE`, the function also computes the probabilities that each object's CLCC is lower than that of every other object in the same folder. Probabilities are always calculated using the empirical distribution function.
 
 ```{r example-mc-alt}
 
@@ -130,3 +130,5 @@ monte_carlo_alt
 ```
 
 Other functions included in the package, such as `inventory_load_fn` and `start_data_finder_fn` are used within `clcc` and `clcc_mc` and are not meant for independent use.
+
+# References

@@ -7,8 +7,7 @@
 clcc(path, critical = FALSE)
 }
 \arguments{
-\item{path}{A character vector. Path to the folder in which raw xlsx files are stored.
-File names must be of the following format: project_name-object_name.xlsx}
+\item{path}{A character vector. Path to the folder in which raw xlsx files are stored.}
 
 \item{critical}{An optional argument. If set to TRUE, the function returns a tibble
 containing both the clcc and the critical clcc indicators. Default set to FALSE.}

@@ -7,8 +7,7 @@
 clcc_mc(path, rep = 10000, phase = "total", prob_inf_alt = FALSE)
 }
 \arguments{
-\item{path}{A character vector. Path to the folder in which raw xlsx files are stored.
-File names must be of the following format: project_name-object_name.xlsx}
+\item{path}{A character vector. Path to the folder in which raw xlsx files are stored.}
 
 \item{rep}{Number of Monte Carlo iterations. Default is 10,000}
 
@@ -19,12 +18,11 @@ object's CLCC is lower than that of the other objects belonging to the same proj
 Default is set to FALSE.}
 }
 \value{
-If prob_inf_alt is set to FALSE: a nested tibble containing project
-and object names, baseline clcc, all simulations, and the probability that
+If prob_inf_alt is set to FALSE: a nested tibble containing
+object names, baseline clcc, all simulations, and the probability that
 the indicator is lower than the baseline.
 If prob_inf_alt is set to TRUE: a tibble with the probability that each object's
-CLCC is lower than that of every other object (also across project, even if it
-is not always appropiate.
+CLCC is lower than that of every other object loaded.
 }
 \description{
 This function loads price and inventory data (using other clccr functions)
