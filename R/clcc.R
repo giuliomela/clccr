@@ -8,7 +8,6 @@
 #' critical materials only.
 #'
 #' @param path A character vector. Path to the folder in which raw xlsx files are stored.
-#' File names must be of the following format: project_name-object_name.xlsx
 #' @param critical An optional argument. If set to TRUE, the function returns a tibble
 #' containing both the clcc and the critical clcc indicators. Default set to FALSE.
 #' @return A tibble containing the CLCC indicator calculated for each object and phase.
@@ -24,12 +23,12 @@ clcc <- function(path, critical = FALSE){
 
   inv_prices <- inv_prices[, -which(names(inv_prices) %in% c("um", "source", "code"))]
 
-  project <- object <- phase <- mean <- quantity <- NULL # avoids notes (dplyr and NSE)
+  object <- phase <- mean <- quantity <- NULL # avoids notes (dplyr and NSE)
 
   # Comouting the CLCC indicator
 
   clcc <- inv_prices %>%
-    dplyr::group_by(project, object, phase) %>%
+    dplyr::group_by(object, phase) %>%
     dplyr::summarize(clcc = sum(mean * quantity)) %>%
     dplyr::ungroup()
 
@@ -38,7 +37,7 @@ clcc <- function(path, critical = FALSE){
     inv_prices <- inv_prices[inv_prices$critical == "yes", ]
 
     clcc_critical <- inv_prices %>%
-      dplyr::group_by(project, object, phase) %>%
+      dplyr::group_by(object, phase) %>%
       dplyr::summarize(clcc_critical = sum(mean * quantity)) %>%
       dplyr::ungroup()
 

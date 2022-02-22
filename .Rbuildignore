@@ -4,3 +4,5 @@
 ^data-raw$
 ^LICENSE\.md$
 ^README\.Rmd$
+^doc$
+^Meta$

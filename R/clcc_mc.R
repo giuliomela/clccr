@@ -10,18 +10,16 @@
 #' than that of any other object belonging to the same project.
 #'
 #' @param path A character vector. Path to the folder in which raw xlsx files are stored.
-#' File names must be of the following format: project_name-object_name.xlsx
 #' @param rep Number of Monte Carlo iterations. Default is 10,000
 #' @param phase LCA phase for which the simulation is run. Default is "total"
 #' @param prob_inf_alt If TRUE the function computes the probability that an
 #' object's CLCC is lower than that of the other objects belonging to the same project.
 #' Default is set to FALSE.
-#' @return If prob_inf_alt is set to FALSE: a nested tibble containing project
-#' and object names, baseline clcc, all simulations, and the probability that
+#' @return If prob_inf_alt is set to FALSE: a nested tibble containing
+#' object names, baseline clcc, all simulations, and the probability that
 #' the indicator is lower than the baseline.
 #' If prob_inf_alt is set to TRUE: a tibble with the probability that each object's
-#' CLCC is lower than that of every other object (also across projects, even if it
-#' is not always appropriate).
+#' CLCC is lower than that of every other object loaded.
 #' @export
 clcc_mc <- function(path, rep = 10000, phase = "total", prob_inf_alt = FALSE){
 
@@ -31,7 +29,7 @@ clcc_mc <- function(path, rep = 10000, phase = "total", prob_inf_alt = FALSE){
 
   phase_to_cons <- phase
 
-  phase <- min <- max <- mean <- quantity <- rnd_price <- project <- object <- p_q <-
+  phase <- min <- max <- mean <- quantity <- rnd_price <- object <- p_q <-
     clcc_sim <- ecdf_diff <- clcc_diff <- obj1 <- obj2 <- clcc_sim.y <- clcc_sim.x <-
     obj_combinations <- nested_data <- ecdf_fn <- clcc <- NULL # removes notes when running R RMD check
 
@@ -59,7 +57,7 @@ clcc_mc <- function(path, rep = 10000, phase = "total", prob_inf_alt = FALSE){
     dplyr::filter(phase == phase_to_cons) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(p_q = list(quantity * rnd_price)) %>%
-    dplyr::group_by(project, object, phase) %>%
+    dplyr::group_by(object, phase) %>%
     dplyr::summarise(clcc_sim = list(Reduce("+", p_q))) %>%
     dplyr::ungroup()
 
@@ -86,33 +84,22 @@ clcc_mc <- function(path, rep = 10000, phase = "total", prob_inf_alt = FALSE){
 
     # Probabilities that the clcc calculated for a given object is lower than that calculated for the others
 
-    # creating nested tibble with all objects combinations (per project/analysis)
+    # creating nested tibble with all objects combinations
 
-    comb_all <- sim %>%
-      dplyr::select(project, object) %>%
-      dplyr::mutate(object1 = object) %>%
-      tidyr::nest(nested_data = !project) %>%
-      dplyr::mutate(obj_combinations = purrr::map(nested_data,
-                                                  function(x){
-                                                    tidyr::expand_grid(
-                                                      obj1 = x$object,
-                                                      obj2 = x$object1)
-                                                  })) %>%
-      dplyr::ungroup()
-
-    comb_all$nested_data <- NULL
+    comb_all <- tidyr::expand_grid(
+      obj1 = sim$object,
+      obj2 = sim$object)
 
     # creating a tibble with all clcc simulations
     sim_only <- sim %>%
-      dplyr::select(project, object, clcc_sim)
+      dplyr::select(object, clcc_sim)
 
     # creating a tibble with the differential clcc (respecting grouping by project and analysis)
     # the clcc diff keeps all permutations, including identical pairs (useful later for tiles plots)
 
     sim_diff <- comb_all %>%
-      tidyr::unnest(obj_combinations) %>%
-      dplyr::left_join(sim_only, by = c("project", "obj1" = "object")) %>%
-      dplyr::left_join(sim_only, by = c("project", "obj2" = "object")) %>%
+      dplyr::left_join(sim_only, by = c("obj1" = "object")) %>%
+      dplyr::left_join(sim_only, by = c("obj2" = "object")) %>%
       dplyr::rowwise() %>%
       dplyr::mutate(clcc_diff = list(clcc_sim.x - clcc_sim.y)) %>%
       dplyr::ungroup()
