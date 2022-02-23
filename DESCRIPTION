@@ -11,9 +11,14 @@ Encoding: UTF-8
 LazyData: true
 Depends: 
     R (>= 2.10)
-Imports:
-    dplyr,
+RoxygenNote: 7.1.2
+VignetteBuilder: rmarkdown
+URL: https://github.com/giuliomela/clccr
+BugReports: https://github.com/giuliomela/clccr/issues
+Config/testthat/edition: 3
+Imports: 
     here,
+    dplyr,
     readxl,
     stringr,
     tidyr,
@@ -29,10 +34,7 @@ Imports:
     triangle,
     stats,
     tidyselect
-RoxygenNote: 7.1.2
 Suggests: 
     rmarkdown,
-    knitr
-VignetteBuilder: knitr
-URL: https://github.com/giuliomela/clccr
-BugReports: https://github.com/giuliomela/clccr/issues
+    knitr,
+    testthat (>= 3.0.0)

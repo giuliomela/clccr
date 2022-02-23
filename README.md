@@ -37,19 +37,19 @@ library(clccr)
 # computing the CLCC indicator for three example inventories (cars)
 
 clcc(path = path_to_folder)
-#> # A tibble: 30 x 4
-#>    project  object     phase                 clcc
-#>    <chr>    <chr>      <chr>                <dbl>
-#>  1 mobility car_diesel batteria           0      
-#>  2 mobility car_diesel manto stradale     0      
-#>  3 mobility car_diesel manutenzione       0.00164
-#>  4 mobility car_diesel produzione         0.00640
-#>  5 mobility car_diesel total              0.0330 
-#>  6 mobility car_diesel uso                0      
-#>  7 mobility car_diesel usura freni        0      
-#>  8 mobility car_diesel usura pneumatici   0      
-#>  9 mobility car_diesel usura strada       0      
-#> 10 mobility car_diesel vettore energetico 0.0250 
+#> # A tibble: 30 x 3
+#>    object       phase              clcc
+#>    <chr>        <chr>             <dbl>
+#>  1 car_diesel   batteria       0       
+#>  2 car_elet_nmc batteria       0.00336 
+#>  3 car_petrol   batteria       0       
+#>  4 car_diesel   manto stradale 0       
+#>  5 car_elet_nmc manto stradale 0       
+#>  6 car_petrol   manto stradale 0       
+#>  7 car_diesel   manutenzione   0.00164 
+#>  8 car_elet_nmc manutenzione   0.000911
+#>  9 car_petrol   manutenzione   0.00154 
+#> 10 car_diesel   produzione     0.00640 
 #> # ... with 20 more rows
 ```
 
@@ -62,19 +62,19 @@ baseline CLCC.
 # computing the critical CLCC indicator
 
 clcc(path = path_to_folder, critical = TRUE)
-#> # A tibble: 30 x 6
-#>    project  object     phase                 clcc clcc_critical share_critical
-#>    <chr>    <chr>      <chr>                <dbl>         <dbl>          <dbl>
-#>  1 mobility car_diesel batteria           0          0                   0    
-#>  2 mobility car_diesel manto stradale     0          0                   0    
-#>  3 mobility car_diesel manutenzione       0.00164    0.00000988          0.603
-#>  4 mobility car_diesel produzione         0.00640    0.0000873           1.36 
-#>  5 mobility car_diesel total              0.0330     0.000147            0.446
-#>  6 mobility car_diesel uso                0          0                   0    
-#>  7 mobility car_diesel usura freni        0          0                   0    
-#>  8 mobility car_diesel usura pneumatici   0          0                   0    
-#>  9 mobility car_diesel usura strada       0          0                   0    
-#> 10 mobility car_diesel vettore energetico 0.0250     0.0000499           0.200
+#> # A tibble: 30 x 5
+#>    object     phase                 clcc clcc_critical share_critical
+#>    <chr>      <chr>                <dbl>         <dbl>          <dbl>
+#>  1 car_diesel batteria           0          0                   0    
+#>  2 car_diesel manto stradale     0          0                   0    
+#>  3 car_diesel manutenzione       0.00164    0.00000988          0.603
+#>  4 car_diesel produzione         0.00640    0.0000873           1.36 
+#>  5 car_diesel total              0.0330     0.000147            0.446
+#>  6 car_diesel uso                0          0                   0    
+#>  7 car_diesel usura freni        0          0                   0    
+#>  8 car_diesel usura pneumatici   0          0                   0    
+#>  9 car_diesel usura strada       0          0                   0    
+#> 10 car_diesel vettore energetico 0.0250     0.0000499           0.200
 #> # ... with 20 more rows
 ```
 
@@ -124,13 +124,13 @@ phase <- "total" # the life cycle phase for which running the simulation
 
 clcc_mc(path = path_to_folder, rep = rep)
 #> Joining, by = c("comm", "no_comm")
-#> Joining, by = c("project", "object", "phase")
-#> # A tibble: 3 x 7
-#>   project  object       phase clcc_sim      ecdf_fn   clcc prob_inf_base
-#>   <chr>    <chr>        <chr> <list>        <list>   <dbl>         <dbl>
-#> 1 mobility car_diesel   total <dbl [1,000]> <ecdf>  0.0330         0.445
-#> 2 mobility car_elet_nmc total <dbl [1,000]> <ecdf>  0.0216         0.273
-#> 3 mobility car_petrol   total <dbl [1,000]> <ecdf>  0.0375         0.447
+#> Joining, by = c("object", "phase")
+#> # A tibble: 3 x 6
+#>   object       phase clcc_sim      ecdf_fn   clcc prob_inf_base
+#>   <chr>        <chr> <list>        <list>   <dbl>         <dbl>
+#> 1 car_diesel   total <dbl [1,000]> <ecdf>  0.0330         0.437
+#> 2 car_elet_nmc total <dbl [1,000]> <ecdf>  0.0216         0.263
+#> 3 car_petrol   total <dbl [1,000]> <ecdf>  0.0375         0.441
 ```
 
 Setting the argument `prob_inf_alt` to `TRUE` (default is `FALSE`),
@@ -146,17 +146,17 @@ differences between all the simulated values for each object.
 
 clcc_mc(path = path_to_folder, rep = rep, prob_inf_alt = TRUE)
 #> Joining, by = c("comm", "no_comm")
-#> Joining, by = c("project", "object", "phase")
-#> # A tibble: 9 x 4
-#>   project  obj1         obj2           prob
-#>   <chr>    <chr>        <chr>         <dbl>
-#> 1 mobility car_diesel   car_diesel   NA    
-#> 2 mobility car_diesel   car_elet_nmc  0.057
-#> 3 mobility car_diesel   car_petrol    1    
-#> 4 mobility car_elet_nmc car_diesel    0.943
-#> 5 mobility car_elet_nmc car_elet_nmc NA    
-#> 6 mobility car_elet_nmc car_petrol    0.977
-#> 7 mobility car_petrol   car_diesel    0    
-#> 8 mobility car_petrol   car_elet_nmc  0.023
-#> 9 mobility car_petrol   car_petrol   NA
+#> Joining, by = c("object", "phase")
+#> # A tibble: 9 x 3
+#>   obj1         obj2           prob
+#>   <chr>        <chr>         <dbl>
+#> 1 car_diesel   car_diesel   NA    
+#> 2 car_diesel   car_elet_nmc  0.048
+#> 3 car_diesel   car_petrol    1    
+#> 4 car_elet_nmc car_diesel    0.952
+#> 5 car_elet_nmc car_elet_nmc NA    
+#> 6 car_elet_nmc car_petrol    0.977
+#> 7 car_petrol   car_diesel    0    
+#> 8 car_petrol   car_elet_nmc  0.023
+#> 9 car_petrol   car_petrol   NA
 ```

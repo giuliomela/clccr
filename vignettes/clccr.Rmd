@@ -1,12 +1,13 @@
 ---
-title: "clccr-vignette"
-author: Giulio Mela
+title: "clccr"
 output: rmarkdown::html_vignette
+author: Giulio Mela
 vignette: >
-  %\VignetteIndexEntry{clccr-vignette}
+  %\VignetteIndexEntry{clccr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
+
 ---
 
 ```{r, include = FALSE}
@@ -66,8 +67,6 @@ The package provides a function, `clcc` to load SimaPro inventories in .xlsx for
 Below is an example of use of the `clcc` function. The name of each object for which the CLCC indicator is computed is extrapolated from the name of each inventory file.
 
 ```{r example-clcc}
-
-library(clccr) # loading the package
 
 # identifying the path the the folder with inventory data
 

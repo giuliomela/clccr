@@ -33,8 +33,9 @@ clcc_mc <- function(path, rep = 10000, phase = "total", prob_inf_alt = FALSE){
     clcc_sim <- ecdf_diff <- clcc_diff <- obj1 <- obj2 <- clcc_sim.y <- clcc_sim.x <-
     obj_combinations <- nested_data <- ecdf_fn <- clcc <- NULL # removes notes when running R RMD check
 
-  baseline <- clcc(path = path) %>%
-    dplyr::filter(phase == phase_to_cons)
+  baseline <- clcc(path = path)
+
+  baseline <- baseline[baseline$phase == phase_to_cons, ]
 
   # generating random prices (nested tibble)
 

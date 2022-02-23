@@ -34,7 +34,7 @@ The clccr package provides a set of functions to compute the commodity life cycl
 
 You can install the development version of clccr like so:
 
-``` r
+``` {r install, eval=FALSE}
 devtools::install_github("giuliomela/clccr")
 ```
 

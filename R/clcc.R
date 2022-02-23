@@ -15,6 +15,8 @@
 #' @export
 clcc <- function(path, critical = FALSE){
 
+  clcc_critical <- NULL
+
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
   prices <- ref_prices()
@@ -23,27 +25,28 @@ clcc <- function(path, critical = FALSE){
 
   inv_prices <- inv_prices[, -which(names(inv_prices) %in% c("um", "source", "code"))]
 
-  object <- phase <- mean <- quantity <- NULL # avoids notes (dplyr and NSE)
-
   # Comouting the CLCC indicator
 
-  clcc <- inv_prices %>%
-    dplyr::group_by(object, phase) %>%
-    dplyr::summarize(clcc = sum(mean * quantity)) %>%
-    dplyr::ungroup()
+  clcc_res <- by(inv_prices, list(inv_prices$object, inv_prices$phase), function(df) {
+    with(df, data.frame(object = object[[1]], phase = phase[[1]],
+                        clcc = sum(mean * quantity)))
+  })
+  clcc_res <- do.call(rbind, clcc_res)
 
   if(critical == TRUE){
 
-    inv_prices <- inv_prices[inv_prices$critical == "yes", ]
+    inv_prices_crit <- inv_prices[inv_prices$critical == "yes", ]
 
-    clcc_critical <- inv_prices %>%
-      dplyr::group_by(object, phase) %>%
-      dplyr::summarize(clcc_critical = sum(mean * quantity)) %>%
-      dplyr::ungroup()
+    clcc_crit_res <- by(inv_prices_crit, list(inv_prices_crit$object,
+                                              inv_prices_crit$phase), function(df) {
+      with(df, data.frame(object = object[[1]], phase = phase[[1]],
+                          clcc_critical = sum(mean * quantity)))
+    })
+    clcc_crit_res <- do.call(rbind, clcc_crit_res)
 
-    clcc <- merge(clcc, clcc_critical, all.x = TRUE)
+    clcc_res <- merge(clcc_res, clcc_crit_res, all.x = TRUE)
 
-    clcc <- within(clcc, {
+    clcc_res <- within(clcc_res, {
       share_critical <- ifelse(clcc != 0,
         clcc_critical / clcc * 100,
         0)
@@ -51,6 +54,6 @@ clcc <- function(path, critical = FALSE){
 
   }
 
-  tidyr::as_tibble(clcc)
+  tidyr::as_tibble(clcc_res)
 
 }

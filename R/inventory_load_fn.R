@@ -16,7 +16,7 @@ db_comm_master <- db_comm_master
 comm <- file_path <- inventory_raw <- data <- object <- no <- um <-
   um_to <- quantity <- comp <- no_comm <- NULL # avoids notes (dplyr and NSE)
 
-file_list <- list.files(path = here::here(data_path),
+file_list <- list.files(path = data_path,
                             full.names = TRUE,
                             recursive = TRUE,
                             pattern = "*.xlsx") # creates a vector with variable names
@@ -34,22 +34,19 @@ inventory_raw <- inventory_raw %>%
   dplyr::ungroup()
 
 inventory_raw <- within(inventory_raw, {
-  name <- stringr::str_remove(file_path, paste0(here::here(data_path), "/"))
-  name <- stringr::str_remove(name, ".xlsx")
+  object <- stringr::str_remove(file_path, paste0(here::here(data_path), "/"))
+  object <- stringr::str_remove(object, ".xlsx")
   file_path <- NULL
   skip <- NULL
 })
 
-inventory_raw$object <- inventory_raw$name # renaming the variable "name"
-
-inventory_raw$name <- NULL
-
 # renaming the first 5 variables of each inventory
 
 inventory_raw <- inventory_raw %>%
-  tidyr::unnest(data)
+  tidyr::unnest(data) %>%
+  as.data.frame()
 
-names(inventory_raw)[1:5] <- c("no", "comm", "comp", "um", "total")
+names(inventory_raw[, 1:5]) <- c("no", "comm", "comp", "um", "total")
 
 names(inventory_raw) <- tolower(names(inventory_raw))
 
