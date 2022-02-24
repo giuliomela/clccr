@@ -46,7 +46,7 @@ inventory_raw <- inventory_raw %>%
   tidyr::unnest(data) %>%
   as.data.frame()
 
-names(inventory_raw[, 1:5]) <- c("no", "comm", "comp", "um", "total")
+names(inventory_raw)[1:5] <- c("no", "comm", "comp", "um", "total")
 
 names(inventory_raw) <- tolower(names(inventory_raw))
 
