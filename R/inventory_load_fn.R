@@ -14,7 +14,7 @@ inventory_load_fn <- function(data_path){
 db_comm_master <- db_comm_master
 
 comm <- file_path <- inventory_raw <- data <- object <- no <- um <-
-  um_to <- quantity <- comp <- no_comm <- NULL # avoids notes (dplyr and NSE)
+  um_to <- quantity <- comp <- no_comm <- phase <- NULL # avoids notes (dplyr and NSE)
 
 file_list <- list.files(path = data_path,
                             full.names = TRUE,
@@ -43,23 +43,23 @@ inventory_raw <- within(inventory_raw, {
 # renaming the first 5 variables of each inventory
 
 inventory_raw <- inventory_raw %>%
-  tidyr::unnest(data) %>%
-  as.data.frame()
-
-names(inventory_raw)[1:5] <- c("no", "comm", "comp", "um", "total")
-
-names(inventory_raw) <- tolower(names(inventory_raw))
+  dplyr::mutate(data = purrr::map(data,
+                                  function(x){
+                                    x %>%
+                                    dplyr::rename(no = 1, comm = 2, comp = 3,
+                                                  um = 4, total = 5) %>%
+                                    dplyr::rename_all(tolower)
+                                  }))
 
 # tidying the dataset (grouping needed because of different number of phases across objects)
 
-inventory_raw_list <- dplyr::group_split(inventory_raw, object)
-
-inventory_raw_list <- purrr::map(inventory_raw_list, function(x){
-  tidyr::pivot_longer(x, !c(no:um, object),
-                      names_to = "phase", values_to = "quantity")
-})
-
-inventory_tidy <- dplyr::bind_rows(inventory_raw_list)
+inventory_tidy <- inventory_raw %>%
+  dplyr::mutate(data = purrr::map(data,
+                                  function(x){
+                                    tidyr::pivot_longer(x, !c(no:um),
+                                    names_to = "phase", values_to = "quantity")
+                                  })) %>%
+  tidyr::unnest(data)
 
 # loading data on measurement units
 
@@ -92,5 +92,6 @@ inventory_tidy <- inventory_tidy %>%
   dplyr::ungroup()
 
 tidyr::as_tibble(inventory_tidy[, -which(names(inventory_tidy) %in% c("no", "comp", "um", "um_to"))])
+
 
 }

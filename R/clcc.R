@@ -15,7 +15,7 @@
 #' @export
 clcc <- function(path, critical = FALSE){
 
-  clcc_critical <- NULL
+  clcc_critical <- object <- phase <- NULL
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
@@ -54,6 +54,7 @@ clcc <- function(path, critical = FALSE){
 
   }
 
-  tidyr::as_tibble(clcc_res)
+  tidyr::as_tibble(clcc_res) %>%
+    dplyr::arrange(object, phase)
 
 }
