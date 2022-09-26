@@ -262,6 +262,12 @@ price_usitc_def <- within(usitc, {
 
 um_p <- vroom::vroom("data-raw/um_p.csv")
 
+# looking for new commodity codes
+
+all_materials <- readxl::read_xlsx(here::here("data-raw/all_materials.xlsx"))$comm
+
+ct_commodity_lookup("acids")
+
 # creating a sysdata.rds file to be used by package functions ####
 
 use_data(price_comext_def, db_comm_master, exc_rate_usd,
