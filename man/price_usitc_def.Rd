@@ -3,23 +3,26 @@
 \docType{data}
 \name{price_usitc_def}
 \alias{price_usitc_def}
-\title{Unit values for some rare earths materials (USITC)}
+\title{Unit values for materials (USITC)}
 \format{
 A tibble with five variables:
 \describe{
-\item{year}{year, 10 year period before reference year}
+\item{year}{year}
 \item{cur}{currency (USD)}
 \item{source}{data source}
 \item{code}{code, 10-digit HS}
-\item{price}{unit value}
+\item{price}{unit value, usd/kg, current}
 }
+}
+\source{
+\url{https://dataweb.usitc.gov/}
 }
 \usage{
 price_usitc_def
 }
 \description{
-A dataset containing unit values (a proxy for market prices) for some rare
-earths materials included in the CLCC indicator. Data are from the US International
+A dataset containing unit values (a proxy for market prices) for some
+materials included in the CLCC indicator. Data are from the US International
 Trade database,which provides detailed trade data for the US. The raw data cannot be
 downloaded through an API, therefore are provided through a spreadsheet
 file.

@@ -3,23 +3,26 @@
 \docType{data}
 \name{price_comext_def}
 \alias{price_comext_def}
-\title{Unit values for some rare earths materials (Comext)}
+\title{Unit values from Comext (EU imports at 8-digit level)}
 \format{
 A tibble with five variables:
 \describe{
-\item{year}{year, 10 year period before reference year}
+\item{year}{year}
 \item{cur}{currency (EUR)}
 \item{source}{data source}
 \item{code}{code, 8-digit HS}
-\item{price}{unit value}
+\item{price}{euro/kg, current}
 }
+}
+\source{
+\url{http://epp.eurostat.ec.europa.eu/newxtweb/}
 }
 \usage{
 price_comext_def
 }
 \description{
-A dataset containing unit values (a proxy for market prices) for some rare
-earths materials included in the CLCC indicator. Data are from the Comext database,
+A dataset containing unit values (a proxy for market prices) for some
+materials included in the CLCC indicator. Data are from the Comext database (imports),
 which provides detailed trade data for EU countries. The raw data cannot be
 downloaded through an API, therefore are provided through a spreadsheet
 file.

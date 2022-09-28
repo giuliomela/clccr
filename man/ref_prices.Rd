@@ -4,7 +4,11 @@
 \alias{ref_prices}
 \title{Compute the reference prices to be used for CLCC calculation}
 \usage{
-ref_prices()
+ref_prices(h = 10)
+}
+\arguments{
+\item{h}{A numeric value. Time span (in years) over which calculating average prices.
+Default is `10`. Maximum and minimum values admitted are `20` and `5` respectively.}
 }
 \value{
 A tibble containing raw material names, and mean, minimum and maximum
@@ -14,7 +18,7 @@ prices of the last ten-year period
 This function computes the reference prices to be used for CLCC calculation
 and Monte Carlo analysis. Prices are expressed in constant euro. The reference
 price is the mean of a ten-year period starting from the reference year, which
-is the last year for which data are avilable (this is automatically calculated).
+is the last year for which data are available (this is automatically calculated).
 Such prices are computed for all raw materials present in the *db_comm_prices*
 master file.
 }

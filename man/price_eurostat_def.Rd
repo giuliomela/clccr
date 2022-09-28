@@ -7,12 +7,15 @@
 \format{
 A tibble with five variables:
 \describe{
-\item{year}{year, 10 year period before reference year}
+\item{year}{year}
 \item{cur}{currency (EUR)}
-\item{source}{data source}
-\item{code}{code, eurostat database}
-\item{price}{price, excluding taxes and levies}
+\item{cons_label}{label identifying annual consumption level}
+\item{cons_code}{code, code identifying annual consumption level}
+\item{price}{price, excluding taxes and levies, euro/MJ, current}
 }
+}
+\source{
+\url{https://db.nomics.world/Eurostat/nrg_pc_205}
 }
 \usage{
 price_eurostat_def
@@ -20,8 +23,8 @@ price_eurostat_def
 \description{
 A dataset containing electricity prices, to be used in the CLCC indicator calculation
 as a proxy for the price of electric energy from renewable sources. Data are
-from the Eurostat database and refer to the EU and to the price paid by a large
-idustrial plant. Data are downloaded through the Eurostat API (see data-raw
+from the Eurostat database (provided by DB.Nomics) and refer to the EU and to the price paid non -domestic users
+according to different consumption levels. Data are downloaded through the DB.Nomics API (see data-raw
 folder for the script used for downloading the series).
 }
 \keyword{datasets}

@@ -275,3 +275,19 @@ use_data(price_comext_def, db_comm_master, exc_rate_usd,
          price_imf_def, um_p, price_usitc_def,
          overwrite = TRUE, internal = TRUE)
 
+url <- "https://www.usgs.gov/centers/national-minerals-information-center/historical-statistics-mineral-and-material-commodities"
+
+
+pg <- read_html(url)
+
+urls <- html_attr(html_nodes(pg, "a"), "href")
+
+urls[grepl("^https://d9-wret.s3.us-west-2.*\\.xl.*", urls)]
+
+urls %>% str_subset(pattern = "^https://d9-wret.s3.us-west-2*\\.xls")
+
+
+pippo <- c("giu", "mel", "an")
+
+lapply(urls, function (x) download.file(x, destfile = here::here("data-raw/usgs")))
+

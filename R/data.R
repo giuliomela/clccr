@@ -19,27 +19,26 @@
 #' \item{source}{Reference price source}
 #' \item{critical}{A critical material for the EU, yes/no}
 #' }
-#'
-"db_comm_master"
+"master_data"
 
 
-#' Unit values for some rare earths materials (Comext)
+#' Unit values from Comext (EU imports at 8-digit level)
 #'
-#' A dataset containing unit values (a proxy for market prices) for some rare
-#' earths materials included in the CLCC indicator. Data are from the Comext database,
+#' A dataset containing unit values (a proxy for market prices) for some
+#' materials included in the CLCC indicator. Data are from the Comext database (imports),
 #' which provides detailed trade data for EU countries. The raw data cannot be
 #' downloaded through an API, therefore are provided through a spreadsheet
 #' file.
 #'
 #' @format A tibble with five variables:
 #' \describe{
-#' \item{year}{year, 10 year period before reference year}
+#' \item{year}{year}
 #' \item{cur}{currency (EUR)}
 #' \item{source}{data source}
 #' \item{code}{code, 8-digit HS}
-#' \item{price}{unit value}
+#' \item{price}{euro/kg, current}
 #' }
-#'
+#' @source \url{http://epp.eurostat.ec.europa.eu/newxtweb/}
 "price_comext_def"
 
 
@@ -52,13 +51,13 @@
 #'
 #' @format A tibble with five variables:
 #' \describe{
-#' \item{year}{year, 10 year period before reference year}
+#' \item{year}{year}
 #' \item{cur}{currency (USD)}
 #' \item{source}{data source}
 #' \item{code}{code, 6-digit HS}
-#' \item{price}{unit value}
+#' \item{price}{unit value, usd/kg, current}
 #' }
-#'
+#' @source \url{https://comtradeplus.un.org/}
 "price_comtrade_def"
 
 
@@ -66,76 +65,56 @@
 #'
 #' A dataset containing electricity prices, to be used in the CLCC indicator calculation
 #' as a proxy for the price of electric energy from renewable sources. Data are
-#' from the Eurostat database and refer to the EU and to the price paid by a large
-#' idustrial plant. Data are downloaded through the Eurostat API (see data-raw
+#' from the Eurostat database (provided by DB.Nomics) and refer to the EU and to the price paid non -domestic users
+#' according to different consumption levels. Data are downloaded through the DB.Nomics API (see data-raw
 #' folder for the script used for downloading the series).
 #'
 #' @format A tibble with five variables:
 #' \describe{
-#' \item{year}{year, 10 year period before reference year}
+#' \item{year}{year}
 #' \item{cur}{currency (EUR)}
-#' \item{source}{data source}
-#' \item{code}{code, eurostat database}
-#' \item{price}{price, excluding taxes and levies}
+#' \item{cons_label}{label identifying annual consumption level}
+#' \item{cons_code}{code, code identifying annual consumption level}
+#' \item{price}{price, excluding taxes and levies, euro/MJ, current}
 #' }
-#'
+#' @source \url{https://db.nomics.world/Eurostat/nrg_pc_205}
 "price_eurostat_def"
 
 #' Primary commodity prices from the IMF
 #'
 #' A dataset containing primary commodity prices from the IMF database. Such prices
 #' are used as market prices for some raw materials included in the CLCC indicator.
-#' Prices are downloaded through the Nasdaq Data Link platform (API) since the IMF
-#' is under maintennance (see data-raw folder for the script used for downloading the series).
+#' Prices are downloaded through through the DB.Nomics API.
 #'
 #' @format A tibble with five variables:
 #' \describe{
-#' \item{year}{year, 10 year period before reference year}
-#' \item{cur}{currency (USD)}
+#' \item{year}{year}
+#' \item{cur}{currency, (USD)}
 #' \item{source}{data source}
 #' \item{code}{code, IMF database}
-#' \item{price}{price}
+#' \item{price}{price, current usd/kg - usd/m3 according to the commodity considered}
 #' }
-#'
+#' @source \url{https://db.nomics.world/IMF/PCPS}
 "price_imf_def"
 
-
-#' Unit values for some rare earths materials (USITC)
+#' Unit values for materials (USITC)
 #'
-#' A dataset containing unit values (a proxy for market prices) for some rare
-#' earths materials included in the CLCC indicator. Data are from the US International
+#' A dataset containing unit values (a proxy for market prices) for some
+#' materials included in the CLCC indicator. Data are from the US International
 #' Trade database,which provides detailed trade data for the US. The raw data cannot be
 #' downloaded through an API, therefore are provided through a spreadsheet
 #' file.
 #'
 #' @format A tibble with five variables:
 #' \describe{
-#' \item{year}{year, 10 year period before reference year}
+#' \item{year}{year}
 #' \item{cur}{currency (USD)}
 #' \item{source}{data source}
 #' \item{code}{code, 10-digit HS}
-#' \item{price}{unit value}
+#' \item{price}{unit value, usd/kg, current}
 #' }
-#'
+#' @source \url{https://dataweb.usitc.gov/}
 "price_usitc_def"
-
-
-#' Measurement units of original IMF commodity prices
-#'
-#' Primary commoidty prices come in some specific measurement units, which
-#' need to be converted in either kg, m3 or MJ, the measurement units
-#' used for the calculation of the CLCC indicator. The conversion is done using
-#' the *units* package but this dataset provides information on the original
-#' units and those to which original data must be converted.
-#'
-#' @format A tibble with three variables:
-#' \describe{
-#' \item{um_from}{original measurement unit}
-#' \item{um_to}{measurement units to which original data mist be converted)}
-#' \item{fct}{conversion factor, not used}
-#' }
-"um_p"
-
 
 #' USD-EUR Nominal exchange rate
 #'
@@ -147,8 +126,8 @@
 #' \item{year}{year}
 #' \item{exc_rate}{USD per 1 euro}
 #' }
-#' @source \url{https://ec.europa.eu/eurostat/data/database/}
-"exc_rate_usd"
+#' @source \url{https://db.nomics.world/OECD/MEI}
+"exc_rate"
 
 #' Euro Area GDP deflator
 #'
@@ -157,8 +136,9 @@
 #' @format A tibble with two variables
 #' \describe{
 #' \item{year}{year}
-#' \item{gdp_dlf}{EA GDP deflator}
+#' \item{cur}{Country to which the GDP deflator refers to}
+#' \item{gdp_defl}{GDP deflator}
 #' }
-#' @source \url{https://ec.europa.eu/eurostat/data/database/}
-"gdp_dfl"
+#' @source \url{https://db.nomics.world/OECD/MEI}
+"gdp_defl"
 

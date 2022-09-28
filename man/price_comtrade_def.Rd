@@ -7,12 +7,15 @@
 \format{
 A tibble with five variables:
 \describe{
-\item{year}{year, 10 year period before reference year}
+\item{year}{year}
 \item{cur}{currency (USD)}
 \item{source}{data source}
 \item{code}{code, 6-digit HS}
-\item{price}{unit value}
+\item{price}{unit value, usd/kg, current}
 }
+}
+\source{
+\url{https://comtradeplus.un.org/}
 }
 \usage{
 price_comtrade_def

@@ -7,12 +7,15 @@
 \format{
 A tibble with five variables:
 \describe{
-\item{year}{year, 10 year period before reference year}
-\item{cur}{currency (USD)}
+\item{year}{year}
+\item{cur}{currency, (USD)}
 \item{source}{data source}
 \item{code}{code, IMF database}
-\item{price}{price}
+\item{price}{price, current usd/kg - usd/m3 according to the commodity considered}
 }
+}
+\source{
+\url{https://db.nomics.world/IMF/PCPS}
 }
 \usage{
 price_imf_def
@@ -20,7 +23,6 @@ price_imf_def
 \description{
 A dataset containing primary commodity prices from the IMF database. Such prices
 are used as market prices for some raw materials included in the CLCC indicator.
-Prices are downloaded through the Nasdaq Data Link platform (API) since the IMF
-is under maintennance (see data-raw folder for the script used for downloading the series).
+Prices are downloaded through through the DB.Nomics API.
 }
 \keyword{datasets}

@@ -63,7 +63,7 @@ inventory_tidy <- inventory_raw %>%
 
 # loading data on measurement units
 
-meas_units <- subset(db_comm_master,
+meas_units <- subset(master_data,
                      select = c(comm, no_comm, um))
 
 meas_units <- within(meas_units, {
