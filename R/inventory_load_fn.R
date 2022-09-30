@@ -102,7 +102,7 @@ inventory_tidy <- inventory_tidy %>%
   dplyr::mutate(quantity = udunits2::ud.convert(quantity, um, um_to)) %>%
   dplyr::ungroup()
 
-tidyr::as_tibble(inventory_tidy[, -which(names(inventory_tidy) %in% c("no", "comp", "um", "um_to"))])
+tidyr::as_tibble(inventory_tidy[, -which(names(inventory_tidy) %in% c("no", "comp", "um_to"))])
 
 
 }
