@@ -51,57 +51,63 @@ comtrade_codes <- subset(master_data, !is.na(comtrade_code))$comtrade_code
 
 comtrade_codes <- unique(as.character(comtrade_codes)) # list of all comtrade codes
 
-comtrade_codes_l <- split(comtrade_codes, ceiling(seq_along(comtrade_codes)/5))
+comtrade_codes_l <- split(comtrade_codes, ceiling(seq_along(comtrade_codes)/4))
 
-names(comtrade_codes_l) <- as.character(1:length(comtrade_codes_l))
-
-years_l <- list(c(start_yr = ref_yr - h + 1, end_yr = ref_year - h/2),
-                c(start_yr = ref_year - h/2 + 1, end_yr = ref_yr))
+years_l <- list(c(start_yr = ref_yr - h + 1, end_yr = ref_yr - h/2),
+                c(start_yr = ref_yr - h/2 + 1, end_yr = ref_yr))
 
 if (ct_get_remaining_hourly_queries() < length(comtrade_codes_l) * length(years_l)) stop("Superato limite massimo di query orarie")
 
-comtrade_query <- NULL
+# defining a function to download comtrade data without infringing API limits
+
+comtrade_raw <- NULL
 
 for (i in 1:length(comtrade_codes_l)) {
 
   for (j in 1:length(years_l)) {
 
-    comtrade_query[[paste0(i, "_", j)]] <- ct_search(
-      reporters = "All",
-      partners = "World",
-      trade_direction = "exports",
-      start_date = years_l[[j]][["start_yr"]],
-      end_date = years_l[[j]][["end_yr"]],
-      commod_codes = comtrade_codes_l[[i]]
-    )
+  comtrade_raw[[paste0(i, "_", j)]] <- ct_search(
+    reporters = "All",
+    partners = "World",
+    trade_direction = "export",
+    start_date = years_l[[j]][["start_yr"]],
+    end_date = years_l[[j]][["end_yr"]],
+    commod_codes = comtrade_codes_l[[i]]
+  )
 
-    Sys.sleep(1.5) # adds 1,5 seconds of pause between queries
+  Sys.sleep(5)
 
   }
 
+  Sys.sleep(5)
+
 }
+
 
 # joining databases
 
-comtrade_data_raw <- do.call(rbind, comtrade_query)
+comtrade_raw <- do.call(rbind, comtrade_raw)
 
 # tidying data
 
-trade_data_tidy <- subset(comtrade_data_raw, netweight_kg >= 100, # removes flows of less than 100 kg
+trade_data_tidy <- subset(comtrade_raw,  # removes flows of less than 100 kg
                           select = c(year, reporter_iso, partner_iso, commodity_code,
                                      commodity, netweight_kg, trade_value_usd)) %>%
   as_tibble()
 
+if (!setequal(unique(trade_data_tidy$commodity_code), comtrade_codes)) stop ("The Comtrade query did not return all selected codes")
+
+
 # removing rows with missing values (either quantity or value)
 
-trade_data_tidy <- trade_data_tidy[!with(trade_data_tidy,
-                      is.na(netweight_kg) | is.na(trade_value_usd)), ]
+# trade_data_tidy <- trade_data_tidy[!with(trade_data_tidy,
+#                       is.na(netweight_kg) | is.na(trade_value_usd)), ]
 
 # Calculating unit values
 
 price_comtrade_def <- trade_data_tidy %>%
   group_by(year, commodity_code) %>%
-  summarize(across(c(netweight_kg, trade_value_usd), sum)) %>%
+  summarize(across(c(netweight_kg, trade_value_usd), sum, na.rm = TRUE)) %>%
   ungroup() %>%
   mutate(price = trade_value_usd / netweight_kg) %>%
   select(year, code = commodity_code, price)
@@ -331,13 +337,19 @@ clcc_prices_ref <- comm_key_tidy%>%
   left_join(ref_prices)
 
 clcc_prices_ref <- clcc_prices_ref %>%
-  mutate(across(mean:max, ~ if_else(is.na(.x), 0, .x)))
+  mutate(across(mean:max, ~ if_else(is.na(.x), 0, .x)),
+         ref_yr = ref_yr)
 
-# missing flows comext
+# checking if the call retrieved data for all years (comtrade data only)
 
-clcc_prices_ref %>%
-  filter(source %in% c("comext", "usitc") & mean == 0)
+check_comtrade_l <- clcc_prices_ref %>%
+  filter(source == "comtrade") %>%
+  group_by(no_comm) %>%
+  group_split()
 
-usethis::use_data(master_data, price_comtrade_def, price_comext_def, price_eurostat_def,
-                  price_imf_def, price_usitc_def, exc_rate, gdp_defl, overwrite = TRUE,
-                  internal = TRUE)
+length_check <- sapply(check_comtrade_l, function (x) x[["n_obs"]] != h)
+
+if (sum(length_check != 0)) stop ("The comtrade query did not return data for all years selected for at least one commodity")
+
+
+usethis::use_data(clcc_prices_ref, overwrite = TRUE)

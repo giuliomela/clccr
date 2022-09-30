@@ -19,7 +19,7 @@ clcc <- function(path, critical = FALSE){
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
-  prices <- ref_prices()
+  prices <- clccr::clcc_prices_ref
 
   inv_prices <- merge(inventories, prices, all.x = TRUE)
 

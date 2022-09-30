@@ -3,6 +3,5 @@
 export(clcc)
 export(clcc_mc)
 export(inventory_load_fn)
-export(ref_prices)
 export(start_data_finder_fn)
 importFrom(magrittr,'%>%')

@@ -4,17 +4,22 @@
 #' software. The function loads all the inventories in a given folder: the file name becomes
 #' the name of the object to be evaluated. The function also converts raw data to measurement
 #' units compatible with those of reference prices.
+#' Land use changes, at the moment, are not considered while computing the indicator and therefore the
+#' `land_use` parameter is set to `FALSE`. Future versions of the CLCC indicator might include this
+#' dimension as well.
 #'
-#' @param data_path A character vector. Path to the folder in which raw xlsx files are stored.
-#' File names will be used as object names on which computing the CLCC indicator.
+#' @param data_path A character string. Path to the folder in which raw xlsx files are stored.
+#'     File names will be used as object names on which computing the CLCC indicator.
+#' @param land_use A logical value. If `TRUE`, land use change are evaluated otherwise they are
+#'     excluded from the analysis. Default is set to `FALSE`.
 #' @return A tidy dataset with inventory data organized by object
 #' @export
-inventory_load_fn <- function(data_path){
-
-db_comm_master <- db_comm_master
+inventory_load_fn <- function(data_path, land_use = FALSE){
 
 comm <- file_path <- inventory_raw <- data <- object <- no <- um <-
   um_to <- quantity <- comp <- no_comm <- phase <- NULL # avoids notes (dplyr and NSE)
+
+if (!is.logical(land_use)) stop("The land_use parameter can only assume TRUE or FALSE values")
 
 file_list <- list.files(path = data_path,
                             full.names = TRUE,
@@ -63,7 +68,7 @@ inventory_tidy <- inventory_raw %>%
 
 # loading data on measurement units
 
-meas_units <- subset(master_data,
+meas_units <- subset(clcc_prices_ref,
                      select = c(comm, no_comm, um))
 
 meas_units <- within(meas_units, {
@@ -74,7 +79,7 @@ meas_units <- within(meas_units, {
 # filtering data (raw materials only, belonging to the list of materials for which prices are avilable)
 
 # commodities to be considered ####
-comm_names <- unique(db_comm_master$comm)
+comm_names <- unique(clcc_prices_ref$comm)
 
 inventory_tidy <- subset(inventory_tidy,
                          comp %in% c("Prima", "Raw") & comm %in% comm_names)
@@ -85,6 +90,12 @@ inventory_tidy <- merge(inventory_tidy, meas_units, all.x = TRUE)
 
 inventory_tidy$um <- ifelse(inventory_tidy$um == paste0("\u00b5", "g"), "ug", # \u00b5" unicode character for mu
                                 inventory_tidy$um) # micrograms are expressed wit "ug" in the udunits2 package
+
+if (isFALSE(land_use)) {
+
+inventory_tidy <- inventory_tidy[!inventory_tidy$um %in% c("m2a", "m3y"), ]
+
+}
 
 inventory_tidy <- inventory_tidy %>%
   dplyr::rowwise() %>%
