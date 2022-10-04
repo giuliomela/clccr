@@ -14,6 +14,16 @@
 #' @return A tibble containing the CLCC indicator calculated for each object and phase.
 #' @importFrom magrittr '%>%'
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' data_path <- path_to_inventory_folder
+#'
+#' clcc(path = data_path)
+#'
+#' clcc(path = data_path, critical = TRUE)
+#'
+#' }
 clcc <- function(path, critical = FALSE){
 
   clcc_critical <- object <- phase <- NULL

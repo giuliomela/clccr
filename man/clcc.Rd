@@ -24,3 +24,13 @@ the clccr package.
 The function can also return the CLCC indicator calculated taking into account
 critical materials only.
 }
+\examples{
+\dontrun{
+data_path <- path_to_inventory_folder
+
+clcc(path = data_path)
+
+clcc(path = data_path, critical = TRUE)
+
+}
+}

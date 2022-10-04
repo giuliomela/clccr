@@ -21,6 +21,17 @@
 #' If prob_inf_alt is set to TRUE: a tibble with the probability that each object's
 #' CLCC is lower than that of every other object loaded.
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#'
+#' data_path <- path_to_inventory_folder
+#'
+#' clcc_mc(path = data_path)
+#'
+#' clcc_mc(path = data_path, rep = 5000, prob_inf_alt = TRUE)
+#'
+#' }
 clcc_mc <- function(path, rep = 10000, phase = "total", prob_inf_alt = FALSE){
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories

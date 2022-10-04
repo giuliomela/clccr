@@ -34,3 +34,14 @@ The function provides also the probability (computed using the empirical distrib
 function) that the CLCC of a given object is lower than the baseline or lower/higher
 than that of any other object belonging to the same project.
 }
+\examples{
+\dontrun{
+
+data_path <- path_to_inventory_folder
+
+clcc_mc(path = data_path)
+
+clcc_mc(path = data_path, rep = 5000, prob_inf_alt = TRUE)
+
+}
+}

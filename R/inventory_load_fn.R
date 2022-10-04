@@ -13,7 +13,6 @@
 #' @param land_use A logical value. If `TRUE`, land use change are evaluated otherwise they are
 #'     excluded from the analysis. Default is set to `FALSE`.
 #' @return A tidy dataset with inventory data organized by object
-#' @export
 inventory_load_fn <- function(data_path, land_use = FALSE){
 
 comm <- file_path <- inventory_raw <- data <- object <- no <- um <-

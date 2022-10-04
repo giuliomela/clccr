@@ -5,7 +5,6 @@
 #'
 #' @param path_xlsx Path to SimaPro data in .xlsx format
 #' @return The number of rows to skip while importing the file to R (integer)
-#' @export
 start_data_finder_fn <- function(path_xlsx){
 
   address <- NULL # to avoid r CMD check to create notes
