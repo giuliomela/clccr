@@ -1,13 +1,12 @@
 ---
-title: "clccr"
-output: rmarkdown::html_vignette
+title: "clccr-vignette"
 author: Giulio Mela
+output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{clccr}
-  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{clccr-vignette}
+  %\VignetteEngine{rmarkdown::render}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
-
 ---
 
 ```{r, include = FALSE}
@@ -68,6 +67,8 @@ Below is an example of use of the `clcc` function. The name of each object for w
 
 ```{r example-clcc}
 
+library(clccr) # loading the package
+
 # identifying the path the the folder with inventory data
 
 path_to_folder <- here::here("data-raw/example_data") 
@@ -76,8 +77,8 @@ clcc_results <- clcc(path = path_to_folder)
 
 clcc_results
 
-```
 
+```
 
 The `clcc` function can also return a version of the CLCC indicator which takes into account critical materials only, as shown in the next example.
 
@@ -90,11 +91,11 @@ clcc_critical
 
 ```
 
-Even though reference prices are loaded manually into the package folders, it is possible to retrieve the price matrix using the function `ref_prices`. The function does not need any argument.
+Even though reference prices are loaded manually into the package folders, it is possible to retrieve the price matrix accessing the database `clcc_prices_ref` as follows
 
-```{r example-price-ref}
+```{r example-price-ref, echo=TRUE}
 
-ref_prices()
+clcc_prices_ref
 
 ```
 
@@ -115,7 +116,7 @@ monte_carlo
 
 ```
 
-The standard output of the `clcc_mc` function is a tibble object names, baseline clcc, all simulations, and the probability that the indicator is lower than the baseline value. If the `prob_inf_alt` parameter is set to `TRUE`, the function also computes the probabilities that each object's CLCC is lower than that of every other object in the same folder. Probabilities are always calculated using the empirical distribution function.
+The standard output of the `clcc_mc` function is a tibble containing project and object names, baseline clcc, all simulations, and the probability that the indicator is lower than the baseline value. If the `prob_inf_alt` parameter is set to `TRUE`, the function also computes the probabilities that each object's CLCC is lower than that of every other object (also across projects, even if it is not always appropriate). Probabilities are always calculated using the empirical distribution function.
 
 ```{r example-mc-alt}
 
@@ -129,5 +130,3 @@ monte_carlo_alt
 ```
 
 Other functions included in the package, such as `inventory_load_fn` and `start_data_finder_fn` are used within `clcc` and `clcc_mc` and are not meant for independent use.
-
-# References

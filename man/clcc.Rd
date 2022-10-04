@@ -10,7 +10,8 @@ clcc(path, critical = FALSE)
 \item{path}{A character vector. Path to the folder in which raw xlsx files are stored.}
 
 \item{critical}{An optional argument. If set to TRUE, the function returns a tibble
-containing both the clcc and the critical clcc indicators. Default set to FALSE.}
+containing both the clcc and the critical clcc indicators. Default set to FALSE. An
+additional column with the share of clcc critical over total clcc is also returned.}
 }
 \value{
 A tibble containing the CLCC indicator calculated for each object and phase.

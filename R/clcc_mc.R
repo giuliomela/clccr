@@ -25,7 +25,7 @@ clcc_mc <- function(path, rep = 10000, phase = "total", prob_inf_alt = FALSE){
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
-  prices <- ref_prices()
+  prices <- clccr::clcc_prices_ref
 
   phase_to_cons <- phase
 

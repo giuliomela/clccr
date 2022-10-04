@@ -1,7 +1,7 @@
 Package: clccr
 Type: Package
 Title: CLCC indicator for a product/process during its life cycle 
-Version: 0.1.1
+Version: 0.1.2
 Author: Giulio Mela
 Maintainer: Giulio Mela <giulio.mela@rse-web.it>
 Description: provides functions to calculate the commodity life cycle costing indicator,
@@ -23,19 +23,14 @@ Imports:
     stringr,
     tidyr,
     purrr,
-    eurostat,
-    imfr,
     magrittr,
-    udunits2,
-    lubridate,
-    comtradr,
-    Quandl,
     tidyxl,
     triangle,
     stats,
-    tidyselect
+    units
 Suggests: 
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
-    tibble
+    tibble,
+    markdown

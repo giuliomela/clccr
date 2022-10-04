@@ -9,7 +9,8 @@
 #'
 #' @param path A character vector. Path to the folder in which raw xlsx files are stored.
 #' @param critical An optional argument. If set to TRUE, the function returns a tibble
-#' containing both the clcc and the critical clcc indicators. Default set to FALSE.
+#'     containing both the clcc and the critical clcc indicators. Default set to FALSE. An
+#'     additional column with the share of clcc critical over total clcc is also returned.
 #' @return A tibble containing the CLCC indicator calculated for each object and phase.
 #' @importFrom magrittr '%>%'
 #' @export
@@ -20,6 +21,10 @@ clcc <- function(path, critical = FALSE){
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
   prices <- clccr::clcc_prices_ref
+
+  test_commodity <- unique(inventories$comm) %in% prices$comm
+
+  if(isTRUE(any(test_commodity == F))) stop("At least one commodity in the inventory is not present in the master file") # if true, at least one commodity is not in the master file
 
   inv_prices <- merge(inventories, prices, all.x = TRUE)
 

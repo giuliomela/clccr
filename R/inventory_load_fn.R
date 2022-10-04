@@ -68,7 +68,7 @@ inventory_tidy <- inventory_raw %>%
 
 # loading data on measurement units
 
-meas_units <- subset(clcc_prices_ref,
+meas_units <- subset(clccr::clcc_prices_ref,
                      select = c(comm, no_comm, um))
 
 meas_units <- within(meas_units, {
@@ -79,7 +79,7 @@ meas_units <- within(meas_units, {
 # filtering data (raw materials only, belonging to the list of materials for which prices are avilable)
 
 # commodities to be considered ####
-comm_names <- unique(clcc_prices_ref$comm)
+comm_names <- unique(clccr::clcc_prices_ref$comm)
 
 inventory_tidy <- subset(inventory_tidy,
                          comp %in% c("Prima", "Raw") & comm %in% comm_names)
@@ -99,7 +99,9 @@ inventory_tidy <- inventory_tidy[!inventory_tidy$um %in% c("m2a", "m3y"), ]
 
 inventory_tidy <- inventory_tidy %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(quantity = udunits2::ud.convert(quantity, um, um_to)) %>%
+  dplyr::mutate(quantity = um_converter( # converting measurement units if needed
+    quantity, um, um_to
+  )) %>%
   dplyr::ungroup()
 
 tidyr::as_tibble(inventory_tidy[, -which(names(inventory_tidy) %in% c("no", "comp", "um_to"))])
