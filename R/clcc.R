@@ -11,9 +11,6 @@
 #' @param critical An optional argument. If set to TRUE, the function returns a tibble
 #'     containing both the clcc and the critical clcc indicators. Default set to FALSE. An
 #'     additional column with the share of clcc critical over total clcc is also returned.
-#' @param land_use A logical value. If `TRUE`, land use change are evaluated otherwise they are
-#'     excluded from the analysis. Default is set to `FALSE`. At the moment it is not possible to
-#'     evaluate land use changes so this parameter must be set to the default value (`FALSE`).
 #' @return A tibble containing the CLCC indicator calculated for each object and phase.
 #' @importFrom magrittr '%>%'
 #' @export
@@ -27,7 +24,7 @@
 #' clcc(path = data_path, critical = TRUE)
 #'
 #' }
-clcc <- function(path, critical = FALSE, land_use = FALSE){
+clcc <- function(path, critical = FALSE){
 
   clcc_critical <- object <- phase <- NULL
 
