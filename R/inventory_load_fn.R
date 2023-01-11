@@ -92,7 +92,7 @@ inventory_tidy$um <- ifelse(inventory_tidy$um == paste0("\u00b5", "g"), "ug", # 
 
 if (isFALSE(land_use)) {
 
-inventory_tidy <- inventory_tidy[!inventory_tidy$um %in% c("m2a", "m3y"), ]
+inventory_tidy <- inventory_tidy[!inventory_tidy$um %in% c("m2a", "m2", "m3y"), ]
 
 }
 
