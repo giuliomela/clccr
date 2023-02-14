@@ -37,20 +37,20 @@ library(clccr)
 # computing the CLCC indicator for three example inventories (cars)
 
 clcc(path = path_to_folder)
-#> # A tibble: 30 x 3
-#>    object       phase              clcc
-#>    <chr>        <chr>             <dbl>
-#>  1 car_diesel   batteria       0       
-#>  2 car_elet_nmc batteria       0.00336 
-#>  3 car_petrol   batteria       0       
-#>  4 car_diesel   manto stradale 0       
-#>  5 car_elet_nmc manto stradale 0       
-#>  6 car_petrol   manto stradale 0       
-#>  7 car_diesel   manutenzione   0.00164 
-#>  8 car_elet_nmc manutenzione   0.000911
-#>  9 car_petrol   manutenzione   0.00154 
-#> 10 car_diesel   produzione     0.00640 
-#> # ... with 20 more rows
+#> # A tibble: 33 × 3
+#>    object     phase                   clcc
+#>    <chr>      <chr>                  <dbl>
+#>  1 2019       1 kwh bioenergy 2020 0.0394 
+#>  2 2019       1 kwh pv 2020        0.0147 
+#>  3 2019       total                0.0409 
+#>  4 car_diesel batteria             0      
+#>  5 car_diesel manto stradale       0      
+#>  6 car_diesel manutenzione         0.00195
+#>  7 car_diesel produzione           0.00726
+#>  8 car_diesel total                0.0421 
+#>  9 car_diesel uso                  0      
+#> 10 car_diesel usura freni          0      
+#> # … with 23 more rows
 ```
 
 Setting the `critical` argument to `TRUE`, function `clcc` returns the
@@ -59,49 +59,80 @@ tibble provides also the relative share of critical materials on the
 baseline CLCC.
 
 ``` r
+
 # computing the critical CLCC indicator
 
 clcc(path = path_to_folder, critical = TRUE)
-#> # A tibble: 30 x 5
-#>    object     phase                 clcc clcc_critical share_critical
-#>    <chr>      <chr>                <dbl>         <dbl>          <dbl>
-#>  1 car_diesel batteria           0          0                   0    
-#>  2 car_diesel manto stradale     0          0                   0    
-#>  3 car_diesel manutenzione       0.00164    0.00000988          0.603
-#>  4 car_diesel produzione         0.00640    0.0000873           1.36 
-#>  5 car_diesel total              0.0330     0.000147            0.446
-#>  6 car_diesel uso                0          0                   0    
-#>  7 car_diesel usura freni        0          0                   0    
-#>  8 car_diesel usura pneumatici   0          0                   0    
-#>  9 car_diesel usura strada       0          0                   0    
-#> 10 car_diesel vettore energetico 0.0250     0.0000499           0.200
-#> # ... with 20 more rows
+#> # A tibble: 33 × 5
+#>    object     phase                   clcc clcc_critical share_critical
+#>    <chr>      <chr>                  <dbl>         <dbl>          <dbl>
+#>  1 2019       1 kwh bioenergy 2020 0.0394      0.000141           0.358
+#>  2 2019       1 kwh pv 2020        0.0147      0.000326           2.21 
+#>  3 2019       total                0.0409      0.000174           0.425
+#>  4 car_diesel batteria             0           0                  0    
+#>  5 car_diesel manto stradale       0           0                  0    
+#>  6 car_diesel manutenzione         0.00195     0.0000102          0.523
+#>  7 car_diesel produzione           0.00726     0.0000986          1.36 
+#>  8 car_diesel total                0.0421      0.000166           0.394
+#>  9 car_diesel uso                  0           0                  0    
+#> 10 car_diesel usura freni          0           0                  0    
+#> # … with 23 more rows
 ```
 
 Even though data on reference prices cannot be updated programmatically
 since not all source have an API, it is possible to extract a tibble
 with reference prices and minimum and maximum values (used in Monte
-Carlo simulations) of the last 10-year period. The function
-`ref_prices()` returns a tibble with data sources and reference prices
-for each commodity considered.
+Carlo simulations) of the last 10-year period. The user can get
+information on price levels and data sources in the
+`clccr::clcc_prices_ref` tibble with data sources.
 
 ``` r
-# Function with no arguments
-ref_prices()
-#> # A tibble: 154 x 9
-#>    source   code     comm         no_comm um    critical    mean     min     max
-#>    <chr>    <chr>    <chr>          <dbl> <chr> <chr>      <dbl>   <dbl>   <dbl>
-#>  1 comext   28045090 Tellurium        592 kg    no       5.27e+1 1.07e+1 2.13e+2
-#>  2 comext   28053020 Praseodymium     940 kg    yes      2.21e+1 1.50e+1 3.97e+1
-#>  3 comext   28053030 Europium         964 kg    yes      6.93e+1 5.51e+1 1.11e+2
-#>  4 comext   81129281 Indium           228 kg    yes      2.81e+2 8.26e+1 4.93e+2
-#>  5 comext   81129289 Gallium          935 kg    yes      2.74e+2 1.33e+2 6.22e+2
-#>  6 comtrade 2501     Sodium chlo~      20 kg    no       4.38e-2 3.68e-2 5.15e-2
-#>  7 comtrade 2503     Sulfur            31 kg    no       1.02e-1 5.20e-2 1.39e-1
-#>  8 comtrade 2504     Metamorphou~     118 kg    no       9.41e-1 7.06e-1 1.30e+0
-#>  9 comtrade 2505     Sand             133 kg    no       1.82e-2 5.48e-3 3.39e-2
-#> 10 comtrade 2507     Kaolinite        136 kg    no       1.29e-1 1.17e-1 1.46e-1
-#> # ... with 144 more rows
+
+# A tibble with information on prices used and data sources
+prices <- clcc_prices_ref
+
+head(prices, 5)
+#> # A tibble: 5 × 11
+#>   comm      no_comm um    source   critical code   mean   min   max n_obs ref_yr
+#>   <chr>       <dbl> <chr> <chr>    <chr>    <chr> <dbl> <dbl> <dbl> <int>  <dbl>
+#> 1 Acids           1 kg    none     no       <NA>     0     0     0     NA   2021
+#> 2 Actinium        2 kg    comtrade no       2844…  605.  208. 1083.    10   2021
+#> 3 Additives       3 kg    none     no       <NA>     0     0     0     NA   2021
+#> 4 Air             4 kg    none     no       <NA>     0     0     0     NA   2021
+#> 5 Alloys          5 kg    none     no       <NA>     0     0     0     NA   2021
+```
+
+The `clcc` function returns the total CLCC indicator (computed taking
+into account all material and energy flows) but the user might be
+interested in having information on the relative importance of each flow
+on total baseline or critical CLCC. The `clcc_detail` function fills
+this gap. It returns a tibble with the relative share of each material
+or energy flow on the CLCC indicator. Such shares can be computed for
+either the baseline and critical CLCC indicators as well as for the
+entire life-cycle or just one of the life-cycle phases.
+
+``` r
+
+detail_info <- clcc_detail(path = path_to_folder,
+                           critical = FALSE,
+                           phase_of_int = "total",
+                           collapse_share = 0.9)
+#> Joining, by = c("object", "phase", "clcc_type")
+
+head(detail_info, 10)
+#> # A tibble: 10 × 7
+#>    object     comm            phase clcc_type     clcc clcc_tot  share
+#>    <chr>      <chr>           <chr> <chr>        <dbl>    <dbl>  <dbl>
+#>  1 2019       Gas, natural/m3 total baseline  0.0245     0.0409 0.600 
+#>  2 2019       Other           total baseline  0.00552   25.2    0.135 
+#>  3 2019       Oil, crude      total baseline  0.00546    0.0409 0.133 
+#>  4 2019       Coal, hard      total baseline  0.00366    0.0409 0.0894
+#>  5 2019       Shale           total baseline  0.00172    0.0409 0.0421
+#>  6 car_diesel Oil, crude      total baseline  0.0329     0.0421 0.783 
+#>  7 car_diesel Other           total baseline  0.00423   15.6    0.101 
+#>  8 car_diesel Gas, natural/m3 total baseline  0.00204    0.0421 0.0485
+#>  9 car_diesel Coal, hard      total baseline  0.00111    0.0421 0.0264
+#> 10 car_diesel Oxygen          total baseline  0.000987   0.0421 0.0235
 ```
 
 The `clccr` package also allows to run a Monte Carlo simulation, given
@@ -117,20 +148,22 @@ baseline (probability computed using the empirical distribution
 function).
 
 ``` r
+
 # Monte Carlo simulation
 
 rep <- 1000 # number of simulations (default is 10,000)
 phase <- "total" # the life cycle phase for which running the simulation
 
 clcc_mc(path = path_to_folder, rep = rep)
-#> Joining, by = c("comm", "no_comm")
+#> Joining, by = c("comm", "um", "no_comm")
 #> Joining, by = c("object", "phase")
-#> # A tibble: 3 x 6
+#> # A tibble: 4 × 6
 #>   object       phase clcc_sim      ecdf_fn   clcc prob_inf_base
 #>   <chr>        <chr> <list>        <list>   <dbl>         <dbl>
-#> 1 car_diesel   total <dbl [1,000]> <ecdf>  0.0330         0.437
-#> 2 car_elet_nmc total <dbl [1,000]> <ecdf>  0.0216         0.263
-#> 3 car_petrol   total <dbl [1,000]> <ecdf>  0.0375         0.441
+#> 1 2019         total <dbl [1,000]> <ecdf>  0.0409         0.432
+#> 2 car_diesel   total <dbl [1,000]> <ecdf>  0.0421         0.401
+#> 3 car_elet_nmc total <dbl [1,000]> <ecdf>  0.0212         0.22 
+#> 4 car_petrol   total <dbl [1,000]> <ecdf>  0.0491         0.406
 ```
 
 Setting the argument `prob_inf_alt` to `TRUE` (default is `FALSE`),
@@ -141,22 +174,30 @@ object pair, using the empirical distribution function computed on the
 differences between all the simulated values for each object.
 
 ``` r
+
 # Monte Carlo simulation returning the probability that an object's CLCC is lower/higher than that of the
 # other alternatives
 
 clcc_mc(path = path_to_folder, rep = rep, prob_inf_alt = TRUE)
-#> Joining, by = c("comm", "no_comm")
+#> Joining, by = c("comm", "um", "no_comm")
 #> Joining, by = c("object", "phase")
-#> # A tibble: 9 x 3
-#>   obj1         obj2           prob
-#>   <chr>        <chr>         <dbl>
-#> 1 car_diesel   car_diesel   NA    
-#> 2 car_diesel   car_elet_nmc  0.048
-#> 3 car_diesel   car_petrol    1    
-#> 4 car_elet_nmc car_diesel    0.952
-#> 5 car_elet_nmc car_elet_nmc NA    
-#> 6 car_elet_nmc car_petrol    0.977
-#> 7 car_petrol   car_diesel    0    
-#> 8 car_petrol   car_elet_nmc  0.023
-#> 9 car_petrol   car_petrol   NA
+#> # A tibble: 16 × 3
+#>    obj1         obj2           prob
+#>    <chr>        <chr>         <dbl>
+#>  1 2019         2019         NA    
+#>  2 2019         car_diesel    0.567
+#>  3 2019         car_elet_nmc  0    
+#>  4 2019         car_petrol    0.819
+#>  5 car_diesel   2019          0.433
+#>  6 car_diesel   car_diesel   NA    
+#>  7 car_diesel   car_elet_nmc  0    
+#>  8 car_diesel   car_petrol    1    
+#>  9 car_elet_nmc 2019          1    
+#> 10 car_elet_nmc car_diesel    1    
+#> 11 car_elet_nmc car_elet_nmc NA    
+#> 12 car_elet_nmc car_petrol    1    
+#> 13 car_petrol   2019          0.181
+#> 14 car_petrol   car_diesel    0    
+#> 15 car_petrol   car_elet_nmc  0    
+#> 16 car_petrol   car_petrol   NA
 ```

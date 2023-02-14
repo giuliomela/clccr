@@ -40,7 +40,7 @@ clcc <- function(path, critical = FALSE){
 
   inv_prices <- inv_prices[, -which(names(inv_prices) %in% c("um", "source", "code"))]
 
-  # Comouting the CLCC indicator
+  # Computing the CLCC indicator
 
   clcc_res <- by(inv_prices, list(inv_prices$object, inv_prices$phase), function(df) {
     with(df, data.frame(object = object[[1]], phase = phase[[1]],

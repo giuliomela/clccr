@@ -99,6 +99,22 @@ clcc_prices_ref
 
 ```
 
+The `clcc` function returns the total CLCC indicator (computed taking into account all material and energy flows) but the user might be interested in having information on the relative importance of each flow on total baseline or critical CLCC. The `clcc_detail` function fills this gap. It returns a tibble with the relative share of each material or energy flow on the CLCC indicator. Such shares can be computed for either the baseline and critical CLCC indicators as well as for the entire life-cycle or just one of the life-cycle phases. The `phase_of_int` parameter allows the user to select one peculiar phase of the life-cycle, while the `collapse_share` parameter let the use determine the cut-off point to limit the number of commodities returned as output. For example, if `collapse_share` is set to `0.9`, only commoties which share on the CLCC indicator of interest sum up to 90% are reterned and the others are aggregated under the `others` label.
+
+```{r example-clcc-detail}
+
+detail_info <- clcc_detail(path = path_to_folder,
+                           critical = FALSE,
+                           phase_of_int = "total",
+                           collapse_share = 0.9)
+
+head(detail_info, 10)
+
+
+```
+
+
+
 Finally, the `clccr` package provides a function which allows to perform a Monte Carlo analysis to take into account price volatility: `clcc_mc`. The analysis is carried out assuming that reference prices follow a triangular distribution, since no information are available on the true shape of price distributions (even though, in the future, it might be possible to use *distribution fitting* techniques to identify the probability distribution that better describes each price series). The user can specify the number of iterations (through the `rep` parameter, default is 10,000), the life cycle phase to consider and the type of output.
 
 ```{r example-mc}
