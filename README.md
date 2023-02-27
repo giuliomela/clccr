@@ -121,18 +121,18 @@ detail_info <- clcc_detail(path = path_to_folder,
 
 head(detail_info, 10)
 #> # A tibble: 10 × 7
-#>    object     comm            phase clcc_type     clcc clcc_tot  share
+#>    object     comm            phase clcc_type clcc_tot     clcc  share
 #>    <chr>      <chr>           <chr> <chr>        <dbl>    <dbl>  <dbl>
-#>  1 2019       Gas, natural/m3 total baseline  0.0245     0.0409 0.600 
-#>  2 2019       Other           total baseline  0.00552   25.2    0.135 
-#>  3 2019       Oil, crude      total baseline  0.00546    0.0409 0.133 
-#>  4 2019       Coal, hard      total baseline  0.00366    0.0409 0.0894
-#>  5 2019       Shale           total baseline  0.00172    0.0409 0.0421
-#>  6 car_diesel Oil, crude      total baseline  0.0329     0.0421 0.783 
-#>  7 car_diesel Other           total baseline  0.00423   15.6    0.101 
-#>  8 car_diesel Gas, natural/m3 total baseline  0.00204    0.0421 0.0485
-#>  9 car_diesel Coal, hard      total baseline  0.00111    0.0421 0.0264
-#> 10 car_diesel Oxygen          total baseline  0.000987   0.0421 0.0235
+#>  1 2019       Gas, natural/m3 total baseline    0.0409 0.0245   0.600 
+#>  2 2019       Other           total baseline    0.0409 0.00552  0.135 
+#>  3 2019       Oil, crude      total baseline    0.0409 0.00546  0.133 
+#>  4 2019       Coal, hard      total baseline    0.0409 0.00366  0.0894
+#>  5 2019       Shale           total baseline    0.0409 0.00172  0.0421
+#>  6 car_diesel Oil, crude      total baseline    0.0421 0.0329   0.783 
+#>  7 car_diesel Other           total baseline    0.0421 0.00423  0.101 
+#>  8 car_diesel Gas, natural/m3 total baseline    0.0421 0.00204  0.0485
+#>  9 car_diesel Coal, hard      total baseline    0.0421 0.00111  0.0264
+#> 10 car_diesel Oxygen          total baseline    0.0421 0.000987 0.0235
 ```
 
 The `clccr` package also allows to run a Monte Carlo simulation, given
@@ -160,10 +160,10 @@ clcc_mc(path = path_to_folder, rep = rep)
 #> # A tibble: 4 × 6
 #>   object       phase clcc_sim      ecdf_fn   clcc prob_inf_base
 #>   <chr>        <chr> <list>        <list>   <dbl>         <dbl>
-#> 1 2019         total <dbl [1,000]> <ecdf>  0.0409         0.432
-#> 2 car_diesel   total <dbl [1,000]> <ecdf>  0.0421         0.401
-#> 3 car_elet_nmc total <dbl [1,000]> <ecdf>  0.0212         0.22 
-#> 4 car_petrol   total <dbl [1,000]> <ecdf>  0.0491         0.406
+#> 1 2019         total <dbl [1,000]> <ecdf>  0.0409         0.427
+#> 2 car_diesel   total <dbl [1,000]> <ecdf>  0.0421         0.377
+#> 3 car_elet_nmc total <dbl [1,000]> <ecdf>  0.0212         0.227
+#> 4 car_petrol   total <dbl [1,000]> <ecdf>  0.0491         0.379
 ```
 
 Setting the argument `prob_inf_alt` to `TRUE` (default is `FALSE`),
@@ -185,10 +185,10 @@ clcc_mc(path = path_to_folder, rep = rep, prob_inf_alt = TRUE)
 #>    obj1         obj2           prob
 #>    <chr>        <chr>         <dbl>
 #>  1 2019         2019         NA    
-#>  2 2019         car_diesel    0.567
+#>  2 2019         car_diesel    0.566
 #>  3 2019         car_elet_nmc  0    
-#>  4 2019         car_petrol    0.819
-#>  5 car_diesel   2019          0.433
+#>  4 2019         car_petrol    0.84 
+#>  5 car_diesel   2019          0.434
 #>  6 car_diesel   car_diesel   NA    
 #>  7 car_diesel   car_elet_nmc  0    
 #>  8 car_diesel   car_petrol    1    
@@ -196,8 +196,15 @@ clcc_mc(path = path_to_folder, rep = rep, prob_inf_alt = TRUE)
 #> 10 car_elet_nmc car_diesel    1    
 #> 11 car_elet_nmc car_elet_nmc NA    
 #> 12 car_elet_nmc car_petrol    1    
-#> 13 car_petrol   2019          0.181
+#> 13 car_petrol   2019          0.16 
 #> 14 car_petrol   car_diesel    0    
 #> 15 car_petrol   car_elet_nmc  0    
 #> 16 car_petrol   car_petrol   NA
 ```
+
+Finally, the package allows the user to export reference prices for both
+the baseline and critical indicators to a .csv file compatible with
+SimaPro, one of the most popular LCA software. To accomplish this task
+the user can call the `simapro_export` function. Such function has no
+arguments and, once called, automatically opens a pop-up windows that
+asks the user where to save the file.

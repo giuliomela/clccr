@@ -12,6 +12,8 @@ A tibble with variables:
 \item{um}{measurement unit, as in SimaPro output}
 \item{source}{Reference price source}
 \item{critical}{Whether or not a given commodity belogns to the critical materials group defined by the EU}
+\item{energy}{Whether or not a given commodity belong to the energy group}
+\item{simapro_export}{Whether or not a commodity must be included in the .csv file to be exported to SimaProa}
 \item{code}{Commodity code (depends on the source)}
 \item{mean}{Average reference price, expressed in constant euro/kg (m3) at the price levels of the reference year}
 \item{min}{Minimum price suring the reference period}

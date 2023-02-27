@@ -80,8 +80,8 @@ clcc_detail <- function (path, critical = FALSE, phase_of_int = "total", collaps
                     comm,
                     "Other"
                   )) %>%
-    dplyr::group_by(object, comm, phase, clcc_type) %>%
-    dplyr::summarise(dplyr::across(clcc:share, sum)) %>%
+    dplyr::group_by(object, comm, phase, clcc_type, clcc_tot) %>%
+    dplyr::summarise(dplyr::across(c(clcc, share), sum)) %>%
     dplyr::ungroup() %>%
     dplyr::arrange(object, desc(share))
 

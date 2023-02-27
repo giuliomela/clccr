@@ -121,3 +121,4 @@ clcc_mc(path = path_to_folder, rep = rep, prob_inf_alt = TRUE)
 
 ```
 
+Finally, the package allows the user to export reference prices for both the baseline and critical indicators to a .csv file compatible with SimaPro, one of the most popular LCA software. To accomplish this task the user can call the `simapro_export` function. Such function has no arguments and, once called, automatically opens a pop-up windows that asks the user where to save the file.

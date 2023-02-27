@@ -351,5 +351,31 @@ length_check <- sapply(check_comtrade_l, function (x) x[["n_obs"]] != h)
 
 if (sum(length_check != 0)) stop ("The comtrade query did not return data for all years selected for at least one commodity")
 
+#loading data with simapro commodity codes
+
+simapro_codes <- read_excel(here("data-raw/db_comm_master_2022.xlsx"),
+                            sheet = "simapro_codes") %>%
+  mutate(formula = noquote(formula))
+
+
+#Loading metadata files to prepare output csv to be loaded in SimaPro
+
+template_names <- c("top", "mid1", "mid2", "bottom")
+
+# simapro_template <- lapply(template_names,
+#                            function(x) readLines(here::here("data-raw",
+#                                                 paste0("simapro_template_", x))
+#                                      )
+#
+# )
+
+simapro_template <- lapply(template_names,
+                           function(x) read_delim(here(paste0("data-raw/simapro_template_", x, ".csv")),
+                                                  delim = ";",
+                                                  col_names = FALSE))
+
+names(simapro_template) <- template_names
 
 usethis::use_data(clcc_prices_ref, overwrite = TRUE)
+
+usethis::use_data(simapro_template, simapro_codes, overwrite = TRUE, internal = TRUE)

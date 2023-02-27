@@ -1,0 +1,433 @@
+{SimaPro 9.3.0.3};;;;;;
+{methods};;;;;;
+{Date: 2/22/2023};;;;;;
+{Time: 12:10:37 PM};;;;;;
+{Project: 2022_mobilita};;;;;;
+{CSV Format version: 9.0.0};;;;;;
+{CSV separator: Semicolon};;;;;;
+{Decimal separator: .};;;;;;
+{Date separator: /};;;;;;
+{Short date format: M/d/yyyy};;;;;;
+{Export platform IDs: Yes};;;;;;
+{Selection: Selection (1)};;;;;;
+{Related objects (system descriptions, substances, units, etc.): Yes};;;;;;
+{Include sub product stages and processes: No};;;;;;
+{Open project: '2022_mobilita'};;;;;;
+{Library 'Ecoinvent 3 - allocation, cut-off by classification - system'};;;;;;
+{Library 'Ecoinvent 3 - allocation, cut-off by classification - unit'};;;;;;
+{Library 'Methods'};;;;;;
+;;;;;;
+Method;;;;;;
+;;;;;;
+Name;;;;;;
+RSE CLCC e critical CLCC;;;;;;
+;;;;;;
+Version;;;;;;
+1;0;;;;;
+;;;;;;
+Comment;;;;;;
+Indicatore commodity life cycle cost.Unità di misura €;;;;;;
+;;;;;;
+Category;;;;;;
+European;;;;;;
+;;;;;;
+Use Damage Assessment;;;;;;
+Yes;;;;;;
+;;;;;;
+Use Normalization;;;;;;
+Yes;;;;;;
+;;;;;;
+Use Weighting;;;;;;
+Yes;;;;;;
+;;;;;;
+Use Addition;;;;;;
+Yes;;;;;;
+;;;;;;
+Weighting unit;;;;;;
+Pt;;;;;;
+;;;;;;
+Impact category;;;;;;
+Resource use, fossils;MJ;;;;;
+;;;;;;
+Substances;;;;;;
+Raw;(unspecified);Coal, 18 MJ per kg;;18;kg;8A23E8AE-9D54-4BCB-BEA8-0D65620D6F9D
+Raw;(unspecified);Coal, 26.4 MJ per kg;;26.4;kg;C0F2A644-3C69-4F02-B13A-029561B69A3E
+Raw;(unspecified);Coal, 29.3 MJ per kg;;29.3;kg;AE4A9855-8598-4363-B541-A56625F7BB63
+Raw;(unspecified);Coal, bituminous, 24.8 MJ per kg;;24.8;kg;4E230376-C4F5-4487-BD03-85C7909FF598
+Raw;(unspecified);Coal, brown;;8.75;kg;8C93A378-A18E-4436-8855-A8759B88E676
+Raw;(unspecified);Coal, brown, 10 MJ per kg;;10;kg;451475C9-8BD3-4C7B-81F8-C6BA2CAD0B68
+Raw;(unspecified);Coal, brown, 8 MJ per kg;;8;kg;051C0752-2B47-45D6-9A1C-F3983D3C9831
+Raw;(unspecified);Coal, feedstock, 26.4 MJ per kg;;26.4;kg;613B0972-6197-40D0-84B9-CBEE636F1704
+Raw;(unspecified);Coal, hard;;18.2;kg;CADAC617-0123-4544-8732-DA547585C2BC
+Raw;(unspecified);Coal, hard, 30.7 MJ per kg;;30.7;kg;65FC3C51-77C2-4615-A30F-DC461B13C664
+Raw;(unspecified);Energy, from coal;;1;MJ;976B1DE9-CA12-4717-B65B-45AC61523CAD
+Raw;(unspecified);Energy, from coal, brown;;1;MJ;87C6E701-BD96-4B9B-BB40-4B0A9857EDF0
+Raw;(unspecified);Energy, from gas, natural;;1;MJ;B229BF94-A6F9-4BB1-8350-6A931A9587C3
+Raw;(unspecified);Energy, from oil;;1;MJ;7EF91E26-32DF-4BC0-993F-CBDB9FD78E32
+Raw;(unspecified);Energy, from peat;;1;MJ;2931BDDC-CD32-49CA-BA3F-D1F042A802AE
+Raw;(unspecified);Energy, from uranium;;1;MJ;ED2C8071-9649-447D-91BC-22CCDB2FA93D
+Raw;(unspecified);Gas, mine, off-gas, process, coal mining/kg;008006-14-2;44.9;kg;E7A3A823-4B3E-48A8-A8A4-D6EE7401D18F
+Raw;(unspecified);Gas, mine, off-gas, process, coal mining/m3;008006-14-2;35.8;m3;2225FEF1-D3FF-4DD1-94A4-1356CFE8F462
+Raw;(unspecified);Gas, natural, 30.3 MJ per kg;008006-14-2;30.3;kg;43DD82AC-4636-4823-93B5-073945DBC9BB
+Raw;(unspecified);Gas, natural, 35 MJ per m3;008006-14-2;35;m3;A2561BE9-74D1-466F-BB61-C4B494AC90A9
+Raw;(unspecified);Gas, natural, 36.6 MJ per m3;008006-14-2;36.6;m3;4E5E933C-B2B5-49D5-90B1-E93B29D75EC8
+Raw;(unspecified);Gas, natural, 46.8 MJ per kg;008006-14-2;46.8;kg;207BBB81-8374-4279-9414-89413CC819C2
+Raw;(unspecified);Gas, natural, feedstock, 35 MJ per m3;008006-14-2;35;m3;1E13B93D-08FE-47E3-9B7E-8C6D3B9B1E37
+Raw;(unspecified);Gas, natural, feedstock, 46.8 MJ per kg;008006-14-2;46.8;kg;D4D74F34-2852-4828-B0C1-121C7C61D3FD
+Raw;(unspecified);Gas, natural/kg;008006-14-2;43.1;kg;3EE7D0E5-D96A-433F-A91E-436C4A08CA04
+Raw;(unspecified);Gas, natural/m3;008006-14-2;34.5;m3;7D275AB8-3937-4907-8EF0-CB44E19EE309
+Raw;(unspecified);Gas, off-gas, oil production;;35.8;m3;C3E1B4A6-CD1C-4B31-AA4A-2260F92BF9BB
+Raw;(unspecified);Gas, petroleum, 35 MJ per m3;;35;m3;D1524FB2-F899-4BF1-972D-02A36FDE48F9
+Raw;(unspecified);Oil, crude;;43.2;kg;5BACDC80-06F5-4465-970F-A4903DBF6704
+Raw;(unspecified);Oil, crude, 38400 MJ per m3;;38400;m3;76A91DAD-A8DD-4F90-A8E9-6D233D8E5DA8
+Raw;(unspecified);Oil, crude, 41 MJ per kg;;41;kg;ED067DA0-0D6F-4FF0-8BA0-27BA76CBCC06
+Raw;(unspecified);Oil, crude, 42 MJ per kg;;42;kg;696E04F7-EDB8-47EC-9323-85F8CEA2F2D8
+Raw;(unspecified);Oil, crude, 42.6 MJ per kg;;42.6;kg;3EA28B62-6D54-4B7C-B9DC-2621EBEE43AA
+Raw;(unspecified);Oil, crude, 42.7 MJ per kg;;42.7;kg;C1E41E99-8A74-46A7-B36D-42DC3328906B
+Raw;(unspecified);Oil, crude, feedstock, 41 MJ per kg;;41;kg;C9AFAF34-8944-4699-8C7A-4A48992445DE
+Raw;(unspecified);Oil, crude, feedstock, 42 MJ per kg;;42;kg;5782F964-98EC-4189-B31C-1ADB488EFB6D
+Raw;(unspecified);Peat;;9.9;kg;FA729411-56AC-47E3-9B13-0E47E913817A
+Raw;(unspecified);Uranium;007440-61-1;560000;kg;C6D3A570-5BF0-4A2F-B1DB-88F58417FE83
+Raw;(unspecified);Uranium, 2291 GJ per kg;007440-61-1;2291000;kg;0A576D2A-BE57-4633-BEF1-DB21B9FB496D
+Raw;(unspecified);Uranium, 451 GJ per kg;007440-61-1;451000;kg;EBAAD556-A534-4F35-8DBA-F6D235A97842
+Raw;(unspecified);Uranium, 560 GJ per kg;007440-61-1;560000;kg;A0BB5FD9-F5E1-45E5-92E9-A57ED660ABA0
+;;;;;;
+Impact category;;;;;;
+CLCC;kg Sb eq;;;;;
+;;;;;;
+Substances;;;;;;
+Raw;(unspecified);Aluminium;007429-90-5;1.09E-09;kg;0CDDB90F-BD92-46DE-BBDF-B7244C502CEB
+Raw;(unspecified);Antimony;007440-36-0;1.00E+00;kg;3663319E-1752-40A4-A2C2-92B5EA34A8E4
+Raw;(unspecified);Arsenic;007440-38-2;2.97E-03;kg;57256A1B-501B-467F-97C3-40228C04EC53
+Raw;(unspecified);Barium;007440-39-3;6.04E-06;kg;72791A7C-7339-412C-B11F-8BCC5EEE641B
+Raw;(unspecified);Beryllium;007440-41-7;1.26E-05;kg;DE1E72F1-D0DF-4F60-A883-17C677CFBA84
+Raw;(unspecified);Bismuth;007440-69-9;4.11E-02;kg;A43059E5-E175-4E5A-865D-AECD6CD72064
+Raw;(unspecified);Boron;007440-42-8;4.27E-03;kg;262909CC-F015-429D-BAF3-49BBE6506FB2
+Raw;(unspecified);Bromine;010097-32-2;4.39E-03;kg;5D0440C5-2681-4054-9921-8C234157F144
+Raw;in water;Bromine;010097-32-2;0;kg;5D0440C5-2681-4054-9921-8C234157F144
+Raw;(unspecified);Cadmium;007440-43-9;1.57E-01;kg;4D1771FC-71B5-484A-9747-5C528E9CFD4C
+Raw;(unspecified);Chlorine;022537-15-1;2.71E-05;kg;54DAA03F-8DAB-4273-8874-54D01FA4FFF1
+Raw;in water;Chlorine;022537-15-1;0;kg;54DAA03F-8DAB-4273-8874-54D01FA4FFF1
+Raw;(unspecified);Chromium;007440-47-3;4.43E-04;kg;8E7EE822-3789-48DB-B682-49F8482AE198
+Raw;(unspecified);Cobalt;007440-48-4;1.57E-05;kg;3F7015A7-2EA9-4FD6-A4C0-423F4D85FFAA
+Raw;(unspecified);Cobalt, Co 5.0E-2%, in mixed ore;007440-48-4;1.57E-05;kg;ECBCC624-5CD2-476C-8997-B295FB1CD6C6
+Raw;(unspecified);Copper;007440-50-8;1.37E-03;kg;55BC4F51-1E2A-4683-B219-5DDA9674AF59
+Raw;(unspecified);Copper, 0.52% in sulfide, Cu 0.27% and Mo 8.2E-3% in crude ore;007440-50-8;1.37E-03;kg;8D9F275B-841C-4F60-BFF2-B174306F3138
+Raw;(unspecified);Copper, 0.59% in sulfide, Cu 0.22% and Mo 8.2E-3% in crude ore;007440-50-8;1.37E-03;kg;1174C506-20D7-4B64-985A-6C8F182836E5
+Raw;(unspecified);Copper, 0.97% in sulfide, Cu 0.36% and Mo 4.1E-2% in crude ore;007440-50-8;1.37E-03;kg;7DA07A31-4DE5-4EF5-8E37-E45A438EB4E6
+Raw;(unspecified);Copper, 0.99% in sulfide, Cu 0.36% and Mo 8.2E-3% in crude ore;007440-50-8;1.37E-03;kg;EA870435-7371-4683-82D1-BE43E5346C5F
+Raw;(unspecified);Copper, 1.13% in sulfide, Cu 0.76% and Ni 0.76% in crude ore;007440-50-8;1.37E-03;kg;8C380983-8097-44D9-9ACC-D599C79B9943
+Raw;(unspecified);Copper, 1.18% in sulfide, Cu 0.39% and Mo 8.2E-3% in crude ore;007440-50-8;1.37E-03;kg;EC2F1432-1593-49C9-A8C4-96357DE1F466
+Raw;(unspecified);Copper, 1.42% in sulfide, Cu 0.81% and Mo 8.2E-3% in crude ore;007440-50-8;1.37E-03;kg;67148176-580A-40E4-A180-DF4575B653BF
+Raw;(unspecified);Copper, 2.19% in sulfide, Cu 1.83% and Mo 8.2E-3% in crude ore;007440-50-8;1.37E-03;kg;6A517CBC-2607-4A75-894B-B3FE52471C5B
+Raw;(unspecified);Copper, Cu 0.2%, in mixed ore;007440-50-8;1.37E-03;kg;39884742-9374-4E5C-B27F-35BCF7EF7CE4
+Raw;(unspecified);Copper, Cu 0.38%, Au 9.7E-4%, Ag 9.7E-4%, Zn 0.63%, Pb 0.014%, in ore;007440-50-8;1.37E-03;kg;6477375F-7CF4-4EE0-8538-5B4546BBD173
+Raw;(unspecified);Copper, Cu 3.2E+0%, Pt 2.5E-4%, Pd 7.3E-4%, Rh 2.0E-5%, Ni 2.3E+0% in ore;007440-50-8;1.37E-03;kg;EAF7A439-C4E5-487B-B623-46149F841FE8
+Raw;(unspecified);Copper, Cu 5.2E-2%, Pt 4.8E-4%, Pd 2.0E-4%, Rh 2.4E-5%, Ni 3.7E-2% in ore;007440-50-8;1.37E-03;kg;00D43FB1-CFA5-485C-81FD-4587347EFBFF
+Raw;(unspecified);Copper, Cu 6.8E-1%, in mixed ore;007440-50-8;1.37E-03;kg;AD9D2D21-D985-4E1B-AFB4-05ECB5CB95C8
+Raw;(unspecified);Gallium;007440-55-3;1.46E-07;kg;BC474F9B-FBF1-4D65-8379-FFE3FB36FD28
+Raw;(unspecified);Germanium;007440-56-4;6.52E-07;kg;87027833-1930-451C-BEE5-F4C375B59A4C
+Raw;(unspecified);Gold;007440-57-5;5.20E+01;kg;28166B33-6933-45F4-9C46-3DEC9D4DB25D
+Raw;(unspecified);Gold, Au 1.0E-7%, in mixed ore;007440-57-5;5.20E+01;kg;454057A8-E438-4CFF-A6E5-2F4065C10E1E
+Raw;(unspecified);Gold, Au 1.1E-4%, Ag 4.2E-3%, in ore;007440-57-5;5.20E+01;kg;53997E51-3005-4102-A379-C565AE19EF44
+Raw;(unspecified);Gold, Au 1.3E-4%, Ag 4.6E-5%, in ore;007440-57-5;5.20E+01;kg;15346094-B158-41FB-8F0C-ECE66CC9A29F
+Raw;(unspecified);Gold, Au 1.8E-4%, in mixed ore;007440-57-5;5.20E+01;kg;BE5BF80D-0373-4752-8BCF-A68497EDBA53
+Raw;(unspecified);Gold, Au 2.1E-4%, Ag 2.1E-4%, in ore;007440-57-5;5.20E+01;kg;E60E9C4B-31E4-4526-8092-17D07F52EB8C
+Raw;(unspecified);Gold, Au 4.3E-4%, in ore;007440-57-5;5.20E+01;kg;458A5D26-3459-466C-A177-8BB3B6CEA5F2
+Raw;(unspecified);Gold, Au 4.9E-5%, in ore;007440-57-5;5.20E+01;kg;3CE0ABD1-106E-4A65-88BD-ED3E80755E45
+Raw;(unspecified);Gold, Au 5.4E-4%, Ag 1.5E-5%, in ore;007440-57-5;5.20E+01;kg;7EAA634F-71DF-4596-A54C-3D7EFAFBAC76
+Raw;(unspecified);Gold, Au 6.7E-4%, in ore;007440-57-5;5.20E+01;kg;CA926170-A1DD-4E53-9A3F-04E99D7651F8
+Raw;(unspecified);Gold, Au 6.8E-4%, Ag 1.5E-4%, in ore;007440-57-5;5.20E+01;kg;CCF118F7-ACD5-41F1-ADAD-C0F29963614C
+Raw;(unspecified);Gold, Au 7.1E-4%, in ore;007440-57-5;5.20E+01;kg;825A0F72-1E1C-44C9-8141-3AAE7DE1395D
+Raw;(unspecified);Gold, Au 9.7E-4%, Ag 9.7E-4%, Zn 0.63%, Cu 0.38%, Pb 0.014%, in ore;007440-57-5;5.20E+01;kg;2748933C-41E9-4ED4-B047-3506E8C050DA
+Raw;(unspecified);Gold, Au 9.7E-5%, Ag 7.6E-5%, in ore;007440-57-5;5.20E+01;kg;26D0D969-2A75-40F5-B280-7C5539FC34C0
+Raw;(unspecified);Indium;007440-74-6;6.89E-03;kg;47122C06-749D-4893-B9E4-AB6A6F5EC61D
+Raw;(unspecified);Iodine;014362-44-8;2.50E-02;kg;CF812438-7347-42A2-AA5C-B67DB3459802
+Raw;in water;Iodine;014362-44-8;0;kg;CF812438-7347-42A2-AA5C-B67DB3459802
+Raw;(unspecified);Iron;007439-89-6;5.24E-08;kg;8B29B78B-2B9E-432C-AE49-FE84E3928631
+Raw;(unspecified);Lead;007439-92-1;6.34E-03;kg;05B3ACBD-3CF2-4DBE-BF11-0557E5E6E6B0
+Raw;(unspecified);Lead, Pb 0.014%, Au 9.7E-4%, Ag 9.7E-4%, Zn 0.63%, Cu 0.38%, in ore;007439-92-1;6.34E-03;kg;352A4350-90F5-4438-8EB3-BC0248BF9CD1
+Raw;(unspecified);Lead, Pb 3.6E-1%, in mixed ore;007439-92-1;6.34E-03;kg;6D713C90-407D-4426-9F3E-FB30F2C6B1D7
+Raw;(unspecified);Lithium;007439-93-2;1.15E-05;kg;A6953378-42E3-40DC-B3E1-3A70C6645F08
+Raw;(unspecified);Magnesium;007439-95-4;2.02E-09;kg;4891F6DD-BF00-49E8-888D-0D5D9765537E
+Raw;in water;Magnesium;007439-95-4;0;kg;4891F6DD-BF00-49E8-888D-0D5D9765537E
+Raw;(unspecified);Manganese;007439-96-5;2.54E-06;kg;9BCC29CF-89B5-4354-90BC-9CD3AFEDD7B2
+Raw;(unspecified);Mercury;007439-97-6;9.22E-02;kg;75332F76-8BFE-4485-A7EC-C4C54C859B82
+Raw;(unspecified);Molybdenum;007439-98-7;1.78E-02;kg;0FFBD0D1-59ED-4F61-A68A-F829F8AA25A0
+Raw;(unspecified);Molybdenum, 0.010% in sulfide, Mo 8.2E-3% and Cu 1.83% in crude ore;007439-98-7;1.78E-02;kg;FE841ED3-EAEC-4094-BC85-D9F12C27A96B
+Raw;(unspecified);Molybdenum, 0.014% in sulfide, Mo 8.2E-3% and Cu 0.81% in crude ore;007439-98-7;1.78E-02;kg;707413BF-9E83-43C4-9F51-E6EA24B5F5B1
+Raw;(unspecified);Molybdenum, 0.016% in sulfide, Mo 8.2E-3% and Cu 0.27% in crude ore;007439-98-7;1.78E-02;kg;C788BD22-605F-4977-B670-DB610DAA1876
+Raw;(unspecified);Molybdenum, 0.022% in sulfide, Mo 8.2E-3% and Cu 0.22% in crude ore;007439-98-7;1.78E-02;kg;1EE5AA58-500B-4BD5-8514-E69AF70578C1
+Raw;(unspecified);Molybdenum, 0.022% in sulfide, Mo 8.2E-3% and Cu 0.36% in crude ore;007439-98-7;1.78E-02;kg;F5409136-FC90-409B-875F-4A493A039929
+Raw;(unspecified);Molybdenum, 0.025% in sulfide, Mo 8.2E-3% and Cu 0.39% in crude ore;007439-98-7;1.78E-02;kg;974D9E0A-C84E-498A-A02A-C2EC6BA15247
+Raw;(unspecified);Molybdenum, 0.11% in sulfide, Mo 0.41% and Cu 0.36% in crude ore;007439-98-7;1.78E-02;kg;D440452D-99E1-4747-BEB5-26242E123483
+Raw;(unspecified);Nickel;007440-02-0;6.53E-05;kg;75EDE4E3-1AB5-4C7A-9EA2-F75EC0FE3AA1
+Raw;(unspecified);Nickel, 1.13% in sulfide, Ni 0.76% and Cu 0.76% in crude ore;007440-02-0;6.53E-05;kg;20792BAC-853D-43F2-AA79-A15A7A80961B
+Raw;(unspecified);Nickel, 1.13% in sulfides, 0.76% in crude ore;007440-02-0;6.53E-05;kg;F8EF830F-95BF-4CDE-A2BF-F528D8750F95
+Raw;(unspecified);Nickel, 1.98% in silicates, 1.04% in crude ore;007440-02-0;6.53E-05;kg;834DD59C-9224-4B01-8BB9-BC64990AC2A3
+Raw;(unspecified);Nickel, Ni 2.3E+0%, Pt 2.5E-4%, Pd 7.3E-4%, Rh 2.0E-5%, Cu 3.2E+0% in ore;007440-02-0;6.53E-05;kg;73895ECC-9D76-4279-877F-F4F1C7D38A2F
+Raw;(unspecified);Nickel, Ni 2.5E+0%, in mixed ore;007440-02-0;6.53E-05;kg;937A101D-1681-46C5-8ACE-9FF3F593846E
+Raw;(unspecified);Nickel, Ni 3.7E-2%, Pt 4.8E-4%, Pd 2.0E-4%, Rh 2.4E-5%, Cu 5.2E-2% in ore;007440-02-0;6.53E-05;kg;189078CD-C8B3-44F3-A827-A2724465FB81
+Raw;(unspecified);Niobium;007440-03-1;1.93E-05;kg;1D8D8545-15FF-4ACD-9756-DE8C2D8C64A9
+Raw;(unspecified);Palladium;007440-05-3;5.71E-01;kg;2E9C8293-8EDC-453A-8F6A-43B8E0ADCCD5
+Raw;(unspecified);Palladium, Pd 1.6E-6%, in mixed ore;;5.71E-01;kg;000B2709-B8E8-430A-94E6-14150AEAEDE9
+Raw;(unspecified);Palladium, Pd 2.0E-4%, Pt 4.8E-4%, Rh 2.4E-5%, Ni 3.7E-2%, Cu 5.2E-2% in ore;007440-05-3;5.71E-01;kg;48612C52-B385-45B5-9015-6533C7FDC291
+Raw;(unspecified);Palladium, Pd 7.3E-4%, Pt 2.5E-4%, Rh 2.0E-5%, Ni 2.3E+0%, Cu 3.2E+0% in ore;007440-05-3;5.71E-01;kg;26650991-B835-425F-AC54-9D1B72E3A082
+Raw;(unspecified);Phosphorus;007723-14-0;5.52E-06;kg;F956B560-932C-481E-AF9F-F7259EBA2906
+Raw;(unspecified);Phosphorus, 18% in apatite, 4% in crude ore;007723-14-0;5.52E-06;kg;7AC8D925-7759-41CE-9F5D-A23E87924446
+Raw;(unspecified);Platinum;007440-06-4;2.22E+00;kg;F3DF8DDC-BC4C-42C4-951C-97ED6D10A4E8
+Raw;(unspecified);Platinum, Pt 2.5E-4%, Pd 7.3E-4%, Rh 2.0E-5%, Ni 2.3E+0%, Cu 3.2E+0% in ore;007440-06-4;2.22E+00;kg;69C04C98-0306-4D66-B3F5-7C8BA3541B8F
+Raw;(unspecified);Platinum, Pt 4.7E-7%, in mixed ore;007440-06-4;2.22E+00;kg;68FC2B23-FDE7-493B-8341-7E4866FF0461
+Raw;(unspecified);Platinum, Pt 4.8E-4%, Pd 2.0E-4%, Rh 2.4E-5%, Ni 3.7E-2%, Cu 5.2E-2% in ore;007440-06-4;2.22E+00;kg;385639F3-B981-4BCC-B1B6-583CF64E410A
+Raw;(unspecified);Potassium;007440-09-7;1.60E-08;kg;2F40272B-6503-440C-815B-F10B7ECBB373
+Raw;(unspecified);Rhenium;007440-15-5;6.03E-01;kg;1744B891-EE9A-4A45-9816-396BC3E76264
+Raw;(unspecified);Selenium;007782-49-2;1.94E-01;kg;9D254087-4859-4C8D-AAD4-F12E994ADD75
+Raw;(unspecified);Silicon;007440-21-3;1.40E-11;kg;28EEAEC0-A3F7-41A2-B857-CDBBA2D288E6
+Raw;(unspecified);Silver;007440-22-4;1.18E+00;kg;A0CFBE36-55B5-4A55-8B19-20CAC7EF46B2
+Raw;(unspecified);Silver, 0.007% in sulfide, Ag 0.004%, Pb, Zn, Cd, In;007440-22-4;1.18E+00;kg;2745BF06-941D-4747-82EC-AE76252DA0BF
+Raw;(unspecified);Silver, 3.2ppm in sulfide, Ag 1.2ppm, Cu and Te, in crude ore;007440-22-4;1.18E+00;kg;74263A82-6483-4F21-8B06-9B3FDD2DBE13
+Raw;(unspecified);Silver, Ag 1.5E-4%, Au 6.8E-4%, in ore;007440-22-4;1.18E+00;kg;731FDEAD-E3A6-4DFD-BDF5-EB18930DD5EA
+Raw;(unspecified);Silver, Ag 1.5E-5%, Au 5.4E-4%, in ore;007440-22-4;1.18E+00;kg;739AC203-3CEB-4237-A0F8-77E26925CE32
+Raw;(unspecified);Silver, Ag 1.8E-6%, in mixed ore;007440-22-4;1.18E+00;kg;AAB39F9A-4D65-437A-A931-270305C9CDEB
+Raw;(unspecified);Silver, Ag 2.1E-4%, Au 2.1E-4%, in ore;007440-22-4;1.18E+00;kg;FEF7F93D-0701-47F0-A704-724BB8077C72
+Raw;(unspecified);Silver, Ag 4.2E-3%, Au 1.1E-4%, in ore;007440-22-4;1.18E+00;kg;43E92589-6943-4846-8176-EA719676373D
+Raw;(unspecified);Silver, Ag 4.6E-5%, Au 1.3E-4%, in ore;007440-22-4;1.18E+00;kg;AB2BC18E-693A-4728-9C48-3C1837F80CC1
+Raw;(unspecified);Silver, Ag 5.4E-3%, in mixed ore;007440-22-4;1.18E+00;kg;5B347D5E-EDEA-460E-B65D-14C115F36B1E
+Raw;(unspecified);Silver, Ag 7.6E-5%, Au 9.7E-5%, in ore;007440-22-4;1.18E+00;kg;C93703BA-8376-47E5-8B7B-55621C86B6C7
+Raw;(unspecified);Silver, Ag 9.7E-4%, Au 9.7E-4%, Zn 0.63%, Cu 0.38%, Pb 0.014%, in ore;007440-22-4;1.18E+00;kg;1A74B480-F202-486E-901C-1FDBA523B6FB
+Raw;(unspecified);Sodium;007440-23-5;5.50E-08;kg;4B9E3A17-7E1E-46F1-86CE-F28656167B5E
+Raw;(unspecified);Strontium;007440-24-6;7.07E-07;kg;BDBDDD74-4255-4250-BAB6-2EBEBA986D70
+Raw;(unspecified);Sulfur;007704-34-9;1.93E-04;kg;C932CC53-11B8-4329-904E-79467A9983E8
+Raw;(unspecified);Tantalum;007440-25-7;4.06E-05;kg;0EBC98F6-5BBD-4A40-9EEA-2A5CC04FB8CA
+Raw;(unspecified);Tellurium;013494-80-9;4.07E+01;kg;BECB5FCD-72E7-461A-886D-C43C0DD18B61
+Raw;(unspecified);Thallium;007440-28-0;2.43E-05;kg;7D06874D-36CA-4A16-937B-B7B05CA12967
+Raw;(unspecified);Tin;007440-31-5;1.62E-02;kg;63FFDE05-58C6-48F7-A158-C79079B6C37E
+Raw;(unspecified);TiO2, 45-60% in Ilmenite;013463-67-7;1.67E-08;kg;670379A9-4B7C-4EED-8089-205F62FF5EE1
+Raw;(unspecified);TiO2, 54% in ilmenite, 18% in crude ore;013463-67-7;1.67E-08;kg;99B03F00-DAE4-4452-90A7-1A6BD20CDA1F
+Raw;(unspecified);TiO2, 54% in ilmenite, 2.6% in crude ore;013463-67-7;1.67E-08;kg;EBA89551-F4E8-4645-BE33-5240BF683BF0
+Raw;(unspecified);TiO2, 95% in rutile, 0.40% in crude ore;013463-67-7;1.67E-08;kg;FE5AFD0C-C0EA-4207-98FE-4E21957A664A
+Raw;(unspecified);Titanium;007440-32-6;2.79E-08;kg;B892B58F-D315-4105-BA94-10DD4DAA5840
+Raw;(unspecified);Titanium oxide;013463-67-7;1.67E-08;kg;D7F1976F-C4F5-4250-A8F3-7931D9F40C96
+Raw;(unspecified);Tungsten;007440-33-7;4.52E-03;kg;C3DDCF59-8FE1-42F0-B375-7A829E535275
+Raw;(unspecified);Vanadium;007440-62-2;7.70E-07;kg;32C97D94-9D83-4075-AAAF-453507231420
+Raw;(unspecified);Yttrium;007440-65-5;5.69E-07;kg;16EFFEDD-EEE8-48B2-A429-065BB8CB119D
+Raw;(unspecified);Zinc;007440-66-6;5.38E-04;kg;80596FA1-6D62-4392-AC71-509E5F73D39E
+Raw;(unspecified);Zinc, Zn 0.63%, Au 9.7E-4%, Ag 9.7E-4%, Cu 0.38%, Pb 0.014%, in ore;007440-66-6;5.38E-04;kg;723C517D-8DE9-4F99-9C86-563EC7C24E2F
+Raw;(unspecified);Zinc, Zn 3.1%, in mixed ore;007440-66-6;5.38E-04;kg;0FB3E693-3178-4D89-B872-B25F5926AA0D
+Raw;(unspecified);Zirconium;007440-67-7;5.44E-06;kg;49B89502-1E79-42DC-892B-7C3797B8E00F
+;;;;;;
+End;;;;;;
+;;;;;;
+Quantities;;;;;;
+Mass;Yes;;;;;
+Indicator;Yes;;;;;
+Energy;Yes;;;;;
+Volume;Yes;;;;;
+;;;;;;
+End;;;;;;
+;;;;;;
+;;;;;;
+Units;;;;;;
+kg;Mass;1;kg;;;
+Pt;Indicator;1;Pt;;;
+g;Mass;0.001;kg;;;
+kWh;Energy;3.6;MJ;;;
+l;Volume;0.001;m3;;;
+m3;Volume;1;m3;;;
+MJ;Energy;1;MJ;;;
+ton;Mass;1000;kg;;;
+µg;Mass;0.000000001;kg;;;
+mg;Mass;0.000001;kg;;;
+cm3;Volume;0.000001;m3;;;
+mm3;Volume;0.000000001;m3;;;
+GJ;Energy;1000;MJ;;;
+J;Energy;0.000001;MJ;;;
+kJ;Energy;0.001;MJ;;;
+Mtn;Mass;1000000000;kg;;;
+PJ;Energy;1000000000;MJ;;;
+TJ;Energy;1000000;MJ;;;
+µPt;Indicator;0.000001;Pt;;;
+nPt;Indicator;0.000000001;Pt;;;
+kPt;Indicator;1000;Pt;;;
+MPt;Indicator;1000000;Pt;;;
+GPt;Indicator;1000000000;Pt;;;
+kton;Mass;1000000;kg;;;
+ng;Mass;1.00E-12;kg;;;
+mPt;Indicator;0.001;Pt;;;
+pg;Mass;1.00E-15;kg;;;
+MWh;Energy;3600;MJ;;;
+lb;Mass;0.4535924;kg;;;
+gal*;Volume;0.003785412;m3;;;
+cuft;Volume;0.02831685;m3;;;
+Btu;Energy;0.001055696;MJ;;;
+oz;Mass;0.02834952;kg;;;
+cu.in;Volume;1.64E-05;m3;;;
+cu.yd;Volume;0.7645549;m3;;;
+tn.sh;Mass;907.1848;kg;;;
+tn.lg;Mass;1016.047;kg;;;
+dm3;Volume;0.001;m3;;;
+kcal;Energy;0.0041855;MJ;;;
+Wh;Energy;0.0036;MJ;;;
+;;;;;;
+End;;;;;;
+;;;;;;
+;;;;;;
+Raw materials;;;;;;
+Aluminium;kg;007429-90-5;Formula: Al;0CDDB90F-BD92-46DE-BBDF-B7244C502CEB;;
+Antimony;kg;007440-36-0;Formula: Sb;3663319E-1752-40A4-A2C2-92B5EA34A8E4;;
+Arsenic;kg;007440-38-2;Formula: As;57256A1B-501B-467F-97C3-40228C04EC53;;
+Barium;kg;007440-39-3;Formula: Ba;72791A7C-7339-412C-B11F-8BCC5EEE641B;;
+Beryllium;kg;007440-41-7;Formula: Be;DE1E72F1-D0DF-4F60-A883-17C677CFBA84;;
+Bismuth;kg;007440-69-9;Formula: Bi;A43059E5-E175-4E5A-865D-AECD6CD72064;;
+Boron;kg;007440-42-8;Formula: B;262909CC-F015-429D-BAF3-49BBE6506FB2;;
+Bromine;kg;010097-32-2;Formula: Br;5D0440C5-2681-4054-9921-8C234157F144;;
+Cadmium;kg;007440-43-9;Formula: Cd;4D1771FC-71B5-484A-9747-5C528E9CFD4C;;
+Chlorine;kg;022537-15-1;Formula: Cl;54DAA03F-8DAB-4273-8874-54D01FA4FFF1;;
+Chromium;kg;007440-47-3;Formula: Cr;8E7EE822-3789-48DB-B682-49F8482AE198;;
+Coal, 18 MJ per kg;kg;;Higher heating value (HHV): 18.9 MJ/kgLower heating value (LHV): 18 MJ/kg;8A23E8AE-9D54-4BCB-BEA8-0D65620D6F9D;;
+Coal, 26.4 MJ per kg;kg;;Higher heating value (HHV): 27.8 MJ/kgLower heating value (LHV): 26.4 MJ/kg;C0F2A644-3C69-4F02-B13A-029561B69A3E;;
+Coal, 29.3 MJ per kg;kg;;Higher heating value (HHV): 30.8 MJ/kgLower heating value (LHV): 29.3 MJ/kg;AE4A9855-8598-4363-B541-A56625F7BB63;;
+Coal, bituminous, 24.8 MJ per kg;kg;;Higher heating value (HHV): 26.1 MJ/kgLower heating value (LHV): 24.8 MJ/kg;4E230376-C4F5-4487-BD03-85C7909FF598;;
+Coal, brown;kg;;"Synonyms: Lignite; Brown coalHigher heating value (HHV): 9.90 MJ/kgLower heating value (LHV): 8.75 MJ/kg";8C93A378-A18E-4436-8855-A8759B88E676;;
+Coal, brown, 10 MJ per kg;kg;;Higher heating value (HHV): 11.3 MJ/kgLower heating value (LHV): 10 MJ/kg;451475C9-8BD3-4C7B-81F8-C6BA2CAD0B68;;
+Coal, brown, 8 MJ per kg;kg;;Higher heating value (HHV): 9.05 MJ/kgLower heating value (LHV): 8.00 MJ/kg;051C0752-2B47-45D6-9A1C-F3983D3C9831;;
+Coal, feedstock, 26.4 MJ per kg;kg;;Higher heating value (HHV): 27.8 MJ/kgLower heating value (LHV): 26.4 MJ/kg;613B0972-6197-40D0-84B9-CBEE636F1704;;
+Coal, hard;kg;;"Synonyms: Anthracite; Hard coalHigher heating value (HHV): 19.1 MJ/kgLower heating value (LHV): 18.2 MH/kg";CADAC617-0123-4544-8732-DA547585C2BC;;
+Coal, hard, 30.7 MJ per kg;kg;;Higher heating value (HHV): 32.3 MJ/kgLower heating value (LHV): 30.7 MJ/kg;65FC3C51-77C2-4615-A30F-DC461B13C664;;
+Cobalt;kg;007440-48-4;Formula: Co;3F7015A7-2EA9-4FD6-A4C0-423F4D85FFAA;;
+Cobalt, Co 5.0E-2%, in mixed ore;kg;007440-48-4;Formula: Co;ECBCC624-5CD2-476C-8997-B295FB1CD6C6;;
+Copper;kg;007440-50-8;Formula: Cu;55BC4F51-1E2A-4683-B219-5DDA9674AF59;;
+Copper, 0.52% in sulfide, Cu 0.27% and Mo 8.2E-3% in crude ore;kg;007440-50-8;Formula: Cu;8D9F275B-841C-4F60-BFF2-B174306F3138;;
+Copper, 0.59% in sulfide, Cu 0.22% and Mo 8.2E-3% in crude ore;kg;007440-50-8;Formula: Cu;1174C506-20D7-4B64-985A-6C8F182836E5;;
+Copper, 0.97% in sulfide, Cu 0.36% and Mo 4.1E-2% in crude ore;kg;007440-50-8;Formula: Cu;7DA07A31-4DE5-4EF5-8E37-E45A438EB4E6;;
+Copper, 0.99% in sulfide, Cu 0.36% and Mo 8.2E-3% in crude ore;kg;007440-50-8;Formula: Cu;EA870435-7371-4683-82D1-BE43E5346C5F;;
+Copper, 1.13% in sulfide, Cu 0.76% and Ni 0.76% in crude ore;kg;007440-50-8;Formula: Cu;8C380983-8097-44D9-9ACC-D599C79B9943;;
+Copper, 1.18% in sulfide, Cu 0.39% and Mo 8.2E-3% in crude ore;kg;007440-50-8;Formula: Cu;EC2F1432-1593-49C9-A8C4-96357DE1F466;;
+Copper, 1.42% in sulfide, Cu 0.81% and Mo 8.2E-3% in crude ore;kg;007440-50-8;Formula: Cu;67148176-580A-40E4-A180-DF4575B653BF;;
+Copper, 2.19% in sulfide, Cu 1.83% and Mo 8.2E-3% in crude ore;kg;007440-50-8;Formula: Cu;6A517CBC-2607-4A75-894B-B3FE52471C5B;;
+Copper, Cu 0.2%, in mixed ore;kg;007440-50-8;Formula: Cu;39884742-9374-4E5C-B27F-35BCF7EF7CE4;;
+Copper, Cu 0.38%, Au 9.7E-4%, Ag 9.7E-4%, Zn 0.63%, Pb 0.014%, in ore;kg;007440-50-8;Formula: Cu;6477375F-7CF4-4EE0-8538-5B4546BBD173;;
+Copper, Cu 3.2E+0%, Pt 2.5E-4%, Pd 7.3E-4%, Rh 2.0E-5%, Ni 2.3E+0% in ore;kg;007440-50-8;Formula: Cu;EAF7A439-C4E5-487B-B623-46149F841FE8;;
+Copper, Cu 5.2E-2%, Pt 4.8E-4%, Pd 2.0E-4%, Rh 2.4E-5%, Ni 3.7E-2% in ore;kg;007440-50-8;Formula: Cu;00D43FB1-CFA5-485C-81FD-4587347EFBFF;;
+Copper, Cu 6.8E-1%, in mixed ore;kg;007440-50-8;Formula: Cu;AD9D2D21-D985-4E1B-AFB4-05ECB5CB95C8;;
+Energy, from coal;MJ;;;976B1DE9-CA12-4717-B65B-45AC61523CAD;;
+Energy, from coal, brown;MJ;;Synonyms: Energy from lignite;87C6E701-BD96-4B9B-BB40-4B0A9857EDF0;;
+Energy, from gas, natural;MJ;;;B229BF94-A6F9-4BB1-8350-6A931A9587C3;;
+Energy, from oil;MJ;;;7EF91E26-32DF-4BC0-993F-CBDB9FD78E32;;
+Energy, from peat;MJ;;;2931BDDC-CD32-49CA-BA3F-D1F042A802AE;;
+Energy, from uranium;MJ;;;ED2C8071-9649-447D-91BC-22CCDB2FA93D;;
+Gallium;kg;007440-55-3;Formula: Ga;BC474F9B-FBF1-4D65-8379-FFE3FB36FD28;;
+Gas, mine, off-gas, process, coal mining/kg;kg;008006-14-2;Higher heating value (HHV): 49.8 MJ/kgLower heating value (LHV): 44.9 MJ/kg;E7A3A823-4B3E-48A8-A8A4-D6EE7401D18F;;
+Gas, mine, off-gas, process, coal mining/m3;m3;008006-14-2;Higher heating value (HHV): 39.8 MJ/m3Lower heating value (LHV): 35.8 MJ/m3;2225FEF1-D3FF-4DD1-94A4-1356CFE8F462;;
+Gas, natural, 30.3 MJ per kg;kg;008006-14-2;Higher heating value (HHV): 33.6 MJ/kgLower heating value (LHV): 30.3 MJ/kg;43DD82AC-4636-4823-93B5-073945DBC9BB;;
+Gas, natural, 35 MJ per m3;m3;008006-14-2;Higher heating value (HHV): 38.9 MJ/m3Lower heating value (LHV): 35.0 MJ/m3;A2561BE9-74D1-466F-BB61-C4B494AC90A9;;
+Gas, natural, 36.6 MJ per m3;m3;008006-14-2;Higher heating value (HHV): 40.6 MJ/m3Lower heating value (LHV): 36.6 MJ/m3;4E5E933C-B2B5-49D5-90B1-E93B29D75EC8;;
+Gas, natural, 46.8 MJ per kg;kg;008006-14-2;Higher heating value (HHV): 52.0 MJ/kgLower heating value (LHV): 46.8 MJ/kg;207BBB81-8374-4279-9414-89413CC819C2;;
+Gas, natural, feedstock, 35 MJ per m3;m3;008006-14-2;Higher heating value (HHV): 38.9 MJ/m3Lower heating value (LHV): 35.0 MJ/m3;1E13B93D-08FE-47E3-9B7E-8C6D3B9B1E37;;
+Gas, natural, feedstock, 46.8 MJ per kg;kg;008006-14-2;Higher heating value (HHV): 52.0 MJ/kgLower heating value (LHV): 46.8 MJ/kg;D4D74F34-2852-4828-B0C1-121C7C61D3FD;;
+Gas, natural/kg;kg;008006-14-2;Synonyms: Natural gasHigher heating value (HHV): 47.9 MJ/kgLower heating value (LHV): 43.1 MJ/kg;3EE7D0E5-D96A-433F-A91E-436C4A08CA04;;
+Gas, natural/m3;m3;008006-14-2;Synonyms: Natural gasHigher heating value (HHV): 38.3 MJ/m3Lower heating value (LHV): 34.5 MJ/m3;7D275AB8-3937-4907-8EF0-CB44E19EE309;;
+Gas, off-gas, oil production;m3;;Higher heating value (HHV): 39.8 MJ/m3Lower heating value (LHV): 35.8 MJ/m3;C3E1B4A6-CD1C-4B31-AA4A-2260F92BF9BB;;
+Gas, petroleum, 35 MJ per m3;m3;;Higher heating value (HHV): 38.9 MJ/m3Lower heating value (LHV): 35 MJ/m3;D1524FB2-F899-4BF1-972D-02A36FDE48F9;;
+Germanium;kg;007440-56-4;Formula: Ge;87027833-1930-451C-BEE5-F4C375B59A4C;;
+Gold;kg;007440-57-5;Formula: Au;28166B33-6933-45F4-9C46-3DEC9D4DB25D;;
+Gold, Au 1.0E-7%, in mixed ore;kg;007440-57-5;Formula: Au;454057A8-E438-4CFF-A6E5-2F4065C10E1E;;
+Gold, Au 1.1E-4%, Ag 4.2E-3%, in ore;kg;007440-57-5;Gold and Silver in oreFormula: Au and Ag;53997E51-3005-4102-A379-C565AE19EF44;;
+Gold, Au 1.3E-4%, Ag 4.6E-5%, in ore;kg;007440-57-5;Gold and Silver in oreFormula: Au and Ag;15346094-B158-41FB-8F0C-ECE66CC9A29F;;
+Gold, Au 1.8E-4%, in mixed ore;kg;007440-57-5;Formula: Au;BE5BF80D-0373-4752-8BCF-A68497EDBA53;;
+Gold, Au 2.1E-4%, Ag 2.1E-4%, in ore;kg;007440-57-5;Gold and Silver in oreFormula: Au;E60E9C4B-31E4-4526-8092-17D07F52EB8C;;
+Gold, Au 4.3E-4%, in ore;kg;007440-57-5;Formula: Au;458A5D26-3459-466C-A177-8BB3B6CEA5F2;;
+Gold, Au 4.9E-5%, in ore;kg;007440-57-5;Formula: Au;3CE0ABD1-106E-4A65-88BD-ED3E80755E45;;
+Gold, Au 5.4E-4%, Ag 1.5E-5%, in ore;kg;007440-57-5;Gold and Silver in oreFormula: Au;7EAA634F-71DF-4596-A54C-3D7EFAFBAC76;;
+Gold, Au 6.7E-4%, in ore;kg;007440-57-5;Formula: Au;CA926170-A1DD-4E53-9A3F-04E99D7651F8;;
+Gold, Au 6.8E-4%, Ag 1.5E-4%, in ore;kg;007440-57-5;Gold and Silver in oreFormula: Au;CCF118F7-ACD5-41F1-ADAD-C0F29963614C;;
+Gold, Au 7.1E-4%, in ore;kg;007440-57-5;Formula: Au;825A0F72-1E1C-44C9-8141-3AAE7DE1395D;;
+Gold, Au 9.7E-4%, Ag 9.7E-4%, Zn 0.63%, Cu 0.38%, Pb 0.014%, in ore;kg;007440-57-5;Gold, Silver, Zinc, Copper and Lead in oreFormula: Au and Ag, Zn, Cu, Pb;2748933C-41E9-4ED4-B047-3506E8C050DA;;
+Gold, Au 9.7E-5%, Ag 7.6E-5%, in ore;kg;007440-57-5;Gold and Silver in oreFormula: Au;26D0D969-2A75-40F5-B280-7C5539FC34C0;;
+Indium;kg;007440-74-6;Formula: In;47122C06-749D-4893-B9E4-AB6A6F5EC61D;;
+Iodine;kg;014362-44-8;Formula: I;CF812438-7347-42A2-AA5C-B67DB3459802;;
+Iron;kg;007439-89-6;Formula: Fe;8B29B78B-2B9E-432C-AE49-FE84E3928631;;
+Lead;kg;007439-92-1;Formula: Pb;05B3ACBD-3CF2-4DBE-BF11-0557E5E6E6B0;;
+Lead, Pb 0.014%, Au 9.7E-4%, Ag 9.7E-4%, Zn 0.63%, Cu 0.38%, in ore;kg;007439-92-1;Formula: Pb;352A4350-90F5-4438-8EB3-BC0248BF9CD1;;
+Lead, Pb 3.6E-1%, in mixed ore;kg;007439-92-1;Formula: Pb;6D713C90-407D-4426-9F3E-FB30F2C6B1D7;;
+Lithium;kg;007439-93-2;Formula: Li;A6953378-42E3-40DC-B3E1-3A70C6645F08;;
+Magnesium;kg;007439-95-4;Formula: Mg;4891F6DD-BF00-49E8-888D-0D5D9765537E;;
+Manganese;kg;007439-96-5;Formula: Mn;9BCC29CF-89B5-4354-90BC-9CD3AFEDD7B2;;
+Mercury;kg;007439-97-6;Formula: Hg;75332F76-8BFE-4485-A7EC-C4C54C859B82;;
+Molybdenum;kg;007439-98-7;Formula: Mo;0FFBD0D1-59ED-4F61-A68A-F829F8AA25A0;;
+Molybdenum, 0.010% in sulfide, Mo 8.2E-3% and Cu 1.83% in crude ore;kg;007439-98-7;Formula: Mo;FE841ED3-EAEC-4094-BC85-D9F12C27A96B;;
+Molybdenum, 0.014% in sulfide, Mo 8.2E-3% and Cu 0.81% in crude ore;kg;007439-98-7;Formula: Mo;707413BF-9E83-43C4-9F51-E6EA24B5F5B1;;
+Molybdenum, 0.016% in sulfide, Mo 8.2E-3% and Cu 0.27% in crude ore;kg;007439-98-7;Formula: Mo;C788BD22-605F-4977-B670-DB610DAA1876;;
+Molybdenum, 0.022% in sulfide, Mo 8.2E-3% and Cu 0.22% in crude ore;kg;007439-98-7;Formula: Mo;1EE5AA58-500B-4BD5-8514-E69AF70578C1;;
+Molybdenum, 0.022% in sulfide, Mo 8.2E-3% and Cu 0.36% in crude ore;kg;007439-98-7;Formula: Mo;F5409136-FC90-409B-875F-4A493A039929;;
+Molybdenum, 0.025% in sulfide, Mo 8.2E-3% and Cu 0.39% in crude ore;kg;007439-98-7;Formula: Mo;974D9E0A-C84E-498A-A02A-C2EC6BA15247;;
+Molybdenum, 0.11% in sulfide, Mo 0.41% and Cu 0.36% in crude ore;kg;007439-98-7;Formula: Mo;D440452D-99E1-4747-BEB5-26242E123483;;
+Nickel;kg;007440-02-0;Formula: Ni;75EDE4E3-1AB5-4C7A-9EA2-F75EC0FE3AA1;;
+Nickel, 1.13% in sulfide, Ni 0.76% and Cu 0.76% in crude ore;kg;007440-02-0;Formula: Ni;20792BAC-853D-43F2-AA79-A15A7A80961B;;
+Nickel, 1.13% in sulfides, 0.76% in crude ore;kg;007440-02-0;Formula: Ni;F8EF830F-95BF-4CDE-A2BF-F528D8750F95;;
+Nickel, 1.98% in silicates, 1.04% in crude ore;kg;007440-02-0;Formula: Ni;834DD59C-9224-4B01-8BB9-BC64990AC2A3;;
+Nickel, Ni 2.3E+0%, Pt 2.5E-4%, Pd 7.3E-4%, Rh 2.0E-5%, Cu 3.2E+0% in ore;kg;007440-02-0;Formula: Ni;73895ECC-9D76-4279-877F-F4F1C7D38A2F;;
+Nickel, Ni 2.5E+0%, in mixed ore;kg;007440-02-0;Formula: Ni;937A101D-1681-46C5-8ACE-9FF3F593846E;;
+Nickel, Ni 3.7E-2%, Pt 4.8E-4%, Pd 2.0E-4%, Rh 2.4E-5%, Cu 5.2E-2% in ore;kg;007440-02-0;Formula: Ni;189078CD-C8B3-44F3-A827-A2724465FB81;;
+Niobium;kg;007440-03-1;Formula: Nb;1D8D8545-15FF-4ACD-9756-DE8C2D8C64A9;;
+Oil, crude;kg;;Synonyms: Crude oilHigher heating value (HHV): 45.8 MJ/kgLower heating value (LHV): 43.2 MJ/kg;5BACDC80-06F5-4465-970F-A4903DBF6704;;
+Oil, crude, 38400 MJ per m3;m3;;Higher heating value (HHV): 40711 MJ/m3Lower heating value (LHV): 38400 MJ/m3;76A91DAD-A8DD-4F90-A8E9-6D233D8E5DA8;;
+Oil, crude, 41 MJ per kg;kg;;Higher heating value (HHV): 43.5 MJ/kgLower heating value (LHV): 41.0 MJ/kg;ED067DA0-0D6F-4FF0-8BA0-27BA76CBCC06;;
+Oil, crude, 42 MJ per kg;kg;;Higher heating value (HHV): 44.5 MJ/kgLower heating value (LHV): 42.0 MJ/kg;696E04F7-EDB8-47EC-9323-85F8CEA2F2D8;;
+Oil, crude, 42.6 MJ per kg;kg;;Higher heating value (HHV): 45.2 MJ/kgLower heating value (LHV): 42.6 MJ/kg;3EA28B62-6D54-4B7C-B9DC-2621EBEE43AA;;
+Oil, crude, 42.7 MJ per kg;kg;;Higher heating value (HHV): 45.3 MJ/kgLower heating value (LHV): 42.7 MJ/kg;C1E41E99-8A74-46A7-B36D-42DC3328906B;;
+Oil, crude, feedstock, 41 MJ per kg;kg;;Higher heating value (HHV): 43.5 MJ/kgLower heating value (LHV): 41.0 MJ/kg;C9AFAF34-8944-4699-8C7A-4A48992445DE;;
+Oil, crude, feedstock, 42 MJ per kg;kg;;Higher heating value (HHV): 44.5 MJ/kgLower heating value (LHV): 42.0 MJ/kg;5782F964-98EC-4189-B31C-1ADB488EFB6D;;
+Palladium;kg;007440-05-3;Formula: Pd;2E9C8293-8EDC-453A-8F6A-43B8E0ADCCD5;;
+Palladium, Pd 1.6E-6%, in mixed ore;kg;;;000B2709-B8E8-430A-94E6-14150AEAEDE9;;
+Palladium, Pd 2.0E-4%, Pt 4.8E-4%, Rh 2.4E-5%, Ni 3.7E-2%, Cu 5.2E-2% in ore;kg;007440-05-3;Formula: Pd;48612C52-B385-45B5-9015-6533C7FDC291;;
+Palladium, Pd 7.3E-4%, Pt 2.5E-4%, Rh 2.0E-5%, Ni 2.3E+0%, Cu 3.2E+0% in ore;kg;007440-05-3;Formula: Pd;26650991-B835-425F-AC54-9D1B72E3A082;;
+Peat;kg;;;FA729411-56AC-47E3-9B13-0E47E913817A;;
+Phosphorus;kg;007723-14-0;Formula: P;F956B560-932C-481E-AF9F-F7259EBA2906;;
+Phosphorus, 18% in apatite, 4% in crude ore;kg;007723-14-0;Formula: P;7AC8D925-7759-41CE-9F5D-A23E87924446;;
+Platinum;kg;007440-06-4;Formula: Pt;F3DF8DDC-BC4C-42C4-951C-97ED6D10A4E8;;
+Platinum, Pt 2.5E-4%, Pd 7.3E-4%, Rh 2.0E-5%, Ni 2.3E+0%, Cu 3.2E+0% in ore;kg;007440-06-4;Formula: Pt;69C04C98-0306-4D66-B3F5-7C8BA3541B8F;;
+Platinum, Pt 4.7E-7%, in mixed ore;kg;007440-06-4;Formula: Pt;68FC2B23-FDE7-493B-8341-7E4866FF0461;;
+Platinum, Pt 4.8E-4%, Pd 2.0E-4%, Rh 2.4E-5%, Ni 3.7E-2%, Cu 5.2E-2% in ore;kg;007440-06-4;Formula: Pt;385639F3-B981-4BCC-B1B6-583CF64E410A;;
+Potassium;kg;007440-09-7;Formula: K;2F40272B-6503-440C-815B-F10B7ECBB373;;
+Rhenium;kg;007440-15-5;Formula: Re;1744B891-EE9A-4A45-9816-396BC3E76264;;
+Selenium;kg;007782-49-2;Formula: Se;9D254087-4859-4C8D-AAD4-F12E994ADD75;;
+Silicon;kg;007440-21-3;Formula: Si;28EEAEC0-A3F7-41A2-B857-CDBBA2D288E6;;
+Silver;kg;007440-22-4;Formula: Ag;A0CFBE36-55B5-4A55-8B19-20CAC7EF46B2;;
+Silver, 0.007% in sulfide, Ag 0.004%, Pb, Zn, Cd, In;kg;007440-22-4;Formula: Ag;2745BF06-941D-4747-82EC-AE76252DA0BF;;
+Silver, 3.2ppm in sulfide, Ag 1.2ppm, Cu and Te, in crude ore;kg;007440-22-4;Formula: Ag;74263A82-6483-4F21-8B06-9B3FDD2DBE13;;
+Silver, Ag 1.5E-4%, Au 6.8E-4%, in ore;kg;007440-22-4;Silver and Gold in ore, in groundFormula: Ag;731FDEAD-E3A6-4DFD-BDF5-EB18930DD5EA;;
+Silver, Ag 1.5E-5%, Au 5.4E-4%, in ore;kg;007440-22-4;Silver and Gold in ore, in groundFormula: Ag;739AC203-3CEB-4237-A0F8-77E26925CE32;;
+Silver, Ag 1.8E-6%, in mixed ore;kg;007440-22-4;Formula: Ag;AAB39F9A-4D65-437A-A931-270305C9CDEB;;
+Silver, Ag 2.1E-4%, Au 2.1E-4%, in ore;kg;007440-22-4;Silver and Gold in ore, in groundFormula: Ag and Au;FEF7F93D-0701-47F0-A704-724BB8077C72;;
+Silver, Ag 4.2E-3%, Au 1.1E-4%, in ore;kg;007440-22-4;Silver and Gold in ore, in groundFormula: Ag and Au;43E92589-6943-4846-8176-EA719676373D;;
+Silver, Ag 4.6E-5%, Au 1.3E-4%, in ore;kg;007440-22-4;Silver and Gold in ore, in groundFormula: Ag;AB2BC18E-693A-4728-9C48-3C1837F80CC1;;
+Silver, Ag 5.4E-3%, in mixed ore;kg;007440-22-4;Silver and Gold in ore, in groundFormula: Ag;5B347D5E-EDEA-460E-B65D-14C115F36B1E;;
+Silver, Ag 7.6E-5%, Au 9.7E-5%, in ore;kg;007440-22-4;Silver and Gold in ore, in groundFormula: Ag;C93703BA-8376-47E5-8B7B-55621C86B6C7;;
+Silver, Ag 9.7E-4%, Au 9.7E-4%, Zn 0.63%, Cu 0.38%, Pb 0.014%, in ore;kg;007440-22-4;Silver and Gold, Zinc, Copper and Lead in ore, in groundFormula: Ag;1A74B480-F202-486E-901C-1FDBA523B6FB;;
+Sodium;kg;007440-23-5;Formula: Na;4B9E3A17-7E1E-46F1-86CE-F28656167B5E;;
+Strontium;kg;007440-24-6;Formula: Sr;BDBDDD74-4255-4250-BAB6-2EBEBA986D70;;
+Sulfur;kg;007704-34-9;Formula: S;C932CC53-11B8-4329-904E-79467A9983E8;;
+Tantalum;kg;007440-25-7;Formula: Ta;0EBC98F6-5BBD-4A40-9EEA-2A5CC04FB8CA;;
+Tellurium;kg;013494-80-9;Formula: Te;BECB5FCD-72E7-461A-886D-C43C0DD18B61;;
+Thallium;kg;007440-28-0;Formula: Tl;7D06874D-36CA-4A16-937B-B7B05CA12967;;
+Tin;kg;007440-31-5;Formula: Sn;63FFDE05-58C6-48F7-A158-C79079B6C37E;;
+TiO2, 45-60% in Ilmenite;kg;013463-67-7;Formula: TiO2;670379A9-4B7C-4EED-8089-205F62FF5EE1;;
+TiO2, 54% in ilmenite, 18% in crude ore;kg;013463-67-7;Formula: TiO2;99B03F00-DAE4-4452-90A7-1A6BD20CDA1F;;
+TiO2, 54% in ilmenite, 2.6% in crude ore;kg;013463-67-7;Formula: TiO2;EBA89551-F4E8-4645-BE33-5240BF683BF0;;
+TiO2, 95% in rutile, 0.40% in crude ore;kg;013463-67-7;Formula: TiO2;FE5AFD0C-C0EA-4207-98FE-4E21957A664A;;
+Titanium;kg;007440-32-6;Formula: Ti;B892B58F-D315-4105-BA94-10DD4DAA5840;;
+Titanium oxide;kg;013463-67-7;Formula: TiO2;D7F1976F-C4F5-4250-A8F3-7931D9F40C96;;
+Tungsten;kg;007440-33-7;Formula: W;C3DDCF59-8FE1-42F0-B375-7A829E535275;;
+Uranium;kg;007440-61-1;Formula: U;C6D3A570-5BF0-4A2F-B1DB-88F58417FE83;;
+Uranium, 2291 GJ per kg;kg;007440-61-1;Formula: U;0A576D2A-BE57-4633-BEF1-DB21B9FB496D;;
+Uranium, 451 GJ per kg;kg;007440-61-1;Formula: U;EBAAD556-A534-4F35-8DBA-F6D235A97842;;
+Uranium, 560 GJ per kg;kg;007440-61-1;Formula: U;A0BB5FD9-F5E1-45E5-92E9-A57ED660ABA0;;
+Vanadium;kg;007440-62-2;Formula: V;32C97D94-9D83-4075-AAAF-453507231420;;
+Yttrium;kg;007440-65-5;Formula: Y;16EFFEDD-EEE8-48B2-A429-065BB8CB119D;;
+Zinc;kg;007440-66-6;Formula: Zn;80596FA1-6D62-4392-AC71-509E5F73D39E;;
+Zinc, Zn 0.63%, Au 9.7E-4%, Ag 9.7E-4%, Cu 0.38%, Pb 0.014%, in ore;kg;007440-66-6;Formula: Zn;723C517D-8DE9-4F99-9C86-563EC7C24E2F;;
+Zinc, Zn 3.1%, in mixed ore;kg;007440-66-6;Formula: Zn;0FB3E693-3178-4D89-B872-B25F5926AA0D;;
+Zirconium;kg;007440-67-7;Formula: Zr;49B89502-1E79-42DC-892B-7C3797B8E00F;;
+;;;;;;
+End;;;;;;
