@@ -23,10 +23,11 @@ simapro_export <- function(){
     dplyr::filter(source != "none") %>%
     dplyr::select(comp, var1, comm, price = mean, um, code1, code2, critical, energy)
 
-  data_ready <- lapply(c("no", "yes"),
+
+  data_ready <- lapply(list(c("yes", "no"), "no"),
                        function(x) data_raw %>%
                          dplyr::mutate(price = ifelse(
-                           critical == x,
+                           critical %in% x,
                            price,
                            0
                          )) %>%

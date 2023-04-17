@@ -3,7 +3,11 @@
 # loading libraries
 
 pacman::p_load(tidyverse, here, readxl, comtradr, rdbnomics,
-               lubridate)
+               lubridate, untrader)
+
+# provisional - untill contradr will be restored, the untrader package is used to retrieve trade data
+
+set_primary_comtrade_key("2b9783161f3342eda6ec85e4af0487db")
 
 # loading measurement units of IMF prices and performing measurement unit conversion
 
@@ -66,16 +70,16 @@ for (i in 1:length(comtrade_codes_l)) {
 
   for (j in 1:length(years_l)) {
 
-  comtrade_raw[[paste0(i, "_", j)]] <- ct_search(
-    reporters = "All",
-    partners = "World",
-    trade_direction = "export",
-    start_date = years_l[[j]][["start_yr"]],
-    end_date = years_l[[j]][["end_yr"]],
-    commod_codes = comtrade_codes_l[[i]]
-  )
+    comtrade_raw[[paste0(i, "_", j)]] <- get_comtrade_data(
+      reporter = "all",
+      partner = "world",
+      flow_direction = "export",
+      start_date = years_l[[j]][["start_yr"]],
+      end_date = years_l[[j]][["end_yr"]],
+      commodity_code = comtrade_codes_l[[i]]
+    )
 
-  Sys.sleep(5)
+    Sys.sleep(5)
 
   }
 
@@ -84,18 +88,51 @@ for (i in 1:length(comtrade_codes_l)) {
 }
 
 
+
+# comtrade_raw <- NULL
+#
+# for (i in 1:length(comtrade_codes_l)) {
+#
+#   for (j in 1:length(years_l)) {
+#
+#   comtrade_raw[[paste0(i, "_", j)]] <- ct_search(
+#     reporters = "All",
+#     partners = "World",
+#     trade_direction = "export",
+#     start_date = years_l[[j]][["start_yr"]],
+#     end_date = years_l[[j]][["end_yr"]],
+#     commod_codes = comtrade_codes_l[[i]]
+#   )
+#
+#   Sys.sleep(5)
+#
+#   }
+#
+#   Sys.sleep(5)
+#
+# }
+
+
 # joining databases
 
 comtrade_raw <- do.call(rbind, comtrade_raw)
 
 # tidying data
 
+# trade_data_tidy <- subset(comtrade_raw,  # removes flows of less than 100 kg
+#                           select = c(year, reporter_iso, partner_iso, commodity_code,
+#                                      commodity, netweight_kg, trade_value_usd)) %>%
+#   as_tibble()
+
 trade_data_tidy <- subset(comtrade_raw,  # removes flows of less than 100 kg
-                          select = c(year, reporter_iso, partner_iso, commodity_code,
-                                     commodity, netweight_kg, trade_value_usd)) %>%
+                          select = c(refYear, reporterISO, partnerISO, cmdCode,
+                                     cmdDesc, qty, fobvalue)) %>%
   as_tibble()
 
-if (!setequal(unique(trade_data_tidy$commodity_code), comtrade_codes)) stop ("The Comtrade query did not return all selected codes")
+names(trade_data_tidy) <- c("year", "reporter_iso", "partner_iso", "commodity_code",
+                            "commodity", "netweight_kg", "trade_value_usd")
+
+if (!setequal(unique(trade_data_tidy$cmdCode), comtrade_codes)) stop ("The Comtrade query did not return all selected codes")
 
 
 # removing rows with missing values (either quantity or value)
@@ -107,7 +144,7 @@ if (!setequal(unique(trade_data_tidy$commodity_code), comtrade_codes)) stop ("Th
 
 price_comtrade_def <- trade_data_tidy %>%
   group_by(year, commodity_code) %>%
-  summarize(across(c(netweight_kg, trade_value_usd), sum, na.rm = TRUE)) %>%
+  summarize(across(c(netweight_kg, trade_value_usd), \(x) sum(x, na.rm = TRUE))) %>%
   ungroup() %>%
   mutate(price = trade_value_usd / netweight_kg) %>%
   select(year, code = commodity_code, price)
@@ -318,14 +355,21 @@ comm_key_tidy <- mutate(master_data,
 
 comm_key_tidy$quandl_code <- NULL
 
+#comm_key_tidy$none_code <- NA_character_
+
 
 comm_key_tidy <- tidyr::pivot_longer(comm_key_tidy, tidyselect::ends_with("code"),
                                      names_to = "source_code", values_to = "code",
                                      names_pattern = "(.*)_code")
 
-comm_key_tidy <- within(comm_key_tidy, {
-  source_code <- ifelse(source == "none", "none", source_code)
-})
+comm_key_tidy <- comm_key_tidy %>%
+  mutate(source_code = ifelse(source == "none",
+                              "none",
+                              source_code),
+         code = ifelse(source == "none",
+                       NA_character_,
+                       code)) %>%
+  unique()
 
 comm_key_tidy <- unique(subset(comm_key_tidy, source == source_code))
 
@@ -333,7 +377,7 @@ comm_key_tidy$source_code <- NULL
 
 # Joining price_ref and comm_key tibbles to get the final dataset to be used in the analysis
 
-clcc_prices_ref <- comm_key_tidy%>%
+clcc_prices_ref <- comm_key_tidy %>%
   left_join(ref_prices)
 
 clcc_prices_ref <- clcc_prices_ref %>%
