@@ -21,7 +21,7 @@ simapro_export <- function(){
   data_raw <- simapro_codes %>%
     dplyr::left_join(clccr::clcc_prices_ref) %>%
     dplyr::filter(source != "none") %>%
-    dplyr::select(comp, var1, comm, price = mean, um, code1, code2, critical, energy)
+    dplyr::select(comp, var1, comm, price = mean, um, code1, code2, critical)
 
 
   data_ready <- lapply(list(c("yes", "no"), "no"),

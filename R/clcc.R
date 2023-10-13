@@ -46,6 +46,8 @@ clcc <- function(path, critical = FALSE){
     with(df, data.frame(object = object[[1]], phase = phase[[1]],
                         clcc = sum(mean * quantity)))
   })
+
+
   clcc_res <- do.call(rbind, clcc_res)
 
   if(critical == TRUE){

@@ -73,7 +73,7 @@ clcc_mc <- function(path, rep = 10000, phase = "total", prob_inf_alt = FALSE){
     dplyr::summarise(clcc_sim = list(Reduce("+", p_q))) %>%
     dplyr::ungroup()
 
-  # calculating the empirical cumulative distribution function and the probability that the clcc indicator is lower than the baseline
+    # calculating the empirical cumulative distribution function and the probability that the clcc indicator is lower than the baseline
 
   sim <- sim %>%
     dplyr::rowwise() %>%
