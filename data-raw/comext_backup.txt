@@ -1,0 +1,27 @@
+price_comext_def <- price_comext_def %>%
+  left_join(gdp_defl) %>%
+  group_by(code, source) %>%
+  mutate(price_k = price / defl * defl[year == ref_yr]) %>%
+  ungroup()
+
+price_comext_def <- price_comext_def %>%
+  filter(year > ref_yr - h)
+
+price_comext_def <-  price_comext_def %>%
+  group_by(code, source) %>%
+  summarise(mean = mean(price_k, na.rm = T),
+            min = min(price_k, na.rm = T),
+            max = max(price_k, na.rm = T),
+            n_obs = sum(!is.na(price_k)) # number of years over which the average is actually computed
+  ) %>%
+  ungroup()
+
+clcc_price_comext <- clcc_prices_ref %>% 
+  filter(source == "comext") %>% 
+  select(comm, no_comm, um, source, critical, code) %>% 
+  left_join(price_comext_def)
+
+clcc_prices_ref <- clcc_prices_ref %>% 
+  filter(source != "comext") %>% 
+  bind_rows(clcc_price_comext)
+

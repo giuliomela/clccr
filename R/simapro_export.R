@@ -64,7 +64,6 @@ simapro_export <- function(){
 
   #generating the csv file
 
-
   to_append <- list(simapro_template$top, data_clcc, simapro_template$mid1, data_critical,
                     simapro_template$mid2, data_meta, simapro_template$bottom)
 
@@ -82,5 +81,7 @@ simapro_export <- function(){
       na = ""
     )
   }
+
+
 
 }
