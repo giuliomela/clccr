@@ -36,7 +36,7 @@ The starting point for the calculation of the indicator is the list of all raw m
 
 The package allows also the calculation of an alternative version of the indicator, based on the materials included in the European Commission's list of critical raw materials. Such materials are very important for technology-intensive applications but are - at the same time - characterized by high supply risks.
 
-All price data come from open-source databases such as the [International Monetary Fund's Primary Commodity Prices database](https://www.imf.org/en/Research/commodity-prices) or [Eurostat](https://ec.europa.eu/eurostat/data/database). Nonetheless, it is not possible to identify a reference market prices for most of the raw materials considered: for this reason, for such materials, market price is approximated with export unit values at world level. Trade data come from the United Nations' [Comtrade](https://comtrade.un.org/), European Union's [Comext](https://ec.europa.eu/eurostat/web/international-trade-in-goods/data/focus-on-comext) and the United States' [USITC](https://dataweb.usitc.gov/) databases. More specifically, most of unit values are calculated using four or six-digit trade flow data from Comtrade, except for rare earths materials which require a higher level of detail, which is provided by Comext and USITC databases.
+All price data come from open-source databases such as the [International Monetary Fund's Primary Commodity Prices database](https://www.imf.org/en/Research/commodity-prices) or [Eurostat](https://ec.europa.eu/eurostat/data/database). Nonetheless, it is not possible to identify a reference market prices for most of the raw materials considered: for this reason, for such materials, market price is approximated with export unit values at world level. Trade data come from the United Nations' [Comtrade](https://comtrade.un.org/), European Union's [Comext](https://ec.europa.eu/eurostat/web/international-trade-in-goods/data/focus-on-comext) and the United States' [Census Bureau](https://www.census.gov/) databases. More specifically, most of unit values are calculated using four or six-digit trade flow data from Comtrade, except for rare earths materials which require a higher level of detail, which is provided by Comext and US Census international trade databases.
 
 Reference prices used for the calculation of the CLCC indicator are, for each commodity, the average of price of the previous ten-year period, converted in euros using market exchange rates and adjusted to the price level of the reference year (which can be defined by the user) with the Euro Area GDP deflator. Minimum and maximum prices recorded in the ten-year period considered, are used as a range for the uncertainty assessment through Monte Carlo simulations.
 
@@ -115,7 +115,7 @@ head(detail_info, 10)
 
 
 
-Finally, the `clccr` package provides a function which allows to perform a Monte Carlo analysis to take into account price volatility: `clcc_mc`. The analysis is carried out assuming that reference prices follow a triangular distribution, since no information are available on the true shape of price distributions (even though, in the future, it might be possible to use *distribution fitting* techniques to identify the probability distribution that better describes each price series). The user can specify the number of iterations (through the `rep` parameter, default is 10,000), the life cycle phase to consider and the type of output.
+The `clccr` package also provides a function which allows to perform a Monte Carlo analysis to take into account price volatility: `clcc_mc`. The analysis is carried out assuming that reference prices follow a triangular distribution, since no information are available on the true shape of price distributions (even though, in the future, it might be possible to use *distribution fitting* techniques to identify the probability distribution that better describes each price series). The user can specify the number of iterations (through the `rep` parameter, default is 10,000), the life cycle phase to consider and the type of output.
 
 ```{r example-mc}
 
@@ -145,4 +145,21 @@ monte_carlo_alt
 
 ```
 
-Other functions included in the package, such as `inventory_load_fn` and `start_data_finder_fn` are used within `clcc` and `clcc_mc` and are not meant for independent use.
+The `clccr_detail` function computes the relative share of each commodity considered for the computation of the CLCC indicator on the total indicator value, for both baseline and critical versions.
+
+```{r example-clcc-detail}
+
+detail <- clcc_detail(
+  path = path_to_folder,
+  critical = TRUE,
+  phase_of_int = "total",
+  collapse_share = 0.9
+)
+
+detail
+
+```
+
+The user can specify the life cycle phase of interest with the `phase_of_int` parameter (i.e. `"total"`) and a parameter (`collapse_share`) that can be used to limit the number of commodities considered. For example, with `collapse_share = 0.9`, only commodities which shares sum up to 90% are considered and all the others are grouped in the `"others"` category.
+
+Finally, the `simapro_export` function can be used to generate a `.csv` file with all price data to be exported to the LCA software Simapro. The function has no arguments, and, once called, prompts a pop-up window asking the user where to save the `.csv` file.
