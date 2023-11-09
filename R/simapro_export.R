@@ -24,7 +24,7 @@ simapro_export <- function(){
     dplyr::select(comp, var1, comm, price = mean, um, code1, code2, critical)
 
 
-  data_ready <- lapply(list(c("yes", "no"), "no"),
+  data_ready <- lapply(list(c("yes", "no"), "yes"),
                        function(x) data_raw %>%
                          dplyr::mutate(price = ifelse(
                            critical %in% x,
