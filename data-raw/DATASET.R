@@ -8,7 +8,7 @@ pacman::p_load(tidyverse, here, readxl, comtradr, rdbnomics,
 
 # loading master file
 
-master_data <- read_excel(here("data-raw/db_comm_master_2022.xlsx"))
+master_data <- read_excel(here("data-raw/db_comm_master_2023.xlsx"))
 
 # provisional - untill contradr will be restored, the untrader package is used to retrieve trade data
 
@@ -120,7 +120,7 @@ price_comtrade_def <- trade_data_tidy %>%
 # Adding missing rows (some commodities might not have values for every year)
 
 uv_grid <- expand_grid(year = seq((ref_yr - h + 1), ref_yr, 1),
-                              code = unlist(comtrade_codes_l))
+                              code = comtrade_codes)
 
 
 price_comtrade_def <- uv_grid %>%
@@ -360,7 +360,7 @@ if (sum(length_check != 0)) stop ("The comtrade query did not return data for al
 
 #loading data with simapro commodity codes
 
-simapro_codes <- read_excel(here("data-raw/db_comm_master_2022.xlsx"),
+simapro_codes <- read_excel(here("data-raw/db_comm_master_2023.xlsx"),
                             sheet = "simapro_codes") %>%
   mutate(formula = noquote(formula))
 
