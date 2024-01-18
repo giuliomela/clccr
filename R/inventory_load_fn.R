@@ -97,20 +97,22 @@ inventory_tidy <- inventory_tidy[!inventory_tidy$um %in% c("m2a", "m2", "m3y"), 
 
 }
 
-inventory_tidy$quantity <- purrr::pmap_dbl(list(inventory_tidy$quantity,
-                                                inventory_tidy$um,
-                                                inventory_tidy$um_to),
-                                           function(x, y, z) um_converter(x, y, z))
+inventory_tidy
 
-
-# inventory_tidy <- inventory_tidy %>%
-#   dplyr::rowwise() %>%
-#   dplyr::mutate(quantity = um_converter( # converting measurement units if needed
-#     quantity, um, um_to
-#   )) %>%
-#   dplyr::ungroup()
-
-tidyr::as_tibble(inventory_tidy[, -which(names(inventory_tidy) %in% c("no", "comp", "um_to"))])
+# inventory_tidy$quantity <- purrr::pmap_dbl(list(inventory_tidy$quantity,
+#                                                 inventory_tidy$um,
+#                                                 inventory_tidy$um_to),
+#                                            function(x, y, z) um_converter(x, y, z))
+#
+#
+# # inventory_tidy <- inventory_tidy %>%
+# #   dplyr::rowwise() %>%
+# #   dplyr::mutate(quantity = um_converter( # converting measurement units if needed
+# #     quantity, um, um_to
+# #   )) %>%
+# #   dplyr::ungroup()
+#
+# tidyr::as_tibble(inventory_tidy[, -which(names(inventory_tidy) %in% c("no", "comp", "um_to"))])
 
 
 }

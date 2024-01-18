@@ -14,6 +14,8 @@
 #'     commodities considered. For example, if `collapse_share = 0.9` (the default) only commodities which
 #'     shares sum up to 90% of the total are returned as output. All the others are summed up in the
 #'     `others` category. The parameter must be between `0` and `1`.
+#' @param plot  logical value. if set to `TRUE` the function returns a plot object (`ggplot2`) displaying
+#'     the results.
 #' @return A tibble.
 #' @export
 #' @examples
@@ -25,7 +27,12 @@
   #' clcc_detail(path = data_path, critical = TRUE, collapse_share = 0.5)
   #'
   #' }
-clcc_detail <- function (path, critical = FALSE, phase_of_int = "total", collapse_share = 0.9) {
+clcc_detail <- function (path,
+                         critical = FALSE,
+                         phase_of_int = "total",
+                         collapse_share = 0.9,
+                         plot = FALSE
+                         ) {
 
   if(collapse_share > 1 | collapse_share < 0)
     stop("Please provide a valid value for 'collapse_share'; between 0 and 1.")
@@ -69,7 +76,7 @@ clcc_detail <- function (path, critical = FALSE, phase_of_int = "total", collaps
     dplyr::summarise(clcc_tot = sum(clcc)) %>%
     dplyr::ungroup()
 
-  clcc_raw <- clcc_raw %>%
+  clcc_detail_comm <- clcc_raw %>%
     dplyr::left_join(clcc_tot) %>%
     dplyr::mutate(share = clcc / clcc_tot) %>%
     dplyr::group_by(object) %>%
@@ -84,6 +91,27 @@ clcc_detail <- function (path, critical = FALSE, phase_of_int = "total", collaps
     dplyr::summarise(dplyr::across(c(clcc, share), sum)) %>%
     dplyr::ungroup() %>%
     dplyr::arrange(object, desc(share))
+
+if (isTRUE(plot)) {
+
+  plot <- clcc_detail_comm %>%
+    ggplot2::ggplot(
+      ggplot2::aes(area = share, fill = comm, label = paste0(stringr::str_trunc(comm, 20), " ",
+                                                             round(share * 100),
+                                                             "%"))) +
+    treemapify::geom_treemap() +
+    ggplot2::facet_wrap(~ object) +
+    viridis::scale_fill_viridis(discrete = T, option = "turbo") +
+    utilsgm::rse_theme(legend_pos = "none") +
+    treemapify::geom_treemap_text(color = "white", reflow = T)
+
+  plot
+
+} else if (isFALSE(plot)){
+
+  clcc_detail_comm
+
+}
 
 
 }
