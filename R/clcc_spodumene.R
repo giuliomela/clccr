@@ -55,6 +55,8 @@ clcc_spodumene <- function(path, func_unit = "km", label_digits = 3,
 
   names(spodumene_price) <- c("mean", "min", "max")
 
+  spodumene_price <- spodumene_price * 0.0349
+
   prices <- prices %>%
     dplyr::mutate(
       mean = ifelse(.data[["comm"]] == "Spodumene",
