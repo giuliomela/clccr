@@ -3,6 +3,7 @@
 export("%>%")
 export(clcc)
 export(clcc_detail)
+export(clcc_detail_spodumene)
 export(clcc_mc)
 export(clcc_mc_spodumene)
 export(clcc_spodumene)
