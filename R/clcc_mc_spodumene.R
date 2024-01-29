@@ -64,7 +64,12 @@ clcc_mc_spodumene <- function(path, rep = 10000, phase = "total",
                    .data[["min"]]),
       max = ifelse(.data[["comm"]] == "Spodumene",
                    spodumene_price[["max"]],
-                   .data[["max"]])
+                   .data[["max"]]),
+      critical = ifelse(
+        .data[["comm"]] == "Spodumene",
+        "yes",
+        critical
+      )
     )
 
   phase_to_cons <- phase

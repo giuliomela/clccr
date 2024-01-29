@@ -67,7 +67,12 @@ clcc_spodumene <- function(path, func_unit = "km", label_digits = 3,
                    .data[["min"]]),
       max = ifelse(.data[["comm"]] == "Spodumene",
                    spodumene_price[["max"]],
-                   .data[["max"]])
+                   .data[["max"]]),
+      critical = ifelse(
+        .data[["comm"]] == "Spodumene",
+        "yes",
+        critical
+      )
     )
 
 

@@ -62,7 +62,12 @@ clcc_detail_spodumene <- function (path,
                    .data[["min"]]),
       max = ifelse(.data[["comm"]] == "Spodumene",
                    spodumene_price[["max"]],
-                   .data[["max"]])
+                   .data[["max"]]),
+      critical = ifelse(
+        .data[["comm"]] == "Spodumene",
+        "yes",
+        critical
+      )
     )
 
   test_commodity <- unique(inventories$comm) %in% prices$comm
