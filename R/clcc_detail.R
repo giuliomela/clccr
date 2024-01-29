@@ -14,9 +14,7 @@
 #'     commodities considered. For example, if `collapse_share = 0.9` (the default) only commodities which
 #'     shares sum up to 90% of the total are returned as output. All the others are summed up in the
 #'     `others` category. The parameter must be between `0` and `1`.
-#' @param plot  logical value. if set to `TRUE` the function returns a plot object (`ggplot2`) displaying
-#'     the results.
-#' @return A tibble.
+#' @return A list containing a table with the results and a `ggplot` object.
 #' @export
 #' @examples
 #' \dontrun{
@@ -30,8 +28,7 @@
 clcc_detail <- function (path,
                          critical = FALSE,
                          phase_of_int = "total",
-                         collapse_share = 0.9,
-                         plot = FALSE
+                         collapse_share = 0.9
                          ) {
 
   if(collapse_share > 1 | collapse_share < 0)
@@ -92,7 +89,6 @@ clcc_detail <- function (path,
     dplyr::ungroup() %>%
     dplyr::arrange(object, desc(share))
 
-if (isTRUE(plot)) {
 
   plot <- clcc_detail_comm %>%
     ggplot2::ggplot(
@@ -102,16 +98,12 @@ if (isTRUE(plot)) {
     treemapify::geom_treemap() +
     ggplot2::facet_wrap(~ object) +
     viridis::scale_fill_viridis(discrete = T, option = "turbo") +
-    utilsgm::rse_theme(legend_pos = "none") +
-    treemapify::geom_treemap_text(color = "white", reflow = T)
+    treemapify::geom_treemap_text(color = "white", reflow = T) +
+    ggplot2::theme(legend.position = "none")
 
-  plot
+  output <- list(table = clcc_detail_comm, plot = plot)
 
-} else if (isFALSE(plot)){
-
-  clcc_detail_comm
-
-}
+  return(output)
 
 
 }

@@ -59,11 +59,11 @@ library(clccr)
 
 # Usage {#usage}
 
-The package provides a function, `clcc` to load SimaPro inventories in .xlsx format, from a folder designated by the user, and to compute the CLCC indicator. Each spreadsheet contains inventory data for every phase of a given product/process. The `clcc` function computes the CLCC indicator for each product and phase using the latest version of reference prices available. Price are updated manually[^2] on a yearly basis by the package developers even though, in the future, a new function allowing the user to directly download the series or to change the time period along which average prices are computed.
+The package provides a function, `clcc()` to load SimaPro inventories in .xlsx format, from a folder designated by the user, and to compute the CLCC indicator. Each spreadsheet contains inventory data for every phase of a given product/process. The `clcc()` function computes the CLCC indicator for each product and phase using the latest version of reference prices available. Price are updated manually[^2] on a yearly basis by the package developers even though, in the future, a new function allowing the user to directly download the series or to change the time period along which average prices are computed.
 
 [^2]: Some price series cannot be accessed through API services and must be downloaded manually.
 
-Below is an example of use of the `clcc` function. The name of each object for which the CLCC indicator is computed is extrapolated from the name of each inventory file.
+Below is an example of use of the `clcc()` function. The name of each object for which the CLCC indicator is computed is extrapolated from the name of each inventory file. The function returns a list of two objects: a tibble with the results (`table`) and a `ggplot` object (`plot`). In the results table there are two versions of the indicator: `baseline` and `critical`. The former is computed taking into account all material flows of the life cycle, while the latter considers materials included in the latest version of the European Commission's list of critical materials.
 
 ```{r example-clcc}
 
@@ -75,31 +75,29 @@ path_to_folder <- here::here("data-raw/example_data")
 
 clcc_results <- clcc(path = path_to_folder)
 
-clcc_results
+clcc_results[["table"]]
 
 
 ```
 
-The `clcc` function can also return a version of the CLCC indicator which takes into account critical materials only, as shown in the next example.
+The default plot of the results looks like:
 
-```{r example-clcc-critical}
+```{r example-clcc-plot, echo=TRUE}
 
-clcc_critical <- clcc(path = path_to_folder,
-                      critical = TRUE)
-
-clcc_critical
+clcc_results[["plot"]]
 
 ```
+
 
 Even though reference prices are loaded manually into the package folders, it is possible to retrieve the price matrix accessing the database `clcc_prices_ref` as follows
 
 ```{r example-price-ref, echo=TRUE}
 
-clcc_prices_ref
+head(clcc_prices_ref, 10)
 
 ```
 
-The `clcc` function returns the total CLCC indicator (computed taking into account all material and energy flows) but the user might be interested in having information on the relative importance of each flow on total baseline or critical CLCC. The `clcc_detail` function fills this gap. It returns a tibble with the relative share of each material or energy flow on the CLCC indicator. Such shares can be computed for either the baseline and critical CLCC indicators as well as for the entire life-cycle or just one of the life-cycle phases. The `phase_of_int` parameter allows the user to select one peculiar phase of the life-cycle, while the `collapse_share` parameter let the use determine the cut-off point to limit the number of commodities returned as output. For example, if `collapse_share` is set to `0.9`, only commoties which share on the CLCC indicator of interest sum up to 90% are reterned and the others are aggregated under the `others` label.
+The `clcc` function returns the total CLCC indicator (computed taking into account all material and energy flows) but the user might be interested in having information on the relative importance of each flow on total baseline or critical CLCC. The `clcc_detail` function fills this gap. It returns a tibble with the relative share of each material or energy flow on the CLCC indicator. Such shares can be computed for either the baseline and critical CLCC indicators as well as for the entire life-cycle or just one of the life-cycle phases. The `phase_of_int` parameter allows the user to select one peculiar phase of the life-cycle, while the `collapse_share` parameter let the use determine the cut-off point to limit the number of commodities returned as output. For example, if `collapse_share` is set to `0.9`, only commodities which share on the CLCC indicator of interest sum up to 90% are returned and the others are aggregated under the `others` label. Also in this case the function returns a list containing `table` and `plot`.
 
 ```{r example-clcc-detail}
 
@@ -108,11 +106,16 @@ detail_info <- clcc_detail(path = path_to_folder,
                            phase_of_int = "total",
                            collapse_share = 0.9)
 
-head(detail_info, 10)
+head(detail_info[["table"]], 10)
 
 
 ```
 
+```{r example-clcc-detail-plot}
+
+detail_info[["plot"]]
+
+```
 
 
 The `clccr` package also provides a function which allows to perform a Monte Carlo analysis to take into account price volatility: `clcc_mc`. The analysis is carried out assuming that reference prices follow a triangular distribution, since no information are available on the true shape of price distributions (even though, in the future, it might be possible to use *distribution fitting* techniques to identify the probability distribution that better describes each price series). The user can specify the number of iterations (through the `rep` parameter, default is 10,000), the life cycle phase to consider and the type of output.
@@ -144,22 +147,5 @@ monte_carlo_alt <- clcc_mc(path = path_to_folder,
 monte_carlo_alt
 
 ```
-
-The `clccr_detail` function computes the relative share of each commodity considered for the computation of the CLCC indicator on the total indicator value, for both baseline and critical versions.
-
-```{r example-clcc-detail}
-
-detail <- clcc_detail(
-  path = path_to_folder,
-  critical = TRUE,
-  phase_of_int = "total",
-  collapse_share = 0.9
-)
-
-detail
-
-```
-
-The user can specify the life cycle phase of interest with the `phase_of_int` parameter (i.e. `"total"`) and a parameter (`collapse_share`) that can be used to limit the number of commodities considered. For example, with `collapse_share = 0.9`, only commodities which shares sum up to 90% are considered and all the others are grouped in the `"others"` category.
 
 Finally, the `simapro_export` function can be used to generate a `.csv` file with all price data to be exported to the LCA software Simapro. The function has no arguments, and, once called, prompts a pop-up window asking the user where to save the `.csv` file.

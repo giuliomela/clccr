@@ -27,7 +27,7 @@ shares sum up to 90% of the total are returned as output. All the others are sum
 `others` category. The parameter must be between `0` and `1`.}
 }
 \value{
-A tibble.
+A list containing a table with the results and a `ggplot` object.
 }
 \description{
 This function computes the relative shares of each commodity considered for the

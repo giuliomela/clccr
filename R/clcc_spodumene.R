@@ -1,11 +1,14 @@
-#' Calculate the CLCC indicator
+#' Calculate the CLCC indicator with a correction for Spodumene
 #'
 #' This function calculates the CLCC indicator, a measure of resource scarcity,
 #' for a product/process during its life cycle. The function automatically loads
 #' the latest prices available and SimaPro inventories using other functions of
 #' the clccr package.
 #' The function can also return the CLCC indicator calculated taking into account
-#' critical materials only.
+#' critical materials only. This is a provisional function, developed to better
+#' approximate the price of spodumene. Spodumene is little traded and unit values
+#' do not reflect the real market price. Spodumene price is calculated starting from
+#' lithium market price, using the average concentration of lithium in spodumene.
 #'
 #' @param path A character vector. Path to the folder in which raw xlsx files are stored.
 #' @param func_unit A string, the functional unit of the LCA analysis the inventories refer to. This parameter
@@ -24,10 +27,10 @@
 #' \dontrun{
 #' data_path <- path_to_inventory_folder
 #'
-#' clcc(path = data_path)
+#' clcc_spodumene(path = data_path)
 #'
 #' }
-clcc <- function(path, func_unit = "km", label_digits = 3,
+clcc_spodumene <- function(path, func_unit = "km", label_digits = 3,
                  plot_phases = FALSE, plot_phases_critical = FALSE){
 
   if (isFALSE(plot_phases) & isTRUE(plot_phases_critical))
@@ -39,11 +42,32 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
   if(isFALSE(is.numeric(label_digits)))
     stop("The paramter 'label_digits' must be an integer")
 
-  clcc_critical <- object <- phase <- clcc_rel <-  NULL
+  clcc_critical <- object <- phase <- comm <- NULL
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
   prices <- clccr::clcc_prices_ref
+
+  spodumene_price <- clccr::clcc_prices_ref %>%
+    dplyr::filter(comm == "Lithium") %>%
+    dplyr::select(c("mean", "min", "max")) %>%
+    as.numeric()
+
+  names(spodumene_price) <- c("mean", "min", "max")
+
+  prices <- prices %>%
+    dplyr::mutate(
+      mean = ifelse(.data[["comm"]] == "Spodumene",
+                    spodumene_price[["mean"]],
+                    .data[["mean"]]),
+      min = ifelse(.data[["comm"]] == "Spodumene",
+                   spodumene_price[["min"]],
+                   .data[["min"]]),
+      max = ifelse(.data[["comm"]] == "Spodumene",
+                   spodumene_price[["max"]],
+                   .data[["max"]])
+    )
+
 
   test_commodity <- unique(inventories$comm) %in% prices$comm
 
@@ -65,22 +89,22 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
 
   # if(critical == TRUE){
 
-    inv_prices_crit <- inv_prices[inv_prices$critical == "yes", ]
+  inv_prices_crit <- inv_prices[inv_prices$critical == "yes", ]
 
-    clcc_crit_res <- by(inv_prices_crit, list(inv_prices_crit$object,
-                                              inv_prices_crit$phase), function(df) {
-      with(df, data.frame(object = object[[1]], phase = phase[[1]],
-                          clcc_critical = sum(mean * quantity)))
-    })
-    clcc_crit_res <- do.call(rbind, clcc_crit_res)
+  clcc_crit_res <- by(inv_prices_crit, list(inv_prices_crit$object,
+                                            inv_prices_crit$phase), function(df) {
+                                              with(df, data.frame(object = object[[1]], phase = phase[[1]],
+                                                                  clcc_critical = sum(mean * quantity)))
+                                            })
+  clcc_crit_res <- do.call(rbind, clcc_crit_res)
 
-    clcc_res <- merge(clcc_res, clcc_crit_res, all.x = TRUE)
+  clcc_res <- merge(clcc_res, clcc_crit_res, all.x = TRUE)
 
-    clcc_res <- within(clcc_res, {
-      share_critical <- ifelse(clcc != 0,
-        clcc_critical / clcc * 100,
-        0)
-    })
+  clcc_res <- within(clcc_res, {
+    share_critical <- ifelse(clcc != 0,
+                             clcc_critical / clcc * 100,
+                             0)
+  })
 
   # }
 
@@ -88,7 +112,7 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
     dplyr::arrange(object, phase)
 
 
-    if(isFALSE(plot_phases)) {
+  if(isFALSE(plot_phases)) {
 
     res <- output %>%
       dplyr::filter(.data[["phase"]] == "total") %>%
@@ -114,38 +138,38 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
       ggplot2::geom_bar(stat = "identity", width = 0.6) +
       ggplot2::facet_wrap(~ .data[["indicator"]], labeller = ggplot2::labeller(indicator = clcc_labs),
                           scales = "free_x") +
+      ggplot2::theme(legend.position = "none") +
       viridis::scale_fill_viridis(discrete = T) +
       ggfittext::geom_bar_text(outside = T, family = "Verdana", min.size = 10) +
       ggplot2::labs(x = "", y = "") +
-      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 8),
-                     legend.position = "none") +
+      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 8)) +
       ggplot2::scale_y_discrete(labels = function(x) stringr::str_wrap(x, width = 20))
 
-    } else if (isTRUE(plot_phases)){
+  } else if (isTRUE(plot_phases)){
 
-      indicator <- ifelse(
-        isTRUE(plot_phases_critical),
-        "clcc_critical",
-        "clcc"
-      )
+    indicator <- ifelse(
+      isTRUE(plot_phases_critical),
+      "clcc_critical",
+      "clcc"
+    )
 
-      res <- output %>%
-        dplyr::filter(.data$phase != "total", !!rlang::sym(indicator) != 0) %>%
-        dplyr::group_by(.data$object) %>%
-        dplyr::mutate(clcc_rel = !!rlang::sym(indicator) / sum(!!rlang::sym(indicator)) * 100) %>%
-        dplyr::ungroup()
+    res <- output %>%
+      dplyr::filter(.data$phase != "total", !!rlang::sym(indicator) != 0) %>%
+      dplyr::group_by(.data$object) %>%
+      dplyr::mutate(clcc_rel = !!rlang::sym(indicator) / sum(!!rlang::sym(indicator)) * 100) %>%
+      dplyr::ungroup()
 
-      plot <- ggplot2::ggplot(res,
-                              ggplot2::aes(
-                                area = !!rlang::sym(indicator), fill = phase,
-                                label = paste0(round(clcc_rel, 0), "%")
-                              )) +
-        treemapify::geom_treemap() +
-        treemapify::geom_treemap_text(colour = "white", place = "middle", reflow = T) +
-        ggplot2::facet_wrap(~ object) +
-        viridis::scale_fill_viridis(discrete = T, option = "cividis")
+    plot <- ggplot2::ggplot(res,
+                            ggplot2::aes(
+                              area = !!rlang::sym(indicator), fill = phase,
+                              label = paste0(round(clcc_rel, 0), "%")
+                            )) +
+      treemapify::geom_treemap() +
+      treemapify::geom_treemap_text(colour = "white", place = "middle", reflow = T) +
+      ggplot2::facet_wrap(~ object) +
+      viridis::scale_fill_viridis(discrete = T, option = "cividis")
 
-    }
+  }
 
   output <- list(output, plot)
 

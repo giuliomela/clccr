@@ -41,29 +41,26 @@ devtools::install_github("giuliomela/clccr")
 ## Examples
 
 These are basic examples which show you how to use the `clccr` package to compute the CLCC indicator.
-The baseline indicator is calculated with the function `clcc`.
+The baseline indicator is calculated with the function `clcc`. The function returns a list of two elements. The first, `table`, is a tibble with the calculation result, while the second, `plot`, is a `ggplot` plot object representing the results. The `table` element contains both the baseline and the critical CLCC indicators.
 
 ```{r example1}
 library(clccr)
 
 # computing the CLCC indicator for three example inventories (cars)
 
-clcc(path = path_to_folder)
+res <- clcc(path = path_to_folder)
 
+res[["table"]]
+```
+
+The default plot looks like:
+
+```{r example1-plot}
+
+res[["plot"]]
 
 ```
 
-Setting the `critical` argument to `TRUE`, function `clcc` returns the CLCC indicator computed
-considering critical materials only. The output tibble provides also the relative share of 
-critical materials on the baseline CLCC.
-
-```{r example2}
-
-# computing the critical CLCC indicator
-
-clcc(path = path_to_folder, critical = TRUE)
-
-```
 
 Even though data on reference prices cannot be updated programmatically since not all source have
 an API, it is possible to extract a tibble with reference prices and minimum and maximum values (used
@@ -78,7 +75,7 @@ head(prices, 5)
 
 ```
 
-The `clcc` function returns the total CLCC indicator (computed taking into account all material and energy flows) but the user might be interested in having information on the relative importance of each flow on total baseline or critical CLCC. The `clcc_detail` function fills this gap. It returns a tibble with the relative share of each material or energy flow on the CLCC indicator. Such shares can be computed for either the baseline and critical CLCC indicators as well as for the entire life-cycle or just one of the life-cycle phases.
+The `clcc` function returns the total CLCC indicator (computed taking into account all material and energy flows) but the user might be interested in having information on the relative importance of each flow on total baseline or critical CLCC. The `clcc_detail` function fills this gap. It returns a list containing a tibble with the relative share of each material or energy flow on the CLCC indicator (`table`) and a `ggplot` object (`plot`). Such shares can be computed for either the baseline and critical CLCC indicators (setting the `detail` parameter to either `TRUE` or `FALSE`) as well as for the entire life-cycle or just one of the life-cycle phases.
 
 ```{r example4}
 
@@ -87,17 +84,25 @@ detail_info <- clcc_detail(path = path_to_folder,
                            phase_of_int = "total",
                            collapse_share = 0.9)
 
-head(detail_info, 10)
+head(detail_info[["table"]], 10)
 
 
 ```
+
+Also in this case the function returns a default plot of the results.
+
+```{r example4-plot}
+
+detail_info[["plot"]]
+
+```
+
 
 The `clccr` package also allows to run a Monte Carlo simulation, given the high volatility that characterizes
 market prices. Minimum and maximum prices are used, for each commodity, to generate random values using 
 triangular distributions. Function `clcc_mc` runs the simulations and allows to pick the desired
 number of simulations with the `rep` parameter (default is `rep = 10000`) and the life cycle phase to consider
-(default is `"total"`). The function returns a tibble nested tibble containing project and object names, baseline clcc, all simulations, and the probability that the indicator is lower than the baseline (probability
-computed using the empirical distribution function).
+(default is `"total"`). The function returns a tibble nested tibble containing project and object names, baseline clcc, all simulations, and the probability that the indicator is lower than the baseline (probability computed using the empirical distribution function). Similarly to the `clcc()`, also `clcc_mc()` returns a list: a tibble with the results and a plot displaying the simulation results. Please refer to the `clcc_mc()` documentation to see which are the plotting alternatives available.
 
 ```{r example5}
 
@@ -106,7 +111,9 @@ computed using the empirical distribution function).
 rep <- 1000 # number of simulations (default is 10,000)
 phase <- "total" # the life cycle phase for which running the simulation
 
-clcc_mc(path = path_to_folder, rep = rep)
+mc_res <- clcc_mc(path = path_to_folder, rep = rep)
+
+mc_res[["table"]]
 
 ```
 
@@ -117,8 +124,10 @@ Setting the argument `prob_inf_alt` to `TRUE` (default is `FALSE`), `clcc_mc` re
 # Monte Carlo simulation returning the probability that an object's CLCC is lower/higher than that of the
 # other alternatives
 
-clcc_mc(path = path_to_folder, rep = rep, prob_inf_alt = TRUE)
+mc_res2 <- clcc_mc(path = path_to_folder, rep = rep, prob_inf_alt = TRUE)
+
+mc_res2[["table"]]
 
 ```
 
-Finally, the package allows the user to export reference prices for both the baseline and critical indicators to a .csv file compatible with SimaPro, one of the most popular LCA software. To accomplish this task the user can call the `simapro_export` function. Such function has no arguments and, once called, automatically opens a pop-up windows that asks the user where to save the file.
+Finally, the package allows the user to export reference prices for both the baseline and critical indicators to a .csv file compatible with SimaPro, one of the most popular LCA software. To accomplish this task the user can call the `simapro_export()` function. Such function has no arguments and, once called, automatically opens a pop-up windows that asks the user where to save the file.

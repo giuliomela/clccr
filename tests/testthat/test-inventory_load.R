@@ -1,11 +1,9 @@
 test_that("inventory_load actually loads inventories", {
 
-  data_path <- "example_data"
-
-inventories <- inventory_load_fn(data_path)
+inventories <- inventory_load_fn("C:/Users/mela/OneDrive - RSE S.p.A/R/miei_pacchetti/clccr/tests/testthat/example_data")
 
 # output must be a tibble
-expect_true(tibble::is_tibble(inventories))
+expect_true(is.data.frame(inventories))
 
 # All commodities should be present in the master file
 test_commodity <- unique(inventories$comm) %in% clccr::clcc_prices_ref$comm

@@ -1,8 +1,8 @@
-test_that("clcc function returns desired output", {
+test_that("clcc_spodumene function returns desired output", {
 
   data_path <- "example_data"
 
-  clcc_res <- clcc(data_path)
+  clcc_res <- clcc_spodumene(data_path)
 
   # output must be a list
   expect_true(is.list(clcc_res))
@@ -18,3 +18,4 @@ test_that("clcc function returns desired output", {
 
 
 })
+

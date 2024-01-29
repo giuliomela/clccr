@@ -1,4 +1,4 @@
-#' Run Monte Carlo analysis for the CLCC indicator
+#' Run Monte Carlo analysis for the CLCC indicator with a correction for Spodumene
 #'
 #' This function loads price and inventory data (using other clccr functions)
 #' and runs a Monte Carlo simulation of the CLCC indicator. A high number
@@ -8,6 +8,10 @@
 #' The function provides also the probability (computed using the empirical distribution
 #' function) that the CLCC of a given object is lower than the baseline or lower/higher
 #' than that of any other object belonging to the same project.
+#' his is a provisional function, developed to better
+#' approximate the price of spodumene. Spodumene is little traded and unit values
+#' do not reflect the real market price. Spodumene price is calculated starting from
+#' lithium market price, using the average concentration of lithium in spodumene.
 #'
 #' @param path A character vector. Path to the folder in which raw xlsx files are stored.
 #' @param rep Number of Monte Carlo iterations. Default is 10,000
@@ -34,12 +38,32 @@
 #' clcc_mc(path = data_path, rep = 5000, prob_inf_alt = TRUE)
 #'
 #' }
-clcc_mc <- function(path, rep = 10000, phase = "total",
+clcc_mc_spodumene <- function(path, rep = 10000, phase = "total",
                     func_unit = "km", prob_inf_alt = FALSE){
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
   prices <- clccr::clcc_prices_ref
+
+  spodumene_price <- clccr::clcc_prices_ref %>%
+    dplyr::filter(comm == "Lithium") %>%
+    dplyr::select(c("mean", "min", "max")) %>%
+    as.numeric()
+
+  names(spodumene_price) <- c("mean", "min", "max")
+
+  prices <- prices %>%
+    dplyr::mutate(
+      mean = ifelse(.data[["comm"]] == "Spodumene",
+                    spodumene_price[["mean"]],
+                    .data[["mean"]]),
+      min = ifelse(.data[["comm"]] == "Spodumene",
+                   spodumene_price[["min"]],
+                   .data[["min"]]),
+      max = ifelse(.data[["comm"]] == "Spodumene",
+                   spodumene_price[["max"]],
+                   .data[["max"]])
+    )
 
   phase_to_cons <- phase
 
@@ -47,7 +71,7 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
     clcc_sim <- ecdf_diff <- clcc_diff <- obj1 <- obj2 <- clcc_sim.y <- clcc_sim.x <-
     obj_combinations <- nested_data <- ecdf_fn <- clcc <- NULL # removes notes when running R RMD check
 
-  baseline <- clcc(path = path)[["table"]]
+  baseline <- clcc_spodumene(path = path)[["table"]]
 
   baseline <- baseline[baseline$phase == phase_to_cons, ]
 
@@ -56,9 +80,9 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
   rnd_prices <- prices %>%
     dplyr::rowwise() %>%
     dplyr::mutate(rnd_price = list(triangle::rtriangle(n = rep,
-                                                        a = min,
-                                                        b = max,
-                                                        c = mean))) %>%
+                                                       a = min,
+                                                       b = max,
+                                                       c = mean))) %>%
     dplyr::select(!mean:max)
 
   # joining invetory and random price tibbles
@@ -76,7 +100,7 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
     dplyr::summarise(clcc_sim = list(Reduce("+", p_q))) %>%
     dplyr::ungroup()
 
-    # calculating the empirical cumulative distribution function and the probability that the clcc indicator is lower than the baseline
+  # calculating the empirical cumulative distribution function and the probability that the clcc indicator is lower than the baseline
 
   sim <- sim %>%
     dplyr::rowwise() %>%
@@ -101,7 +125,7 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
     plot <- data_plot %>%
       tidyr::unnest(tidyr::all_of("clcc_sim")) %>%
       ggplot2::ggplot(ggplot2::aes(x = .data[["clcc_sim"]], y = .data[["object"]],
-                 fill = .data[["object"]], color = .data[["object"]])) +
+                                   fill = .data[["object"]], color = .data[["object"]])) +
       ggridges::geom_density_ridges(alpha = 0.4) +
       ggplot2::theme(legend.position = "none") +
       viridis::scale_fill_viridis(discrete = T) +
@@ -109,7 +133,7 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
       ggplot2::labs(x = paste0("euro/", func_unit), y = "") +
       ggplot2::geom_point(data = data_plot, ggplot2::aes(x = .data[["clcc"]],
                                                          y = .data[["object"]]),
-                 shape = 8, size = 5)
+                          shape = 8, size = 5)
 
     list(table = sim, plot = plot)
 
@@ -148,7 +172,7 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
     prob_inf_alt <- sim_diff %>%
       dplyr::rowwise() %>%
       dplyr::mutate(ecdf_diff = list(stats::ecdf(clcc_diff)),
-             prob = dplyr::if_else(obj1 == obj2, NA_real_, ecdf_diff(0))) %>%
+                    prob = dplyr::if_else(obj1 == obj2, NA_real_, ecdf_diff(0))) %>%
       dplyr::ungroup()
 
     prob_inf_alt <- within(prob_inf_alt, {

@@ -34,8 +34,9 @@ Imports:
     forcats,
     ggfittext,
     viridis,
-    utilsgm,
-    treemapify
+    treemapify,
+    rlang,
+    ggridges
 Suggests: 
     rmarkdown,
     knitr,
