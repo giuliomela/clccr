@@ -8,7 +8,18 @@ pacman::p_load(tidyverse, here, readxl, comtradr, rdbnomics,
 
 # loading master file
 
-master_data <- read_excel(here("data-raw/db_comm_master_2023.xlsx"))
+master_data <- read_excel(here("data-raw/db_comm_master_2024.xlsx"))
+
+# loading USGS prices
+
+usgs_prices <- read_excel(here("data-raw/db_comm_master_2024.xlsx"),
+                          sheet = "prices_USGS") %>%
+  filter(!is.na(code)) %>%
+  pivot_longer(
+    !c(comm, description_original, um, source, code),
+    names_to = "year",
+    values_to = "price"
+  )
 
 # provisional - untill contradr will be restored, the untrader package is used to retrieve trade data
 
@@ -18,7 +29,7 @@ comtradr::set_primary_comtrade_key("2b9783161f3342eda6ec85e4af0487db")
 
 um_imf <- read_xlsx(here("data-raw/um.xlsx"), sheet = "imf")[, c("imf_code", "um")]
 
-um_p <- read_xlsx(here("data-raw/um.xlsx"), sheet = "p") # oading measurement unit conversion factors for price data
+um_p <- read_xlsx(here("data-raw/um.xlsx"), sheet = "p") # loading measurement unit conversion factors for price data
 
 # defining reference year and horizon length
 
@@ -29,7 +40,7 @@ h <- 10
 # downloading GDP deflators (Euro area for Eurostat and Comext data and US for Comtrade and USITC data)
 
 gdp_defl_raw <- rdb(c("OECD/MEI/EA20.NAGIGP01.IXOBSA.A",
-      "OECD/MEI/USA.NAGIGP01.IXOBSA.A"))
+                      "OECD/MEI/USA.NAGIGP01.IXOBSA.A"))
 
 gdp_defl <- gdp_defl_raw[, c("original_period", "LOCATION", "value")]
 
@@ -50,44 +61,12 @@ names(exc_rate) <- c("year", "exc_rate")
 
 exc_rate$year <- as.numeric(exc_rate$year)
 
-
 #### downloading comtrade data ####
 
-comtrade_codes <- subset(master_data, !is.na(comtrade_code))$comtrade_code
-
-comtrade_codes <- unique(as.character(comtrade_codes)) # list of all comtrade codes
-
-# comtrade_codes_l <- split(comtrade_codes, ceiling(seq_along(comtrade_codes)/4))
-#
-# years_l <- list(c(start_yr = ref_yr - h + 1, end_yr = ref_yr - h/2),
-#                 c(start_yr = ref_yr - h/2 + 1, end_yr = ref_yr))
-#
-# #if (ct_get_remaining_hourly_queries() < length(comtrade_codes_l) * length(years_l)) stop("Superato limite massimo di query orarie")
-#
-# # defining a function to download comtrade data without infringing API limits
-#
-# comtrade_raw <- NULL
-#
-# for (i in 1:length(comtrade_codes_l)) {
-#
-#   for (j in 1:length(years_l)) {
-#
-#     comtrade_raw[[paste0(i, "_", j)]] <- comtradr::ct_get_data(
-#       reporter = "all",
-#       partner = "World",
-#       flow_direction = "export",
-#       start_date = years_l[[j]][["start_yr"]],
-#       end_date = years_l[[j]][["end_yr"]],
-#       commodity_code = comtrade_codes_l[[i]]
-#     )
-#
-#     Sys.sleep(5)
-#
-#   }
-#
-#   Sys.sleep(5)
-#
-# }
+comtrade_codes <- master_data %>%
+  filter(source == "comtrade" & comm != "Spodumene") %>% # spodumene is treated separately (only AUS exports)
+  pull(comtrade_code) %>%
+  unique() # codes to download
 
 comtrade_raw <- ct_get_data(
   flow_direction = "export",
@@ -95,6 +74,31 @@ comtrade_raw <- ct_get_data(
   end_date = ref_yr,
   commodity_code = comtrade_codes
 )
+
+# downloading spodumene data
+
+spodumene_code <- master_data %>%
+  filter(comm == "Spodumene") %>% # spodumene is treated separately (only AUS exports)
+  pull(comtrade_code) %>%
+  unique()
+
+spodumene_raw <- ct_get_data(
+  flow_direction = "export",
+  start_date = ref_yr - 9,
+  end_date = ref_yr,
+  reporter = "AUS",
+  commodity_code = spodumene_code
+)
+
+comtrade_raw <- bind_rows(
+  comtrade_raw, spodumene_raw
+) %>%
+  mutate(qty = if_else(
+    is.na(qty) | qty == 0,
+    altQty,
+    qty
+  ))
+
 
 # tidying data
 
@@ -106,12 +110,15 @@ trade_data_tidy <- subset(comtrade_raw,  # removes flows of less than 100 kg
 names(trade_data_tidy) <- c("year", "reporter_iso", "partner_iso", "commodity_code",
                             "commodity", "netweight_kg", "trade_value_usd")
 
-if (!setequal(unique(trade_data_tidy$commodity_code), comtrade_codes)) stop ("The Comtrade query did not return all selected codes")
+if (!setequal(unique(trade_data_tidy$commodity_code),
+              c(spodumene_code, comtrade_codes))) stop ("The Comtrade query did not return all selected codes")
 
 # Calculating unit values
 
 price_comtrade_def <- trade_data_tidy %>%
   group_by(year, commodity_code) %>%
+  drop_na() %>%
+  filter(netweight_kg != 0) %>%
   summarize(across(c(netweight_kg, trade_value_usd), \(x) sum(x, na.rm = TRUE))) %>%
   ungroup() %>%
   mutate(price = trade_value_usd / netweight_kg) %>%
@@ -120,13 +127,29 @@ price_comtrade_def <- trade_data_tidy %>%
 # Adding missing rows (some commodities might not have values for every year)
 
 uv_grid <- expand_grid(year = seq((ref_yr - h + 1), ref_yr, 1),
-                              code = comtrade_codes)
+                       code = as.character(c(spodumene_code, comtrade_codes)))
 
 
 price_comtrade_def <- uv_grid %>%
   left_join(price_comtrade_def) %>%
   mutate(source = "comtrade",
          cur = "usd")
+
+### USGS Prices
+
+# Converting prices to USD/kg
+
+price_usgs_def <- usgs_prices %>%
+  left_join(um_p, by = c("um" = "um_from")) %>%
+  mutate(price = price / fct,
+         source = "usgs",
+         cur = "usd",
+         year = as.numeric(year),
+         um = NULL,
+         um_to = NULL,
+         fct = NULL,
+         description_original = NULL,
+         comm = NULL)
 
 #### Downloading data from the IMF commodity price database using the rdbnomics database####
 
@@ -174,13 +197,13 @@ comext_raw <- comext_raw %>%
 # Comext prices expressed in euro/kg (current)
 
 comext_raw <- comext_raw[, c("product", "indicators",
-                                     "indicator_value", "year")]
+                             "indicator_value", "year")]
 
 comext_raw <- subset(comext_raw, year > ref_yr - 10)
 
 comext_raw <- tidyr::pivot_wider(comext_raw,
-                                     names_from = indicators,
-                                     values_from = indicator_value)
+                                 names_from = indicators,
+                                 values_from = indicator_value)
 
 price_comext_def <- comext_raw %>%
   mutate(price = VALUE_IN_EUROS / QUANTITY_IN_100KG / 100,
@@ -192,88 +215,10 @@ price_comext_def <- comext_raw %>%
          product = NULL
   )
 
-#### Loading USITC data ####
-
-census_key <- "116b4815204719a5aeb6a6e4ab6a69fc56ffee54"
-
-# direct API Interrogation
-
-usitc_codes <- master_data %>%
-  filter(source == "usitc") %>%
-  pull(usitc_code) %>%
-  unique()
-
-base_url <- "https://api.census.gov/data/timeseries/intltrade/imports/hs"
-
-vars <- c("CTY_CODE", # countru code
-         "CTY_NAME", # country name
-         "GEN_VAL_MO", # total value, general imports
-         "DUT_VAL_MO", # Duitable value
-         "GEN_CIF_MO", # CIF value
-         "GEN_QY1_MO", # General imports, quantity 1
-         "UNIT_QY1", # general quantity unit
-         #"I_COMMODITY", # commodity code
-         "I_COMMODITY_SDESC" # short commodity description
-)
-
-vars <- paste0(vars, collapse = ",")
-
-years <- seq(to = ref_yr, from = ref_yr - 9, by = 1)
-
-commodities <- map_chr(usitc_codes,
-                   ~ paste0("&I_COMMODITY=",
-                            .x)) %>%
-  paste0(collapse = "")
-
-
-prices_usitc_raw <- map_dfr(years,
-         function(x) {
-
-           query_url <- paste0(base_url,
-                               "?get=",
-                               vars,
-                               "&key=",
-                               census_key,
-                               "&YEAR=",
-                               x,
-                              commodities
-           )
-
-           usitcs_raw <- GET(query_url)
-
-           usitcs_df <- fromJSON(rawToChar(usitcs_raw$content), flatten = TRUE) %>%
-             as.data.frame()
-
-           colnames(usitcs_df) <- usitcs_df[1,]
-
-           usitcs_df <- usitcs_df[-1, ]
-
-           as_tibble(usitcs_df)
-
-
-         })
-
-price_usitc_def <- prices_usitc_raw %>%
-  as_tibble() %>%
-  filter(CTY_CODE == "-") %>%
-  group_by(YEAR, I_COMMODITY, UNIT_QY1) %>%
-  summarise(value = sum(as.numeric(GEN_VAL_MO), na.rm = T),
-         quantity = sum(as.numeric(GEN_QY1_MO), na.rm = T)) %>%
-  ungroup() %>%
-  rename(year = YEAR, code = I_COMMODITY) %>%
-  mutate(price = case_when(
-    UNIT_QY1 == "T" ~ value / (quantity * 1000),
-    UNIT_QY1 == "CGM" ~ value / (quantity / 1000),
-    UNIT_QY1 == "KG" ~ value / quantity
-  ),
-  year = as.numeric(year),
-  source = "usitc",
-  cur = "usd")
-
 #### CREATING AN UNIQUE DATABASE OF REFERENCE PRICES ####
 
 prices_all <- bind_rows(price_comtrade_def, price_comext_def,
-          price_imf_def, price_usitc_def) %>%
+                        price_imf_def, price_usgs_def) %>%
   as_tibble()
 
 # adjusting for inflation
@@ -305,7 +250,7 @@ ref_prices <-  prices_all %>%
             min = min(price_eur, na.rm = T),
             max = max(price_eur, na.rm = T),
             n_obs = sum(!is.na(price_eur)) # number of years over which the average is actually computed
-          ) %>%
+  ) %>%
   ungroup()
 
 #### PREPRARING FINAL TIBBLE WITH COMMODITY NAMES AND REFERENCE PRICES
@@ -313,8 +258,8 @@ ref_prices <-  prices_all %>%
 # manipulating the comm_key tibble to make it tidy and ready to be joined with prices
 
 comm_key_tidy <- mutate(master_data,
-                               across(c(comtrade_code,
-                                               comext_code, usitc_code), as.character))
+                        across(c(comtrade_code,
+                                 comext_code, usitc_code), as.character))
 
 comm_key_tidy$quandl_code <- NULL
 
@@ -360,7 +305,7 @@ if (sum(length_check != 0)) stop ("The comtrade query did not return data for al
 
 #loading data with simapro commodity codes
 
-simapro_codes <- read_excel(here("data-raw/db_comm_master_2023.xlsx"),
+simapro_codes <- read_excel(here("data-raw/db_comm_master_2024.xlsx"),
                             sheet = "simapro_codes") %>%
   mutate(formula = noquote(formula))
 
@@ -383,6 +328,11 @@ simapro_template <- lapply(template_names,
 
 names(simapro_template) <- template_names
 
+# Adding commodity macro-categories and periodic table symbols
+
+
+
 usethis::use_data(clcc_prices_ref, overwrite = TRUE)
 
 usethis::use_data(simapro_template, simapro_codes, overwrite = TRUE, internal = TRUE)
+

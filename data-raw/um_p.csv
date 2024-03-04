@@ -1,4 +1,4 @@
-﻿um_from;um_to;fct
+um_from;um_to;fct
 lb;kg;0.453592909
 oz;kg;0.031103522
 btu;m3;28.52
@@ -6,3 +6,6 @@ bb;kg;136.425648
 t;kg;1000
 kwh;MJ;3.6
 kg;kg;1
+g;kg;0.001
+carat;kg;0.0002
+short t;kg;907.185
