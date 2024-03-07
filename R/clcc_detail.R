@@ -65,7 +65,9 @@ clcc_detail <- function (path,
   clcc_raw <- inv_prices %>%
     dplyr::mutate(clcc = mean * quantity) %>%
     dplyr::filter(phase == phase_of_int) %>%
-    dplyr::select(comm, object, phase, clcc_type, clcc) %>%
+    dplyr::group_by(object, phase, clcc_type, macro_cat) %>%
+    dplyr::summarise(clcc = sum(clcc)) %>%
+    #dplyr::select(comm, object, phase, clcc_type, clcc) %>%
     tibble::as_tibble()
 
   clcc_tot <- clcc_raw %>%
@@ -73,7 +75,7 @@ clcc_detail <- function (path,
     dplyr::summarise(clcc_tot = sum(clcc)) %>%
     dplyr::ungroup()
 
-  clcc_detail_comm <- clcc_raw %>%
+  clcc_detail_cat <- clcc_raw %>%
     dplyr::left_join(clcc_tot) %>%
     dplyr::mutate(share = clcc / clcc_tot) %>%
     dplyr::group_by(object) %>%
@@ -81,18 +83,18 @@ clcc_detail <- function (path,
     dplyr::mutate(cum_share = cumsum(share),
                   comm = ifelse(
                     cum_share <= collapse_share,
-                    comm,
+                    macro_cat,
                     "Other"
                   )) %>%
-    dplyr::group_by(object, comm, phase, clcc_type, clcc_tot) %>%
+    dplyr::group_by(object, macro_cat, phase, clcc_type, clcc_tot) %>%
     dplyr::summarise(dplyr::across(c(clcc, share), sum)) %>%
     dplyr::ungroup() %>%
     dplyr::arrange(object, desc(share))
 
 
-  plot <- clcc_detail_comm %>%
+  plot <- clcc_detail_cat %>%
     ggplot2::ggplot(
-      ggplot2::aes(area = share, fill = comm, label = paste0(stringr::str_trunc(comm, 20), " ",
+      ggplot2::aes(area = share, fill = macro_cat, label = paste0(stringr::str_trunc(macro_cat, 20), " ",
                                                              round(share * 100),
                                                              "%"))) +
     treemapify::geom_treemap() +
@@ -101,7 +103,7 @@ clcc_detail <- function (path,
     treemapify::geom_treemap_text(color = "white", reflow = T) +
     ggplot2::theme(legend.position = "none")
 
-  output <- list(table = clcc_detail_comm, plot = plot)
+  output <- list(table = clcc_detail_cat, plot = plot)
 
   return(output)
 
