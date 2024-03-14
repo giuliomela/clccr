@@ -292,6 +292,12 @@ clcc_prices_ref <- clcc_prices_ref %>%
   mutate(across(mean:max, ~ if_else(is.na(.x), 0, .x)),
          ref_yr = ref_yr)
 
+# Loading old prices for 2023-2024 comparison
+
+prices_23 <- read_excel(
+  path = here("data-raw", "prices_23.xlsx")
+)
+
 # checking if the call retrieved data for all years (comtrade data only)
 
 check_comtrade_l <- clcc_prices_ref %>%
@@ -332,7 +338,7 @@ names(simapro_template) <- template_names
 
 
 
-usethis::use_data(clcc_prices_ref, overwrite = TRUE)
+usethis::use_data(clcc_prices_ref, prices_23, overwrite = TRUE)
 
 usethis::use_data(simapro_template, simapro_codes, overwrite = TRUE, internal = TRUE)
 

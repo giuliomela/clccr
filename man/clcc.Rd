@@ -9,7 +9,8 @@ clcc(
   func_unit = "km",
   label_digits = 3,
   plot_phases = FALSE,
-  plot_phases_critical = FALSE
+  plot_phases_critical = FALSE,
+  price_source = "2024"
 )
 }
 \arguments{
@@ -25,6 +26,9 @@ the relative importance of each life cycle phase on the CLCC indicator.}
 
 \item{plot_phases_critical}{A logical value. if set to `TRUE` and `plot_phases` is also set to `TRUE`, the
 plot returned refers to the Critical CLCC indicator.}
+
+\item{price_source}{A string. If set to `2023` price sources used in the 2023 RDS report are used. If set to `2024`,
+the default, the 2024 updated price sources are used.}
 }
 \value{
 A list of 2 elements: a tibble containing the CLCC indicator calculated for each object and phase

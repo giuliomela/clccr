@@ -15,6 +15,8 @@
 #'     the relative importance of each life cycle phase on the CLCC indicator.
 #' @param plot_phases_critical A logical value. if set to `TRUE` and `plot_phases` is also set to `TRUE`, the
 #'     plot returned refers to the Critical CLCC indicator.
+#' @param price_source A string. If set to `2023` price sources used in the 2023 RDS report are used. If set to `2024`,
+#'     the default, the 2024 updated price sources are used.
 #' @return A list of 2 elements: a tibble containing the CLCC indicator calculated for each object and phase
 #'     and a `ggplot` object containing the plot of the results.
 #' @importFrom magrittr '%>%'
@@ -28,7 +30,8 @@
 #'
 #' }
 clcc <- function(path, func_unit = "km", label_digits = 3,
-                 plot_phases = FALSE, plot_phases_critical = FALSE){
+                 plot_phases = FALSE, plot_phases_critical = FALSE,
+                 price_source = "2024"){
 
   if (isFALSE(plot_phases) & isTRUE(plot_phases_critical))
     stop("The 'plot_phases_critical' argument can be set to TRUE only if 'plot_phases' = TRUE as well")
@@ -39,11 +42,25 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
   if(isFALSE(is.numeric(label_digits)))
     stop("The paramter 'label_digits' must be an integer")
 
+  if(!is.element(price_source, c("2023", "2024")))
+    stop("Please use a valid price source version: either '2023' or '2024'")
+
   clcc_critical <- object <- phase <- clcc_rel <-  NULL
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
-  prices <- clccr::clcc_prices_ref
+  if (price_source == "2024"){
+
+    prices <- clccr::clcc_prices_ref
+
+  } else if (price_source == "2023"){
+
+    prices <- clccr::clcc_prices_ref %>%
+      left_join(clccr::prices_23) %>%
+      mutate(mean = NULL) %>%
+      rename(mean = price23)
+
+  }
 
   test_commodity <- unique(inventories$comm) %in% prices$comm
 

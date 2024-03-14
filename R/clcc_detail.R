@@ -14,6 +14,8 @@
 #'     commodities considered. For example, if `collapse_share = 0.9` (the default) only commodities which
 #'     shares sum up to 90% of the total are returned as output. All the others are summed up in the
 #'     `others` category. The parameter must be between `0` and `1`.
+#'@param price_source A string. If set to `2023` price sources used in the 2023 RDS report are used. If set to `2024`,
+#'     the default, the 2024 updated price sources are used.
 #' @return A list containing a table with the results and a `ggplot` object.
 #' @export
 #' @examples
@@ -28,17 +30,32 @@
 clcc_detail <- function (path,
                          critical = FALSE,
                          phase_of_int = "total",
-                         collapse_share = 0.9
+                         collapse_share = 0.9,
+                         price_source = "2024"
                          ) {
 
   if(collapse_share > 1 | collapse_share < 0)
     stop("Please provide a valid value for 'collapse_share'; between 0 and 1.")
 
+  if(!is.element(price_source, c("2023", "2024")))
+    stop("Please use a valid price source version: either '2023' or '2024'")
+
   quantity <- phase <- comm <- object <- clcc_type <- desc <- share <- cum_share <- NULL
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
-  prices <- clccr::clcc_prices_ref
+  if (price_source == "2024"){
+
+    prices <- clccr::clcc_prices_ref
+
+  } else if (price_source == "2023"){
+
+    prices <- clccr::clcc_prices_ref %>%
+      left_join(clccr::prices_23) %>%
+      mutate(mean = NULL) %>%
+      rename(mean = price23)
+
+  }
 
   test_commodity <- unique(inventories$comm) %in% prices$comm
 
@@ -81,7 +98,7 @@ clcc_detail <- function (path,
     dplyr::group_by(object) %>%
     dplyr::arrange(desc(share)) %>%
     dplyr::mutate(cum_share = cumsum(share),
-                  comm = ifelse(
+                  macro_cat = ifelse(
                     cum_share <= collapse_share,
                     macro_cat,
                     "Other"

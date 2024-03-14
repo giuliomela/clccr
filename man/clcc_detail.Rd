@@ -8,7 +8,8 @@ clcc_detail(
   path,
   critical = FALSE,
   phase_of_int = "total",
-  collapse_share = 0.9
+  collapse_share = 0.9,
+  price_source = "2024"
 )
 }
 \arguments{
@@ -25,6 +26,9 @@ inventory file.}
 commodities considered. For example, if `collapse_share = 0.9` (the default) only commodities which
 shares sum up to 90% of the total are returned as output. All the others are summed up in the
 `others` category. The parameter must be between `0` and `1`.}
+
+\item{price_source}{A string. If set to `2023` price sources used in the 2023 RDS report are used. If set to `2024`,
+the default, the 2024 updated price sources are used.}
 }
 \value{
 A list containing a table with the results and a `ggplot` object.

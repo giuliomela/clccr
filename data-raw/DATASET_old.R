@@ -212,7 +212,7 @@ vars <- c("CTY_CODE", # countru code
          "GEN_CIF_MO", # CIF value
          "GEN_QY1_MO", # General imports, quantity 1
          "UNIT_QY1", # general quantity unit
-         "I_COMMODITY" # commodity code
+         "I_COMMODITY", # commodity code
          "I_COMMODITY_SDESC" # short commodity description
 )
 
@@ -225,19 +225,19 @@ commodities <- map_chr(usitc_codes,
                             .x)) %>%
   paste0(collapse = "")
 
-codice_prova <- paste0(base_url,
-       "?get=",
-       vars,
-       #"&key=",
-       #census_key,
-       "&YEAR=",
-       2021,
-       commodities
-)
+# codice_prova <- paste0(base_url,
+#        "?get=",
+#        vars,
+#        #"&key=",
+#        #census_key,
+#        "&YEAR=",
+#        2021,
+#        commodities
+# )
 
 
 
-GET(codice_prova)
+#GET(codice_prova)
 
 
 prices_usitc_raw <- map_dfr(years,
