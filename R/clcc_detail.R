@@ -17,6 +17,7 @@
 #'@param price_source A string. If set to `2023` price sources used in the 2023 RDS report are used. If set to `2024`,
 #'     the default, the 2024 updated price sources are used.
 #' @return A list containing a table with the results and a `ggplot` object.
+#' @importFrom rlang .data
 #' @export
 #' @examples
 #' \dontrun{
@@ -40,7 +41,7 @@ clcc_detail <- function (path,
   if(!is.element(price_source, c("2023", "2024")))
     stop("Please use a valid price source version: either '2023' or '2024'")
 
-  quantity <- phase <- comm <- object <- clcc_type <- desc <- share <- cum_share <- NULL
+  quantity <- phase <- comm <- object <- clcc_type <- desc <- share <- cum_share <- macro_cat <- NULL
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
@@ -51,9 +52,9 @@ clcc_detail <- function (path,
   } else if (price_source == "2023"){
 
     prices <- clccr::clcc_prices_ref %>%
-      left_join(clccr::prices_23) %>%
-      mutate(mean = NULL) %>%
-      rename(mean = price23)
+      dplyr::left_join(clccr::prices_23) %>%
+      dplyr::mutate(mean = NULL) %>%
+      dplyr::rename(mean = .data$price23)
 
   }
 

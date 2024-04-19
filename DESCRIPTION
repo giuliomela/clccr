@@ -1,7 +1,7 @@
 Package: clccr
 Type: Package
 Title: CLCC indicator for a product/process during its life cycle 
-Version: 0.5.1
+Version: 0.5.2
 Author: Giulio Mela
 Maintainer: Giulio Mela <giulio.mela@rse-web.it>
 Description: provides functions to calculate the commodity life cycle costing indicator,

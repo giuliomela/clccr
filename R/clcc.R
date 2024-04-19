@@ -56,9 +56,9 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
   } else if (price_source == "2023"){
 
     prices <- clccr::clcc_prices_ref %>%
-      left_join(clccr::prices_23) %>%
-      mutate(mean = NULL) %>%
-      rename(mean = price23)
+      dplyr::left_join(clccr::prices_23) %>%
+      dplyr::mutate(mean = NULL) %>%
+      dplyr::rename(mean = .data[["price23"]])
 
   }
 
