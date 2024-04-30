@@ -1,0 +1,981 @@
+{SimaPro 9.5.0.2}
+{methods}
+{Date: 4/18/2024}
+{Time: 11:53:47 AM}
+{Project: 2024_mobilita}
+{CSV Format version: 9.0.0}
+{CSV separator: Semicolon}
+{Decimal separator: .}
+{Date separator: /}
+{Short date format: M/d/yyyy}
+{Export platform IDs: No}
+{Selection: Current (1)}
+{Related objects (system descriptions, substances, units, etc.): No}
+{Include sub product stages and processes: No}
+{Skip unused parameters: No}
+{Open project: '2024_mobilita'}
+{Library 'Ecoinvent 3 - allocation, cut-off by classification - system'}
+{Library 'Ecoinvent 3 - allocation, cut-off by classification - unit'}
+{Library 'Methods'}
+
+Method
+
+Name
+RSE CLCC Group
+
+Version
+1;00
+
+Comment
+Commodity life cycle cost (CLCC) indicator.This is the most recent version of the CLCC and critical-CLCC indicators. For more information: https://doi.org/10.3390/su13094870The list of Critical Row Materials corresponds to the 2023 update by the European Commission Raw Materials Initiative (RMI).For more information: https://op.europa.eu/en/publication-detail/-/publication/57318397-fdd4-11ed-a05c-01aa75ed71a1/language-en
+
+Category
+European
+
+Use Damage Assessment
+No
+
+Use Normalization
+No
+
+Use Weighting
+Yes
+
+Use Addition
+Yes
+
+Weighting unit
+Pt
+
+Impact category
+Actinium;EUR
+
+Substances
+Raw;(unspecified);Actinium;007440-34-8;272.388128882575;kg
+
+Impact category
+Aluminium;EUR
+
+Substances
+Raw;(unspecified);Aluminium;007429-90-5;2.13710514772038;kg
+Raw;(unspecified);Bauxite;001318-16-7;0.0320911039950261;kg
+
+Impact category
+Anhydrite;EUR
+
+Substances
+Raw;(unspecified);Anhydrite;014798-04-0;0.0205870521835309;kg
+
+Impact category
+Antimony;EUR
+
+Substances
+Raw;(unspecified);Antimonite;;2.81477955947246;kg
+Raw;(unspecified);Antimony;007440-36-0;10.0492356937787;kg
+Raw;(unspecified);Stibnite;001317-86-8;2.81477955947246;kg
+
+Impact category
+Arsenic;EUR
+
+Substances
+Raw;(unspecified);Arsenic;007440-38-2;2.88261125983308;kg
+
+Impact category
+Asbestos;EUR
+
+Substances
+Raw;(unspecified);Chrysotile;012001-29-5;2.05179050292291;kg
+
+Impact category
+Barite;EUR
+
+Substances
+Raw;(unspecified);Barite;013462-86-7;0.190619930933949;kg
+
+Impact category
+Barium;EUR
+
+Substances
+Raw;(unspecified);Barium;007440-39-3;0.147998353004016;kg
+
+Impact category
+Basalt;EUR
+
+Substances
+Raw;(unspecified);Basalt;;0.108600954302969;kg
+Raw;(unspecified);Basalt, in Boden;;0.108600954302969;kg
+
+Impact category
+Beryllium;EUR
+
+Substances
+Raw;(unspecified);Beryllium;007440-41-7;684.221404945592;kg
+
+Impact category
+Biomass;EUR
+
+Substances
+Raw;(unspecified);Seed corn;;1.90463320047669;kg
+
+Impact category
+Bismuth;EUR
+
+Substances
+Raw;(unspecified);Bismuth;007440-69-9;12.8251721168877;kg
+
+Impact category
+Boron;EUR
+
+Substances
+Raw;(unspecified);Boron;007440-42-8;0.459525289702578;kg
+Raw;(unspecified);Colemanite;001318-33-8;0.657133184534592;kg
+
+Impact category
+Bromine;EUR
+
+Substances
+Raw;(unspecified);Bromine;010097-32-2;2.69957341201938;kg
+
+Impact category
+Cadmium;EUR
+
+Substances
+Raw;(unspecified);Cadmium;007440-43-9;2.52608789914275;kg
+
+Impact category
+Calcium;EUR
+
+Substances
+Raw;(unspecified);Calcium;007440-70-2;4.36337034152669;kg
+
+Impact category
+Calcium compounds;EUR
+
+Substances
+Raw;(unspecified);Calcite;013397-26-7;0.20604038502845;kg
+Raw;(unspecified);Calcium chloride;010043-52-4;0.274701082124631;kg
+Raw;(unspecified);Calcium sulfate;007778-18-9;0.0205870521835309;kg
+
+Impact category
+Carbon;EUR
+
+Substances
+Raw;(unspecified);Carbon;;1.3730328285795;kg
+
+Impact category
+Cesium;EUR
+
+Substances
+Raw;(unspecified);Cesium;007440-46-2;89317.7775790835;kg
+
+Impact category
+Chlorine;EUR
+
+Substances
+Raw;(unspecified);Chlorine;022537-15-1;0.307165105987564;kg
+
+Impact category
+Chromium;EUR
+
+Substances
+Raw;(unspecified);Chromium;007440-47-3;11.5195735647747;kg
+Raw;(unspecified);Chromium ore;;0.25457673629538;kg
+
+Impact category
+Clay;EUR
+
+Substances
+Raw;(unspecified);Clay, ball;;0.0498846286921104;kg
+Raw;(unspecified);Clay, bentonite;;0.0922547411182843;kg
+Raw;(unspecified);Clay, fire;;0.0151694016817118;kg
+Raw;(unspecified);Clay, unspecified;;0.0164398637937394;kg
+Raw;(unspecified);Fuller's earth;;0.097159245293535;kg
+Raw;(unspecified);Kaolin ore;;0.173245961515738;kg
+Raw;(unspecified);Kaolinite;066649-37-4;0.161886834471551;kg
+Raw;(unspecified);Kieserite;014567-64-7;0.250429729775756;kg
+
+Impact category
+Coal;EUR
+
+Substances
+Raw;(unspecified);Coal, 18 MJ per kg;;0.0469833185021661;kg
+Raw;(unspecified);Coal, 26.4 MJ per kg;;0.110200563199752;kg
+Raw;(unspecified);Coal, 29.3 MJ per kg;;0.110200563199752;kg
+Raw;(unspecified);Coal, bituminous, 24.8 MJ per kg;;0.110200563199752;kg
+Raw;(unspecified);Coal, brown;;0.0469833185021661;kg
+Raw;(unspecified);Coal, brown, 10 MJ per kg;;0.0469833185021661;kg
+Raw;(unspecified);Coal, brown, 8 MJ per kg;;0.0469833185021661;kg
+Raw;(unspecified);Coal, feedstock, 26.4 MJ per kg;;0.110200563199752;kg
+Raw;(unspecified);Coal, hard;;0.117983144143703;kg
+Raw;(unspecified);Coal, hard, 30.7 MJ per kg;;0.117983144143703;kg
+
+Impact category
+Cobalt;EUR
+
+Substances
+Raw;(unspecified);Cobalt;007440-48-4;44.1078004453046;kg
+Raw;(unspecified);Cobalt ore;;3.10962367847628;kg
+Raw;(unspecified);Cobalt, Co 5.0E-2%, in mixed ore;;44.1078004453046;kg
+
+Impact category
+Copper;EUR
+
+Substances
+Raw;(unspecified);Copper;007440-50-8;7.38843842200676;kg
+Raw;(unspecified);Copper ore;;2.19439513635864;kg
+Raw;(unspecified);Copper, 0.52% in sulfide, Cu 0.27% and Mo 8.2E-3% in crude ore;007440-50-8;7.38843842200676;kg
+Raw;(unspecified);Copper, 0.59% in sulfide, Cu 0.22% and Mo 8.2E-3% in crude ore;007440-50-8;7.38843842200676;kg
+Raw;(unspecified);Copper, 0.97% in sulfide, Cu 0.36% and Mo 4.1E-2% in crude ore;007440-50-8;7.38843842200676;kg
+Raw;(unspecified);Copper, 0.99% in sulfide, Cu 0.36% and Mo 8.2E-3% in crude ore;007440-50-8;7.38843842200676;kg
+Raw;(unspecified);Copper, 1.13% in sulfide, Cu 0.76% and Ni 0.76% in crude ore;007440-50-8;7.38843842200676;kg
+Raw;(unspecified);Copper, 1.18% in sulfide, Cu 0.39% and Mo 8.2E-3% in crude ore;007440-50-8;7.38843842200676;kg
+Raw;(unspecified);Copper, 1.42% in sulfide, Cu 0.81% and Mo 8.2E-3% in crude ore;007440-50-8;7.38843842200676;kg
+Raw;(unspecified);Copper, 2.19% in sulfide, Cu 1.83% and Mo 8.2E-3% in crude ore;007440-50-8;7.38843842200676;kg
+Raw;(unspecified);Copper, Cu 0.2%, in mixed ore;007440-50-8;7.38843842200676;kg
+Raw;(unspecified);Copper, Cu 0.38%, Au 9.7E-4%, Ag 9.7E-4%, Zn 0.63%, Pb 0.014%, in ore;007440-50-8;7.38843842200676;kg
+Raw;(unspecified);Copper, Cu 3.2E+0%, Pt 2.5E-4%, Pd 7.3E-4%, Rh 2.0E-5%, Ni 2.3E+0% in ore;007440-50-8;7.38843842200676;kg
+Raw;(unspecified);Copper, Cu 5.2E-2%, Pt 4.8E-4%, Pd 2.0E-4%, Rh 2.4E-5%, Ni 3.7E-2% in ore;007440-50-8;7.38843842200676;kg
+Raw;(unspecified);Copper, Cu 6.8E-1%, in mixed ore;;7.38843842200676;kg
+
+Impact category
+Diamond;EUR
+
+Substances
+Raw;(unspecified);Diamond, industrial;;62529.9400353654;kg
+
+Impact category
+Diatomite;EUR
+
+Substances
+Raw;(unspecified);Diatomite;068855-54-9;0.364630055222887;kg
+
+Impact category
+Dolomite;EUR
+
+Substances
+Raw;(unspecified);Dolomite;016389-88-1;0.0392904108732497;kg
+
+Impact category
+Feldspar;EUR
+
+Substances
+Raw;(unspecified);Feldspar;068476-25-5;0.0943400888499795;kg
+
+Impact category
+Fluorine;EUR
+
+Substances
+Raw;(unspecified);Fluorine;014762-94-8;3.18381705295131;kg
+Raw;(unspecified);Fluorine, 4.5% in apatite, 3% in crude ore;007782-41-4;3.18381705295131;kg
+
+Impact category
+Fluorspar;EUR
+
+Substances
+Raw;(unspecified);Fluorspar;014542-23-5;0.280400927721332;kg
+
+Impact category
+Gallium;EUR
+
+Substances
+Raw;(unspecified);Gallium;007440-55-3;553.449814854456;kg
+
+Impact category
+Garnet;EUR
+
+Substances
+Raw;(unspecified);Garnet, industrial;;0.249028889774072;kg
+
+Impact category
+Gases, other;EUR
+
+Substances
+Raw;(unspecified);Argon;007440-37-1;0.279661691845476;kg
+Raw;(unspecified);Argon-40/kg;;0.279661691845476;kg
+Raw;(unspecified);Helium;007440-59-7;38.123593644701;kg
+Raw;(unspecified);Neon;007440-01-9;53.4680038564798;kg
+Raw;(unspecified);Oxygen;007782-44-7;0.0866609325906039;kg
+
+Impact category
+Germanium;EUR
+
+Substances
+Raw;(unspecified);Germanium;007440-56-4;1530.96884275287;kg
+
+Impact category
+Gold;EUR
+
+Substances
+Raw;(unspecified);Gold;007440-57-5;50850.7302862946;kg
+Raw;(unspecified);Gold, Au 1.0E-7%, in mixed ore;;50850.7302862946;kg
+Raw;(unspecified);Gold, Au 1.1E-4%, Ag 4.2E-3%, in ore;007440-57-5;50850.7302862946;kg
+Raw;(unspecified);Gold, Au 1.3E-4%, Ag 4.6E-5%, in ore;007440-57-5;50850.7302862946;kg
+Raw;(unspecified);Gold, Au 1.8E-4%, in mixed ore;007440-57-5;50850.7302862946;kg
+Raw;(unspecified);Gold, Au 2.1E-4%, Ag 2.1E-4%, in ore;007440-57-5;50850.7302862946;kg
+Raw;(unspecified);Gold, Au 4.3E-4%, in ore;007440-57-5;50850.7302862946;kg
+Raw;(unspecified);Gold, Au 4.9E-5%, in ore;007440-57-5;50850.7302862946;kg
+Raw;(unspecified);Gold, Au 5.4E-4%, Ag 1.5E-5%, in ore;007440-57-5;50850.7302862946;kg
+Raw;(unspecified);Gold, Au 6.7E-4%, in ore;007440-57-5;50850.7302862946;kg
+Raw;(unspecified);Gold, Au 6.8E-4%, Ag 1.5E-4%, in ore;007440-57-5;50850.7302862946;kg
+Raw;(unspecified);Gold, Au 7.1E-4%, in ore;007440-57-5;50850.7302862946;kg
+Raw;(unspecified);Gold, Au 9.7E-4%, Ag 9.7E-4%, Zn 0.63%, Cu 0.38%, Pb 0.014%, in ore;007440-57-5;50850.7302862946;kg
+Raw;(unspecified);Gold, Au 9.7E-5%, Ag 7.6E-5%, in ore;007440-57-5;50850.7302862946;kg
+
+Impact category
+Granite;EUR
+
+Substances
+Raw;(unspecified);Granite;219714-96-2;0.108600954302969;kg
+
+Impact category
+Graphite;EUR
+
+Substances
+Raw;(unspecified);Graphite;;1.53515780416197;kg
+
+Impact category
+Gravel;EUR
+
+Substances
+Raw;(unspecified);Gravel;;0.0100631782219265;kg
+
+Impact category
+Gypsum;EUR
+
+Substances
+Raw;(unspecified);Gypsum;013397-24-5;0.00966879781913248;kg
+
+Impact category
+HREEs;EUR
+
+Substances
+Raw;(unspecified);Dysprosium;007429-91-6;311.25131439981;kg
+Raw;(unspecified);Erbium;007440-52-0;71.2454786645034;kg
+Raw;(unspecified);Europium;007440-53-1;233.505891697922;kg
+Raw;(unspecified);Gadolinium;007440-54-2;28.6918823027446;kg
+Raw;(unspecified);Holmium;007440-60-0;71.2454786645034;kg
+Raw;(unspecified);Lutetium;007439-94-3;71.2454786645034;kg
+Raw;(unspecified);Terbium;007440-27-9;863.908651985909;kg
+Raw;(unspecified);Thulium;007440-30-4;71.2454786645034;kg
+Raw;(unspecified);Ytterbium;007440-64-4;71.2454786645034;kg
+Raw;(unspecified);Yttrium;007440-65-5;45.631117358928;kg
+
+Impact category
+Hafnium;EUR
+
+Substances
+Raw;(unspecified);Hafnium;007440-58-6;1409.97348424361;kg
+
+Impact category
+Indium;EUR
+
+Substances
+Raw;(unspecified);Indium;007440-74-6;349.809636951799;kg
+
+Impact category
+Iodine;EUR
+
+Substances
+Raw;(unspecified);Iodine;014362-44-8;35.6594029765526;kg
+
+Impact category
+Iron;EUR
+
+Substances
+Raw;(unspecified);Iron;007439-89-6;0.105678064832555;kg
+Raw;(unspecified);Iron ore;;0.1123776263913;kg
+
+Impact category
+Kyanite;EUR
+
+Substances
+Raw;(unspecified);Kyanite;;0.385032679249848;kg
+
+Impact category
+LREEs;EUR
+
+Substances
+Raw;(unspecified);Cerium;007440-45-1;2.78688668518106;kg
+Raw;(unspecified);Lanthanum;007439-91-0;2.73315404246724;kg
+Raw;(unspecified);Neodymium;007440-00-8;68.5583303362323;kg
+Raw;(unspecified);Praseodymium;007440-10-0;33.2723285209512;kg
+Raw;(unspecified);Samarium;007440-19-9;33.2723285209512;kg
+
+Impact category
+Laterite;EUR
+
+Substances
+Raw;(unspecified);Laterite;;0.0351868072021808;kg
+
+Impact category
+Lead;EUR
+
+Substances
+Raw;(unspecified);Lead;007439-92-1;2.22970487504371;kg
+Raw;(unspecified);Lead ore;;1.85054241860916;kg
+Raw;(unspecified);Lead, Pb 0.014%, Au 9.7E-4%, Ag 9.7E-4%, Zn 0.63%, Cu 0.38%, in ore;007439-92-1;2.22970487504371;kg
+Raw;(unspecified);Lead, Pb 3.6E-1%, in mixed ore;007439-92-1;2.22970487504371;kg
+
+Impact category
+Limestone;EUR
+
+Substances
+Raw;(unspecified);Limestone;001317-65-3;0.0129236334875377;kg
+
+Impact category
+Lithium;EUR
+
+Substances
+Raw;(unspecified);Lithium;007439-93-2;143.633376512288;kg
+Raw;(unspecified);Spodumene;066057-55-4;0.758925495989195;kg
+
+Impact category
+Magnesium;EUR
+
+Substances
+Raw;(unspecified);Magnesite;000546-93-0;0.189305680680327;kg
+Raw;(unspecified);Magnesium;007439-95-4;3.07821005329489;kg
+Raw;(unspecified);Magnesium chloride;007786-30-3;0.306600798074193;kg
+
+Impact category
+Manganese;EUR
+
+Substances
+Raw;(unspecified);Ferromanganese;012604-53-4;1.10826789300396;kg
+Raw;(unspecified);Manganese;007439-96-5;2.61835352367027;kg
+Raw;(unspecified);Manganese ore;;0.00554260811671988;kg
+Raw;(unspecified);Pyrolusite;014854-26-3;1.48952854695946;kg
+
+Impact category
+Mercury;EUR
+
+Substances
+Raw;(unspecified);Cinnabar;023333-45-1;7.99468149921875;kg
+Raw;(unspecified);Mercury;007439-97-6;42.2312012325863;kg
+
+Impact category
+Molybdenum;EUR
+
+Substances
+Raw;(unspecified);Molybdenite (Mo 0,24%);;13.6099596745178;kg
+Raw;(unspecified);Molybdenum;007439-98-7;27.6281108445034;kg
+Raw;(unspecified);Molybdenum ore;;13.6099596745178;kg
+Raw;(unspecified);Molybdenum, 0.010% in sulfide, Mo 8.2E-3% and Cu 1.83% in crude ore;007439-98-7;27.6281108445034;kg
+Raw;(unspecified);Molybdenum, 0.014% in sulfide, Mo 8.2E-3% and Cu 0.81% in crude ore;007439-98-7;27.6281108445034;kg
+Raw;(unspecified);Molybdenum, 0.016% in sulfide, Mo 8.2E-3% and Cu 0.27% in crude ore;007439-98-7;27.6281108445034;kg
+Raw;(unspecified);Molybdenum, 0.022% in sulfide, Mo 8.2E-3% and Cu 0.22% in crude ore;007439-98-7;27.6281108445034;kg
+Raw;(unspecified);Molybdenum, 0.022% in sulfide, Mo 8.2E-3% and Cu 0.36% in crude ore;007439-98-7;27.6281108445034;kg
+Raw;(unspecified);Molybdenum, 0.025% in sulfide, Mo 8.2E-3% and Cu 0.39% in crude ore;007439-98-7;27.6281108445034;kg
+Raw;(unspecified);Molybdenum, 0.11% in sulfide, Mo 0.41% and Cu 0.36% in crude ore;007439-98-7;27.6281108445034;kg
+
+Impact category
+Natural gas;EUR
+
+Substances
+Raw;(unspecified);Gas, natural, 35 MJ per m3;008006-14-2;0.400498547012336;m3
+Raw;(unspecified);Gas, natural, 36.6 MJ per m3;008006-14-2;0.400498547012336;m3
+Raw;(unspecified);Gas, natural, feedstock, 35 MJ per m3;008006-14-2;0.400498547012336;m3
+Raw;(unspecified);Gas, natural/m3;008006-14-2;0.400498547012336;m3
+
+Impact category
+Nepheline;EUR
+
+Substances
+Raw;(unspecified);Nepheline;;0.147807231062225;kg
+
+Impact category
+Nickel;EUR
+
+Substances
+Raw;(unspecified);Nickel;007440-02-0;16.4298538489105;kg
+Raw;(unspecified);Nickel ore;;0.0639255875415089;kg
+Raw;(unspecified);Nickel, 1.13% in sulfide, Ni 0.76% and Cu 0.76% in crude ore;007440-02-0;16.4298538489105;kg
+Raw;(unspecified);Nickel, 1.13% in sulfides, 0.76% in crude ore;007440-02-0;16.4298538489105;kg
+Raw;(unspecified);Nickel, 1.98% in silicates, 1.04% in crude ore;007440-02-0;16.4298538489105;kg
+Raw;(unspecified);Nickel, Ni 2.3E+0%, Pt 2.5E-4%, Pd 7.3E-4%, Rh 2.0E-5%, Cu 3.2E+0% in ore;007440-02-0;16.4298538489105;kg
+Raw;(unspecified);Nickel, Ni 2.5E+0%, in mixed ore;;16.4298538489105;kg
+Raw;(unspecified);Nickel, Ni 3.7E-2%, Pt 4.8E-4%, Pd 2.0E-4%, Rh 2.4E-5%, Cu 5.2E-2% in ore;007440-02-0;16.4298538489105;kg
+
+Impact category
+Niobium;EUR
+
+Substances
+Raw;(unspecified);Niobium;007440-03-1;26.6914477062791;kg
+
+Impact category
+Oil;EUR
+
+Substances
+Raw;(unspecified);Oil, crude;;0.548909248260615;kg
+Raw;(unspecified);Oil, crude, 41 MJ per kg;;0.548909248260615;kg
+Raw;(unspecified);Oil, crude, 42 MJ per kg;;0.548909248260615;kg
+Raw;(unspecified);Oil, crude, 42.6 MJ per kg;;0.548909248260615;kg
+Raw;(unspecified);Oil, crude, 42.7 MJ per kg;;0.548909248260615;kg
+Raw;(unspecified);Oil, crude, feedstock, 41 MJ per kg;;0.548909248260615;kg
+Raw;(unspecified);Oil, crude, feedstock, 42 MJ per kg;;0.548909248260615;kg
+
+Impact category
+Olivine;EUR
+
+Substances
+Raw;(unspecified);Olivine;001317-71-1;1.29616278366106;kg
+
+Impact category
+Osmium;EUR
+
+Substances
+Raw;(unspecified);Osmium;007440-04-2;10094.3482783608;kg
+
+Impact category
+Other;EUR
+
+Substances
+Raw;(unspecified);Anodes (used);;7.45788483416146;kg
+
+Impact category
+PGMs;EUR
+
+Substances
+Raw;(unspecified);Iridium;012154-84-6;65761.4302636167;kg
+Raw;(unspecified);Palladium;007440-05-3;43971.9208287881;kg
+Raw;(unspecified);Palladium, Pd 1.6E-6%, in mixed ore;;43971.9208287881;kg
+Raw;(unspecified);Palladium, Pd 2.0E-4%, Pt 4.8E-4%, Rh 2.4E-5%, Ni 3.7E-2%, Cu 5.2E-2% in ore;007440-05-3;43971.9208287881;kg
+Raw;(unspecified);Palladium, Pd 7.3E-4%, Pt 2.5E-4%, Rh 2.0E-5%, Ni 2.3E+0%, Cu 3.2E+0% in ore;007440-05-3;43971.9208287881;kg
+Raw;(unspecified);PGM, 4.7E-4% Pt, 3.1E-4% Pd, 0.2E-4% Rh, in crude ore;;36547.0039981915;kg
+Raw;(unspecified);Platinum;007440-06-4;36547.0039981915;kg
+Raw;(unspecified);Platinum, Pt 2.5E-4%, Pd 7.3E-4%, Rh 2.0E-5%, Ni 2.3E+0%, Cu 3.2E+0% in ore;007440-06-4;36547.0039981915;kg
+Raw;(unspecified);Platinum, Pt 4.7E-7%, in mixed ore;;36547.0039981915;kg
+Raw;(unspecified);Platinum, Pt 4.8E-4%, Pd 2.0E-4%, Rh 2.4E-5%, Ni 3.7E-2%, Cu 5.2E-2% in ore;007440-06-4;36547.0039981915;kg
+Raw;(unspecified);Rhodium;007440-16-6;195190.448052203;kg
+Raw;(unspecified);Rhodium, Rh 1.6E-7%, in mixed ore;;195190.448052203;kg
+Raw;(unspecified);Rhodium, Rh 2.0E-5%, Pt 2.5E-4%, Pd 7.3E-4%, Ni 2.3E+0%, Cu 3.2E+0% in ore;007440-16-6;195190.448052203;kg
+Raw;(unspecified);Rhodium, Rh 2.4E-5%, Pt 4.8E-4%, Pd 2.0E-4%, Ni 3.7E-2%, Cu 5.2E-2% in ore;007440-16-6;195190.448052203;kg
+Raw;(unspecified);Ruthenium;007440-18-8;8060.03884483992;kg
+
+Impact category
+Peat;EUR
+
+Substances
+Raw;(unspecified);Peat;;0.0306482289698199;kg
+
+Impact category
+Perlite;EUR
+
+Substances
+Raw;(unspecified);Perlite;093763-70-3;0.0690570365360369;kg
+
+Impact category
+Phonolite;EUR
+
+Substances
+Raw;(unspecified);Phonolite;;0.173545651810297;kg
+
+Impact category
+Phosphorus;EUR
+
+Substances
+Raw;(unspecified);Apatite;;0.113380887618071;kg
+Raw;(unspecified);Phosphate ore;;0.0865419288899888;kg
+Raw;(unspecified);Phosphorus;007723-14-0;3.98770429827593;kg
+Raw;(unspecified);Phosphorus ore;;0.117508913831211;kg
+Raw;(unspecified);Phosphorus, 18% in apatite, 4% in crude ore;007723-14-0;3.98770429827593;kg
+
+Impact category
+Phosphorus compounds;EUR
+
+Substances
+Raw;(unspecified);Phosphorus pentoxide;001314-56-3;0.117508913831211;kg
+
+Impact category
+Polonium;EUR
+
+Substances
+Raw;(unspecified);Polonium;007440-08-6;272.388128882575;kg
+
+Impact category
+Potash;EUR
+
+Substances
+Raw;(unspecified);Carnallite;;0.328982669666926;kg
+
+Impact category
+Potassium;EUR
+
+Substances
+Raw;(unspecified);Potashsalt, crude;;0.99246857811272;kg
+Raw;(unspecified);Potassium;007440-09-7;0.295779319399816;kg
+Raw;(unspecified);Potassium chloride;007447-40-7;0.295779319399816;kg
+
+Impact category
+Pumice;EUR
+
+Substances
+Raw;(unspecified);Pumice;001332-09-8;0.0436531950937574;kg
+
+Impact category
+Pyrite;EUR
+
+Substances
+Raw;(unspecified);Pyrite;001309-36-0;0.284267577746586;kg
+
+Impact category
+Quartzite;EUR
+
+Substances
+Raw;(unspecified);Quartzite;;0.0917795335926751;kg
+
+Impact category
+Radium;EUR
+
+Substances
+Raw;(unspecified);Radium;007440-14-4;272.388128882575;kg
+
+Impact category
+Rhenium;EUR
+
+Substances
+Raw;(unspecified);Rhenium;007440-15-5;1772.98623664046;kg
+
+Impact category
+Sand;EUR
+
+Substances
+Raw;(unspecified);Sand;014808-60-7;0.0209507395981179;kg
+Raw;(unspecified);Sand and clay;;0.0209507395981179;kg
+Raw;(unspecified);Sand and gravel;;0.0100739178740255;kg
+Raw;(unspecified);Sand, gravel and stone, extracted for use;;0.0129185412170585;kg
+Raw;(unspecified);Sand, quartz;;0.0534724472142763;kg
+
+Impact category
+Scandium;EUR
+
+Substances
+Raw;(unspecified);Scandium;007440-20-2;149088.849208316;kg
+
+Impact category
+Selenium;EUR
+
+Substances
+Raw;(unspecified);Selenium;007782-49-2;40.4062147873923;kg
+
+Impact category
+Shale;EUR
+
+Substances
+Raw;(unspecified);Shale;;0.417270581246027;kg
+
+Impact category
+Silicon;EUR
+
+Substances
+Raw;(unspecified);Silicon;007440-21-3;2.41610158339246;kg
+
+Impact category
+Silicon compounds;EUR
+
+Substances
+Raw;(unspecified);Tripoli;;0.456371549908355;kg
+
+Impact category
+Silver;EUR
+
+Substances
+Raw;(unspecified);Silver;007440-22-4;675.660699857546;kg
+Raw;(unspecified);Silver, 0.007% in sulfide, Ag 0.004%, Pb, Zn, Cd, In;007440-22-4;675.660699857546;kg
+Raw;(unspecified);Silver, 3.2ppm in sulfide, Ag 1.2ppm, Cu and Te, in crude ore;007440-22-4;675.660699857546;kg
+Raw;(unspecified);Silver, Ag 1.5E-4%, Au 6.8E-4%, in ore;007440-22-4;675.660699857546;kg
+Raw;(unspecified);Silver, Ag 1.5E-5%, Au 5.4E-4%, in ore;007440-22-4;675.660699857546;kg
+Raw;(unspecified);Silver, Ag 1.8E-6%, in mixed ore;;675.660699857546;kg
+Raw;(unspecified);Silver, Ag 2.1E-4%, Au 2.1E-4%, in ore;007440-22-4;675.660699857546;kg
+Raw;(unspecified);Silver, Ag 4.2E-3%, Au 1.1E-4%, in ore;007440-22-4;675.660699857546;kg
+Raw;(unspecified);Silver, Ag 4.6E-5%, Au 1.3E-4%, in ore;007440-22-4;675.660699857546;kg
+Raw;(unspecified);Silver, Ag 5.4E-3%, in mixed ore;007440-22-4;675.660699857546;kg
+Raw;(unspecified);Silver, Ag 7.6E-5%, Au 9.7E-5%, in ore;007440-22-4;675.660699857546;kg
+Raw;(unspecified);Silver, Ag 9.7E-4%, Au 9.7E-4%, Zn 0.63%, Cu 0.38%, Pb 0.014%, in ore;007440-22-4;675.660699857546;kg
+
+Impact category
+Slate;EUR
+
+Substances
+Raw;(unspecified);Slate;;0.192210508308049;kg
+
+Impact category
+Sodium;EUR
+
+Substances
+Raw;(unspecified);Sodium;007440-23-5;2.70487761636427;kg
+
+Impact category
+Sodium compounds;EUR
+
+Substances
+Raw;(unspecified);Borax;071377-02-1;0.338748467224472;kg
+Raw;(unspecified);Sodium bromide;;2.29572711087703;kg
+Raw;(unspecified);Sodium carbonate;000497-19-8;0.164299144816151;kg
+Raw;(unspecified);Sodium chloride;007647-14-5;0.12475184120093;kg
+Raw;(unspecified);Sodium nitrate;007631-99-4;0.604706651909817;kg
+Raw;(unspecified);Sodium sulfate;007757-82-6;0.106432718454163;kg
+Raw;(unspecified);Trona;;0.231593829371612;kg
+
+Impact category
+Steatite;EUR
+
+Substances
+Raw;(unspecified);Steatite;;0.349201531887645;kg
+
+Impact category
+Strontium;EUR
+
+Substances
+Raw;(unspecified);Strontium;007440-24-6;0.0919362623310548;kg
+
+Impact category
+Sulfur;EUR
+
+Substances
+Raw;(unspecified);Sulfur;007704-34-9;0.0801672654993032;kg
+
+Impact category
+Sulfur compounds;EUR
+
+Substances
+Raw;(unspecified);Sulfur dioxide;007446-09-5;0.824941339084964;kg
+
+Impact category
+Talc;EUR
+
+Substances
+Raw;(unspecified);Talc;014807-96-6;0.249686868357502;kg
+
+Impact category
+Tantalum;EUR
+
+Substances
+Raw;(unspecified);Tantalum;007440-25-7;210.159754587135;kg
+
+Impact category
+Tellurium;EUR
+
+Substances
+Raw;(unspecified);Tellurium;013494-80-9;79.3932696887636;kg
+
+Impact category
+Thallium;EUR
+
+Substances
+Raw;(unspecified);Thallium;007440-28-0;7736.75015977986;kg
+
+Impact category
+Thorium;EUR
+
+Substances
+Raw;(unspecified);Thorium;007440-29-1;54.7685347303445;kg
+
+Impact category
+Tin;EUR
+
+Substances
+Raw;(unspecified);Tin;007440-31-5;23.6401562346687;kg
+Raw;(unspecified);Tin ore;;8.09019690626056;kg
+
+Impact category
+Titanium;EUR
+
+Substances
+Raw;(unspecified);Ilmenite;;0.241550415444081;kg
+Raw;(unspecified);Rutile;001317-80-2;1.16964001335747;kg
+Raw;(unspecified);TiO2, 45-60% in Ilmenite;013463-67-7;23.6899631800725;kg
+Raw;(unspecified);TiO2, 54% in ilmenite, 18% in crude ore;013463-67-7;23.6899631800725;kg
+Raw;(unspecified);TiO2, 54% in ilmenite, 2.6% in crude ore;013463-67-7;23.6899631800725;kg
+Raw;(unspecified);TiO2, 95% in rutile, 0.40% in crude ore;013463-67-7;23.6899631800725;kg
+Raw;(unspecified);Titanium;007440-32-6;0.807750430866502;kg
+Raw;(unspecified);Titanium ore;;0.241550415444081;kg
+Raw;(unspecified);Titanium oxide;013463-67-7;0.807750430866502;kg
+
+Impact category
+Tungsten;EUR
+
+Substances
+Raw;(unspecified);Tungsten;007440-33-7;0.28179106794398;kg
+Raw;(unspecified);Tungsten ore;;10.3098330269258;kg
+
+Impact category
+Ulexite;EUR
+
+Substances
+Raw;(unspecified);Ulexite;001319-33-1;0.338748467224472;kg
+
+Impact category
+Uranium;EUR
+
+Substances
+Raw;(unspecified);Uranium;007440-61-1;77.1457886760565;kg
+Raw;(unspecified);Uranium ore, 1.11 GJ per kg;;87.8053134617933;kg
+Raw;(unspecified);Uranium oxide, 332 GJ per kg, in ore;001317-99-3;87.8053134617933;kg
+Raw;(unspecified);Uranium, 2291 GJ per kg;007440-61-1;77.1457886760565;kg
+Raw;(unspecified);Uranium, 451 GJ per kg;007440-61-1;77.1457886760565;kg
+Raw;(unspecified);Uranium, 560 GJ per kg;007440-61-1;77.1457886760565;kg
+
+Impact category
+Vanadium;EUR
+
+Substances
+Raw;(unspecified);Vanadium;007440-62-2;19.739105720868;kg
+Raw;(unspecified);Vanadium ore;;5.77672920425045;kg
+
+Impact category
+Vermiculite;EUR
+
+Substances
+Raw;(unspecified);Vermiculite;001318-00-9;0.123340336514866;kg
+
+Impact category
+Wollastonite;EUR
+
+Substances
+Raw;(unspecified);Wollastonite;;0.349063529671308;kg
+
+Impact category
+Wood;EUR
+
+Substances
+Raw;(unspecified);Wood, hard, standing;;286.845069946533;m3
+Raw;(unspecified);Wood, soft, standing;;217.357709337667;m3
+
+Impact category
+Zeolite;EUR
+
+Substances
+Raw;(unspecified);Zeolite;;0.273802570468157;kg
+
+Impact category
+Zinc;EUR
+
+Substances
+Raw;(unspecified);Zinc;007440-66-6;2.70587919172709;kg
+Raw;(unspecified);Zinc 9%, Lead 5%, in sulfide;007440-66-6;0;kg
+Raw;(unspecified);Zinc ore;;2.70580836125033;kg
+Raw;(unspecified);Zinc, Zn 0.63%, Au 9.7E-4%, Ag 9.7E-4%, Cu 0.38%, Pb 0.014%, in ore;007440-66-6;2.70587919172709;kg
+Raw;(unspecified);Zinc, Zn 3.1%, in mixed ore;007440-66-6;2.70587919172709;kg
+
+Impact category
+Zirconium;EUR
+
+Substances
+Raw;(unspecified);Zirconia;001314-23-4;12.8275308687013;kg
+Raw;(unspecified);Zirconium;007440-67-7;36.5039420156873;kg
+
+Normalization-Weighting set
+CLCC
+
+Weighting
+Actinium;1
+Aluminium;1
+Anhydrite;1
+Antimony;1
+Arsenic;1
+Asbestos;1
+Barite;1
+Barium;1
+Basalt;1
+Beryllium;1
+Biomass;1
+Bismuth;1
+Boron;1
+Bromine;1
+Cadmium;1
+Calcium;1
+Calcium compounds;1
+Carbon;1
+Cesium;1
+Chlorine;1
+Chromium;1
+Clay;1
+Coal;1
+Cobalt;1
+Copper;1
+Diamond;1
+Diatomite;1
+Dolomite;1
+Feldspar;1
+Fluorine;1
+Fluorspar;1
+Gallium;1
+Garnet;1
+Gases, other;1
+Germanium;1
+Gold;1
+Granite;1
+Graphite;1
+Gravel;1
+Gypsum;1
+HREEs;1
+Hafnium;1
+Indium;1
+Iodine;1
+Iron;1
+Kyanite;1
+LREEs;1
+Laterite;1
+Lead;1
+Limestone;1
+Lithium;1
+Magnesium;1
+Manganese;1
+Mercury;1
+Molybdenum;1
+Natural gas;1
+Nepheline;1
+Nickel;1
+Niobium;1
+Oil;1
+Olivine;1
+Osmium;1
+Other;1
+PGMs;1
+Peat;1
+Perlite;1
+Phonolite;1
+Phosphorus;1
+Phosphorus compounds;1
+Polonium;1
+Potash;1
+Potassium;1
+Pumice;1
+Pyrite;1
+Quartzite;1
+Radium;1
+Rhenium;1
+Sand;1
+Scandium;1
+Selenium;1
+Shale;1
+Silicon;1
+Silicon compounds;1
+Silver;1
+Slate;1
+Sodium;1
+Sodium compounds;1
+Steatite;1
+Strontium;1
+Sulfur;1
+Sulfur compounds;1
+Talc;1
+Tantalum;1
+Tellurium;1
+Thallium;1
+Thorium;1
+Tin;1
+Titanium;1
+Tungsten;1
+Ulexite;1
+Uranium;1
+Vanadium;1
+Vermiculite;1
+Wollastonite;1
+Wood;1
+Zeolite;1
+Zinc;1
+Zirconium;1
+
+End

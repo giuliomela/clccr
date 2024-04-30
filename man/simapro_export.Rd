@@ -4,7 +4,11 @@
 \alias{simapro_export}
 \title{Generate a SimaPro-compatible csv file of characterization factors}
 \usage{
-simapro_export()
+simapro_export(groups = FALSE)
+}
+\arguments{
+\item{groups}{A logical value (either TRUE or FALSE). If set to TRUE, the commodities are grouped
+in macro-categories to make interpretation easier.}
 }
 \value{
 A SimaPro-compatible csv file
