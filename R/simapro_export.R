@@ -22,7 +22,7 @@ simapro_export <- function(groups = FALSE){
   if (isTRUE(groups)) {
 
     prices_simple <- clccr::clcc_prices_ref |>
-      dplyr::select(dplyr::all_of(c("comm", "macro_cat", "mean")))
+      dplyr::select(dplyr::all_of(c("comm", "macro_cat", "mean", "um")))
 
 
     macro_cat_names <- unique(prices_simple$macro_cat)
@@ -36,10 +36,12 @@ simapro_export <- function(groups = FALSE){
                     .data[["comm"]],
                     .data[["code1"]],
                     .data[["mean"]],
-                    .data[["macro_cat"]]) |>
-      dplyr::mutate(um = "kg") |>
+                    .data[["macro_cat"]],
+                    .data[["um"]]) |>
       dplyr::mutate(dplyr::across(dplyr::everything(), \(x) ifelse(is.na(x), "", x))) |>
       dplyr::filter(comm %in% comm_to_retain)
+
+    output_data
 
 
     output_data_l <- split(output_data[-6],
@@ -52,7 +54,7 @@ simapro_export <- function(groups = FALSE){
       \(x) {
 
         cat <- matrix(
-          c("Impact category", names(output_data_l)[x], "", "EUR", rep("", 14)),
+          c("Impact category", names(output_data_l)[x], "", "", "EUR", rep("", 13)),
           nrow = 3
         )
 
@@ -107,7 +109,9 @@ simapro_export <- function(groups = FALSE){
 
     to_append <- list(top, matrix(rep("", 6), nrow = 1), output_df, bottom)
 
-  } else if (isFALSE(groups)) {
+  }
+
+  else if (isFALSE(groups)) {
 
   #selecting flows of interest
 

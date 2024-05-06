@@ -1,4 +1,16 @@
-﻿{Related objects (system descriptions, substances, units, etc.): No};
+﻿{SimaPro 9.5.0.2};
+{methods};
+{Date: 4/18/2024};
+{Time: 11:53:47 AM};
+{Project: 2024_mobilita};
+{CSV Format version: 9.0.0};
+{CSV separator: Semicolon};
+{Decimal separator: .};
+{Date separator: /};
+{Short date format: M/d/yyyy};
+{Export platform IDs: No};
+{Selection: Current (1)};
+{Related objects (system descriptions, substances, units, etc.): No};
 {Include sub product stages and processes: No};
 {Skip unused parameters: No};
 {Open project: '2024_mobilita'};
