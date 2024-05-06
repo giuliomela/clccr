@@ -6,6 +6,8 @@
 #'
 #' @param groups A logical value (either TRUE or FALSE). If set to TRUE, the commodities are grouped
 #'     in macro-categories to make interpretation easier.
+#' @param crit A logical value that can be selected only when `groups = TRUE`. If it is set to `TRUE` a .csv
+#'     file containing critical materials only is generated to be exported to Simapro.
 #' @return A SimaPro-compatible csv file
 #' @export
 #' @examples
@@ -14,20 +16,48 @@
 #'
 #' simapro_export(critical_only = FALSE)
 #' }
-simapro_export <- function(groups = FALSE){
+simapro_export <- function(groups = FALSE, crit = FALSE){
 
   comp <- var1 <- comm <- um <- code1 <- code2 <- critical <- energy <- formula <- price <- NULL
+
+  if (isFALSE(groups) & isTRUE(crit))
+    stop("The critical parameter can be selected only when
+                                               'groups' == TRUE")
 
 
   if (isTRUE(groups)) {
 
-    prices_simple <- clccr::clcc_prices_ref |>
-      dplyr::select(dplyr::all_of(c("comm", "macro_cat", "mean", "um")))
+
+    if(isTRUE(crit)){
+
+      prices_simple <- clccr::clcc_prices_ref |>
+        dplyr::filter(
+            .data[["critical"]] == "yes"
+        ) |>
+        dplyr::select(dplyr::all_of(c("comm", "macro_cat", "mean", "um")))
+
+      top <- simapro_template$gruppi_critical_top
+
+      bottom <- simapro_template$gruppi_critical_bottom
+
+      comm_to_retain <- clccr::clcc_prices_ref[clccr::clcc_prices_ref$source != "none" &
+                                                 clccr::clcc_prices_ref$critical == "yes", ]$comm
+
+    } else if (isFALSE(crit)) {
+
+      prices_simple <- clccr::clcc_prices_ref |>
+        dplyr::select(dplyr::all_of(c("comm", "macro_cat", "mean", "um")))
+
+    top <- simapro_template$gruppi_top
+
+    bottom <- simapro_template$gruppi_bottom
+
+    comm_to_retain <- clccr::clcc_prices_ref[clccr::clcc_prices_ref$source != "none", ]$comm
+
+    }
 
 
     macro_cat_names <- unique(prices_simple$macro_cat)
-
-    comm_to_retain <- clccr::clcc_prices_ref[clccr::clcc_prices_ref$source != "none", ]$comm
 
     output_data <- simapro_codes |>
       dplyr::left_join(prices_simple) |>
@@ -40,8 +70,6 @@ simapro_export <- function(groups = FALSE){
                     .data[["um"]]) |>
       dplyr::mutate(dplyr::across(dplyr::everything(), \(x) ifelse(is.na(x), "", x))) |>
       dplyr::filter(comm %in% comm_to_retain)
-
-    output_data
 
 
     output_data_l <- split(output_data[-6],
@@ -84,7 +112,7 @@ simapro_export <- function(groups = FALSE){
       output_list
     )
 
-    top <- simapro_template$gruppi_top |>
+    top <- top |>
       dplyr::mutate(
         dplyr::across(dplyr::everything(), \(x) ifelse(is.na(x), "", x))
       )
@@ -95,7 +123,7 @@ simapro_export <- function(groups = FALSE){
 
     top <- as.matrix(top)
 
-    bottom <- simapro_template$gruppi_bottom |>
+    bottom <- bottom |>
       dplyr::mutate(
         dplyr::across(dplyr::everything(), \(x) ifelse(is.na(x), "", x))
       )

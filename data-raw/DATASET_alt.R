@@ -318,7 +318,8 @@ simapro_codes <- read_excel(here("data-raw/db_comm_master_2024.xlsx"),
 
 #Loading metadata files to prepare output csv to be loaded in SimaPro
 
-template_names <- c("top", "mid1", "mid2", "bottom", "gruppi_top", "gruppi_bottom")
+template_names <- c("top", "mid1", "mid2", "bottom", "gruppi_top", "gruppi_bottom",
+                    "gruppi_critical_top", "gruppi_critical_bottom")
 
 # simapro_template <- lapply(template_names,
 #                            function(x) readLines(here::here("data-raw",

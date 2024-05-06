@@ -1,0 +1,44 @@
+Normalization-Weighting set;
+critical-CLCC;
+;
+Weighting;
+Aluminium;1
+Antimony;1
+Arsenic;1
+Barite;1
+Barium;1
+Beryllium;1
+Bismuth;1
+Boron;1
+Coal;1
+Cobalt;1
+Copper;1
+Feldspar;1
+Fluorspar;1
+Gallium;1
+Gases, other;1
+Germanium;1
+Graphite;1
+HREEs;1
+Hafnium;1
+LREEs;1
+Laterite;1
+Lithium;1
+Magnesium;1
+Manganese;1
+Nickel;1
+Niobium;1
+Osmium;1
+PGMs;1
+Phosphorus;1
+Phosphorus compounds;1
+Scandium;1
+Silicon;1
+Sodium compounds;1
+Strontium;1
+Tantalum;1
+Titanium;1
+Tungsten;1
+Vanadium;1
+;
+End;
