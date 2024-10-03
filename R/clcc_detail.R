@@ -51,9 +51,9 @@ clcc_detail <- function (path,
 
   } else if (price_source == "2023"){
 
-    prices <- clccr::clcc_prices_ref %>%
-      dplyr::left_join(clccr::prices_23) %>%
-      dplyr::mutate(mean = NULL) %>%
+    prices <- clccr::clcc_prices_ref |>
+      dplyr::left_join(clccr::prices_23) |>
+      dplyr::mutate(mean = NULL) |>
       dplyr::rename(mean = .data$price23)
 
   }
@@ -66,8 +66,8 @@ clcc_detail <- function (path,
 
   if (isTRUE(critical)) {
 
-    inv_prices <- inv_prices %>%
-      dplyr::filter(critical == "yes") %>%
+    inv_prices <- inv_prices |>
+      dplyr::filter(critical == "yes") |>
       dplyr::mutate(clcc_type = "critical-clcc")
 
   } else {
@@ -80,37 +80,37 @@ clcc_detail <- function (path,
 
   # Computing the CLCC indicator
 
-  clcc_raw <- inv_prices %>%
-    dplyr::mutate(clcc = mean * quantity) %>%
-    dplyr::filter(phase == phase_of_int) %>%
-    dplyr::group_by(object, phase, clcc_type, macro_cat) %>%
-    dplyr::summarise(clcc = sum(clcc)) %>%
-    #dplyr::select(comm, object, phase, clcc_type, clcc) %>%
+  clcc_raw <- inv_prices |>
+    dplyr::mutate(clcc = mean * quantity) |>
+    dplyr::filter(phase == phase_of_int) |>
+    dplyr::group_by(object, phase, clcc_type, macro_cat) |>
+    dplyr::summarise(clcc = sum(clcc)) |>
+    #dplyr::select(comm, object, phase, clcc_type, clcc) |>
     tibble::as_tibble()
 
-  clcc_tot <- clcc_raw %>%
-    dplyr::group_by(object, phase, clcc_type) %>%
-    dplyr::summarise(clcc_tot = sum(clcc)) %>%
+  clcc_tot <- clcc_raw |>
+    dplyr::group_by(object, phase, clcc_type) |>
+    dplyr::summarise(clcc_tot = sum(clcc)) |>
     dplyr::ungroup()
 
-  clcc_detail_cat <- clcc_raw %>%
-    dplyr::left_join(clcc_tot) %>%
-    dplyr::mutate(share = clcc / clcc_tot) %>%
-    dplyr::group_by(object) %>%
-    dplyr::arrange(desc(share)) %>%
+  clcc_detail_cat <- clcc_raw |>
+    dplyr::left_join(clcc_tot) |>
+    dplyr::mutate(share = clcc / clcc_tot) |>
+    dplyr::group_by(object) |>
+    dplyr::arrange(desc(share)) |>
     dplyr::mutate(cum_share = cumsum(share),
                   macro_cat = ifelse(
                     cum_share <= collapse_share,
                     macro_cat,
                     "Other"
-                  )) %>%
-    dplyr::group_by(object, macro_cat, phase, clcc_type, clcc_tot) %>%
-    dplyr::summarise(dplyr::across(c(clcc, share), sum)) %>%
-    dplyr::ungroup() %>%
+                  )) |>
+    dplyr::group_by(object, macro_cat, phase, clcc_type, clcc_tot) |>
+    dplyr::summarise(dplyr::across(c(clcc, share), sum)) |>
+    dplyr::ungroup() |>
     dplyr::arrange(object, desc(share))
 
 
-  plot <- clcc_detail_cat %>%
+  plot <- clcc_detail_cat |>
     ggplot2::ggplot(
       ggplot2::aes(area = share, fill = macro_cat, label = paste0(stringr::str_trunc(macro_cat, 20), " ",
                                                              round(share * 100),

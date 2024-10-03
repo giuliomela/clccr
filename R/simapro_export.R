@@ -143,19 +143,19 @@ simapro_export <- function(groups = FALSE, crit = FALSE){
 
   #selecting flows of interest
 
-  data_raw <- simapro_codes %>%
-    dplyr::left_join(clccr::clcc_prices_ref) %>%
-    dplyr::filter(source != "none") %>%
+  data_raw <- simapro_codes |>
+    dplyr::left_join(clccr::clcc_prices_ref) |>
+    dplyr::filter(source != "none") |>
     dplyr::select(comp, var1, comm, price = mean, um, code1, code2, critical)
 
 
   data_ready <- lapply(list(c("yes", "no"), "yes"),
-                       function(x) data_raw %>%
+                       function(x) data_raw |>
                          dplyr::mutate(price = ifelse(
                            critical %in% x,
                            price,
                            0
-                         )) %>%
+                         )) |>
                          dplyr::select(comp, var1, comm, code1, price, um, code2)
   )
 
@@ -165,22 +165,22 @@ simapro_export <- function(groups = FALSE, crit = FALSE){
 
   # commodity metadata to add to the csv file
 
-  data_meta <- data_ready[[1]] %>%
-    dplyr::bind_rows() %>%
-    dplyr::left_join(simapro_codes) %>%
-    dplyr::arrange(comm) %>%
-    dplyr::select(comm, um, code1, formula, code2) %>%
-    as.data.frame() %>%
+  data_meta <- data_ready[[1]] |>
+    dplyr::bind_rows() |>
+    dplyr::left_join(simapro_codes) |>
+    dplyr::arrange(comm) |>
+    dplyr::select(comm, um, code1, formula, code2) |>
+    as.data.frame() |>
     unique()
 
   # Removing variable names
 
   names(data_meta) <- NULL
 
-  data_clcc <- as.data.frame(data_ready[["CLCC"]]) %>%
+  data_clcc <- as.data.frame(data_ready[["CLCC"]]) |>
     unique()
 
-  data_critical <- as.data.frame(data_ready[["critical-CLCC"]]) %>%
+  data_critical <- as.data.frame(data_ready[["critical-CLCC"]]) |>
     unique()
 
   names(data_clcc) <- NULL

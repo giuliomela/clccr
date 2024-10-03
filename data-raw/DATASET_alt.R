@@ -33,22 +33,32 @@ um_p <- read_xlsx(here("data-raw/um.xlsx"), sheet = "p") # loading measurement u
 
 # defining reference year and horizon length
 
-ref_yr <- 2022
+ref_yr <- 2023
 
 h <- 10
 
 # downloading GDP deflators (Euro area for Eurostat and Comext data and US for Comtrade and USITC data)
 
-gdp_defl_raw <- rdb(c("OECD/MEI/EA20.NAGIGP01.IXOBSA.A",
-                      "OECD/MEI/USA.NAGIGP01.IXOBSA.A"))
+gdp_defl_raw_usd <- rdb(
+  "OECD/MEI/USA.NAGIGP01.IXOBSA.A"
+  ) |>
+  mutate(cur = "usd") |>
+  select(c(original_period, cur, defl = value))
 
-gdp_defl <- gdp_defl_raw[, c("original_period", "LOCATION", "value")]
+gdp_defl_raw_eur <- rdb(
+  "Eurostat/nama_10_gdp/A.PD15_EUR.B1GQ.EA"
+) |>
+  mutate(cur = "eur") |>
+  select(c(original_period, cur, defl = value))
 
-names(gdp_defl) <- c("year", "cur", "defl")
+gdp_defl <- bind_rows(
+  gdp_defl_raw_usd,
+  gdp_defl_raw_eur
+)
 
-gdp_defl$year <- as.numeric(gdp_defl$year)
+gdp_defl$year <- as.numeric(gdp_defl$original_period)
 
-gdp_defl$cur <- ifelse(gdp_defl$cur == "USA", "usd", "eur")
+gdp_defl$original_period <- NULL
 
 
 # downloading USD-EUR exchange rate from the European Central Bank database
@@ -95,7 +105,7 @@ comtrade_raw <- bind_rows(
 ) %>%
   mutate(qty = if_else(
     is.na(qty) | qty == 0,
-    altQty,
+    alt_qty,
     qty
   ))
 
@@ -103,8 +113,8 @@ comtrade_raw <- bind_rows(
 # tidying data
 
 trade_data_tidy <- subset(comtrade_raw,  # removes flows of less than 100 kg
-                          select = c(refYear, reporterISO, partnerISO, cmdCode,
-                                     cmdDesc, qty, fobvalue)) %>%
+                          select = c(ref_year, reporter_iso, partner_iso, cmd_code,
+                                     cmd_desc, qty, fobvalue)) %>%
   as_tibble()
 
 names(trade_data_tidy) <- c("year", "reporter_iso", "partner_iso", "commodity_code",
@@ -219,11 +229,18 @@ price_comext_def <- comext_raw %>%
 
 prices_all <- bind_rows(price_comtrade_def, price_comext_def,
                         price_imf_def, price_usgs_def) %>%
-  as_tibble()
+  as_tibble() |>
+  filter(year %in% (ref_yr - 9) : ref_yr)
 
 # adjusting for inflation
 
-prices_all <- prices_all %>%
+prices_grid <- expand_grid(
+  year = (ref_yr - 9) : ref_yr,
+  unique(select(prices_all, code, source, cur))
+)
+
+prices_all <- prices_grid |>
+  left_join(prices_all) %>%
   left_join(gdp_defl) %>%
   group_by(code, source) %>%
   mutate(price_k = price / defl * defl[year == ref_yr]) %>%

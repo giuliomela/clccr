@@ -32,9 +32,9 @@ inventory_raw <- tidyr::tibble(file_path = file_list) # creates a tibble
 inventory_raw$skip <- purrr::map_dbl(inventory_raw$file_path, start_data_finder_fn)
 
 # loading inventory data
-inventory_raw <- inventory_raw %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(data = purrr::map(file_path, readxl::read_excel, skip = skip)) %>%
+inventory_raw <- inventory_raw |>
+  dplyr::rowwise() |>
+  dplyr::mutate(data = purrr::map(file_path, readxl::read_excel, skip = skip)) |>
   dplyr::ungroup()
 
 inventory_raw <- within(inventory_raw, {
@@ -46,24 +46,24 @@ inventory_raw <- within(inventory_raw, {
 
 # renaming the first 5 variables of each inventory
 
-inventory_raw <- inventory_raw %>%
+inventory_raw <- inventory_raw |>
   dplyr::mutate(data = purrr::map(data,
                                   function(x){
-                                    x %>%
+                                    x |>
                                     dplyr::rename(no = 1, comm = 2, comp = 3,
-                                                  um = 4, total = 5) %>%
-                                    dplyr::rename_all(tolower) %>%
+                                                  um = 4, total = 5) |>
+                                    dplyr::rename_all(tolower) |>
                                     dplyr::mutate(dplyr::across(!c(comm, comp, um), function(x) as.numeric(x)))
                                   }))
 
 # tidying the dataset (grouping needed because of different number of phases across objects)
 
-inventory_tidy <- inventory_raw %>%
+inventory_tidy <- inventory_raw |>
   dplyr::mutate(data = purrr::map(data,
                                   function(x){
                                     tidyr::pivot_longer(x, !c(no:um),
                                     names_to = "phase", values_to = "quantity")
-                                  })) %>%
+                                  })) |>
   tidyr::unnest(data)
 
 # loading data on measurement units
@@ -105,11 +105,11 @@ inventory_tidy
 #                                            function(x, y, z) um_converter(x, y, z))
 #
 #
-# # inventory_tidy <- inventory_tidy %>%
-# #   dplyr::rowwise() %>%
+# # inventory_tidy <- inventory_tidy |>
+# #   dplyr::rowwise() |>
 # #   dplyr::mutate(quantity = um_converter( # converting measurement units if needed
 # #     quantity, um, um_to
-# #   )) %>%
+# #   )) |>
 # #   dplyr::ungroup()
 #
 # tidyr::as_tibble(inventory_tidy[, -which(names(inventory_tidy) %in% c("no", "comp", "um_to"))])

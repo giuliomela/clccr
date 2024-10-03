@@ -19,7 +19,6 @@
 #'     the default, the 2024 updated price sources are used.
 #' @return A list of 2 elements: a tibble containing the CLCC indicator calculated for each object and phase
 #'     and a `ggplot` object containing the plot of the results.
-#' @importFrom magrittr '%>%'
 #' @export
 #'
 #' @examples
@@ -55,9 +54,9 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
 
   } else if (price_source == "2023"){
 
-    prices <- clccr::clcc_prices_ref %>%
-      dplyr::left_join(clccr::prices_23) %>%
-      dplyr::mutate(mean = NULL) %>%
+    prices <- clccr::clcc_prices_ref |>
+      dplyr::left_join(clccr::prices_23) |>
+      dplyr::mutate(mean = NULL) |>
       dplyr::rename(mean = .data[["price23"]])
 
   }
@@ -101,15 +100,15 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
 
   # }
 
-  output <- tidyr::as_tibble(clcc_res) %>%
+  output <- tidyr::as_tibble(clcc_res) |>
     dplyr::arrange(object, phase)
 
 
     if(isFALSE(plot_phases)) {
 
-    res <- output %>%
-      dplyr::filter(.data[["phase"]] == "total") %>%
-      dplyr::mutate(object = forcats::fct_reorder(.data[["object"]], .data[["clcc"]])) %>%
+    res <- output |>
+      dplyr::filter(.data[["phase"]] == "total") |>
+      dplyr::mutate(object = forcats::fct_reorder(.data[["object"]], .data[["clcc"]])) |>
       tidyr::pivot_longer(tidyr::all_of(c("clcc", "clcc_critical", "share_critical")),
                           names_to = "indicator",
                           values_to = "value")
@@ -120,7 +119,7 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
 
     names(clcc_labs) <- c("clcc", "clcc_critical", "share_critical")
 
-    plot <- res %>%
+    plot <- res |>
       ggplot2::ggplot(ggplot2::aes(x = .data[["value"]], y = .data[["object"]], fill = .data[["indicator"]],
                                    label = dplyr::case_when(
                                      .data[["indicator"]] == "clcc" ~ round(.data[["value"]], label_digits),
@@ -146,10 +145,10 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
         "clcc"
       )
 
-      res <- output %>%
-        dplyr::filter(.data$phase != "total", !!rlang::sym(indicator) != 0) %>%
-        dplyr::group_by(.data$object) %>%
-        dplyr::mutate(clcc_rel = !!rlang::sym(indicator) / sum(!!rlang::sym(indicator)) * 100) %>%
+      res <- output |>
+        dplyr::filter(.data$phase != "total", !!rlang::sym(indicator) != 0) |>
+        dplyr::group_by(.data$object) |>
+        dplyr::mutate(clcc_rel = !!rlang::sym(indicator) / sum(!!rlang::sym(indicator)) * 100) |>
         dplyr::ungroup()
 
       plot <- ggplot2::ggplot(res,

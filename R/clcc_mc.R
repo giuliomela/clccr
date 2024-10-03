@@ -53,53 +53,53 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
 
   # generating random prices (nested tibble)
 
-  rnd_prices <- prices %>%
-    dplyr::rowwise() %>%
+  rnd_prices <- prices |>
+    dplyr::rowwise() |>
     dplyr::mutate(rnd_price = list(triangle::rtriangle(n = rep,
                                                         a = min,
                                                         b = max,
-                                                        c = mean))) %>%
+                                                        c = mean))) |>
     dplyr::select(!mean:max)
 
   # joining invetory and random price tibbles
 
-  inv_prices <- inventories %>%
+  inv_prices <- inventories |>
     dplyr::left_join(rnd_prices)
 
   # running the simulation
 
-  sim <- inv_prices %>%
-    dplyr::filter(phase == phase_to_cons) %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(p_q = list(quantity * rnd_price)) %>%
-    dplyr::group_by(object, phase) %>%
-    dplyr::summarise(clcc_sim = list(Reduce("+", p_q))) %>%
+  sim <- inv_prices |>
+    dplyr::filter(phase == phase_to_cons) |>
+    dplyr::rowwise() |>
+    dplyr::mutate(p_q = list(quantity * rnd_price)) |>
+    dplyr::group_by(object, phase) |>
+    dplyr::summarise(clcc_sim = list(Reduce("+", p_q))) |>
     dplyr::ungroup()
 
     # calculating the empirical cumulative distribution function and the probability that the clcc indicator is lower than the baseline
 
-  sim <- sim %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(ecdf_fn = list(stats::ecdf(clcc_sim))) %>%
+  sim <- sim |>
+    dplyr::rowwise() |>
+    dplyr::mutate(ecdf_fn = list(stats::ecdf(clcc_sim))) |>
     dplyr::ungroup()
 
   # joining baseline values and computing the probability that the value is lowr th
 
-  sim <- sim %>%
-    dplyr::left_join(baseline) %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(prob_inf_base = ecdf_fn(clcc)) %>%
+  sim <- sim |>
+    dplyr::left_join(baseline) |>
+    dplyr::rowwise() |>
+    dplyr::mutate(prob_inf_base = ecdf_fn(clcc)) |>
     dplyr::ungroup()
 
   if(prob_inf_alt == FALSE){
 
     # creating a plot of the simulations
 
-    data_plot <- sim %>%
+    data_plot <- sim |>
       dplyr::mutate(object = forcats::fct_reorder(.data[["object"]], .data[["clcc"]]))
 
-    plot <- data_plot %>%
-      tidyr::unnest(tidyr::all_of("clcc_sim")) %>%
+    plot <- data_plot |>
+      tidyr::unnest(tidyr::all_of("clcc_sim")) |>
       ggplot2::ggplot(ggplot2::aes(x = .data[["clcc_sim"]], y = .data[["object"]],
                  fill = .data[["object"]], color = .data[["object"]])) +
       ggridges::geom_density_ridges(alpha = 0.4) +
@@ -124,17 +124,17 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
       obj2 = sim$object)
 
     # creating a tibble with all clcc simulations
-    sim_only <- sim %>%
+    sim_only <- sim |>
       dplyr::select(object, clcc_sim)
 
     # creating a tibble with the differential clcc (respecting grouping by project and analysis)
     # the clcc diff keeps all permutations, including identical pairs (useful later for tiles plots)
 
-    sim_diff <- comb_all %>%
-      dplyr::left_join(sim_only, by = c("obj1" = "object")) %>%
-      dplyr::left_join(sim_only, by = c("obj2" = "object")) %>%
-      dplyr::rowwise() %>%
-      dplyr::mutate(clcc_diff = list(clcc_sim.x - clcc_sim.y)) %>%
+    sim_diff <- comb_all |>
+      dplyr::left_join(sim_only, by = c("obj1" = "object")) |>
+      dplyr::left_join(sim_only, by = c("obj2" = "object")) |>
+      dplyr::rowwise() |>
+      dplyr::mutate(clcc_diff = list(clcc_sim.x - clcc_sim.y)) |>
       dplyr::ungroup()
 
     sim_diff <- within(sim_diff, {
@@ -145,10 +145,10 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
     # Calculating the ecdf for the clcc differences and probabilities
     # Column prob expresses the probability that clcc of obj1 < clcc of obj2
 
-    prob_inf_alt <- sim_diff %>%
-      dplyr::rowwise() %>%
+    prob_inf_alt <- sim_diff |>
+      dplyr::rowwise() |>
       dplyr::mutate(ecdf_diff = list(stats::ecdf(clcc_diff)),
-             prob = dplyr::if_else(obj1 == obj2, NA_real_, ecdf_diff(0))) %>%
+             prob = dplyr::if_else(obj1 == obj2, NA_real_, ecdf_diff(0))) |>
       dplyr::ungroup()
 
     prob_inf_alt <- within(prob_inf_alt, {
@@ -161,11 +161,11 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
     levels_for_plot <- forcats::fct_reorder(
       baseline$object,
       baseline$clcc
-    ) %>% levels()
+    ) |> levels()
 
-    plot <- prob_inf_alt %>%
-      tidyr::drop_na() %>%
-      dplyr::mutate(dplyr::across(dplyr::contains("obj"), \(x) factor(x, levels = levels_for_plot))) %>%
+    plot <- prob_inf_alt |>
+      tidyr::drop_na() |>
+      dplyr::mutate(dplyr::across(dplyr::contains("obj"), \(x) factor(x, levels = levels_for_plot))) |>
       ggplot2::ggplot(ggplot2::aes(x = .data[["obj1"]], y = .data[["obj2"]],
                                    label = paste0(round(.data[["prob"]] * 100, 1), "%"),
                                    fill = .data[["prob"]])) +
