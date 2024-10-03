@@ -21,19 +21,19 @@
 #' @export
 #' @examples
 #' \dontrun{
-  #' data_path <- path_to_inventory_folder
-  #'
-  #' clcc_detail(path = data_path)
-  #'
-  #' clcc_detail(path = data_path, critical = TRUE, collapse_share = 0.5)
-  #'
-  #' }
+#' data_path <- path_to_inventory_folder
+#'
+#' clcc_detail(path = data_path)
+#'
+#' clcc_detail(path = data_path, critical = TRUE, collapse_share = 0.5)
+#'
+#' }
 clcc_detail <- function (path,
                          critical = FALSE,
                          phase_of_int = "total",
                          collapse_share = 0.9,
                          price_source = "2024"
-                         ) {
+) {
 
   if(collapse_share > 1 | collapse_share < 0)
     stop("Please provide a valid value for 'collapse_share'; between 0 and 1.")
@@ -72,7 +72,7 @@ clcc_detail <- function (path,
 
   } else {
 
-    inv_prices$clcc_type <- "baseline"
+    inv_prices$clcc_type <- "baseline-clcc"
 
   }
 
@@ -85,6 +85,7 @@ clcc_detail <- function (path,
     dplyr::filter(phase == phase_of_int) |>
     dplyr::group_by(object, phase, clcc_type, macro_cat) |>
     dplyr::summarise(clcc = sum(clcc)) |>
+    dplyr::ungroup() |>
     #dplyr::select(comm, object, phase, clcc_type, clcc) |>
     tibble::as_tibble()
 
@@ -95,7 +96,8 @@ clcc_detail <- function (path,
 
   clcc_detail_cat <- clcc_raw |>
     dplyr::left_join(clcc_tot) |>
-    dplyr::mutate(share = clcc / clcc_tot) |>
+    dplyr::mutate(share = clcc / clcc_tot,
+                  clcc_tot = NULL) |>
     dplyr::group_by(object) |>
     dplyr::arrange(desc(share)) |>
     dplyr::mutate(cum_share = cumsum(share),
@@ -104,7 +106,7 @@ clcc_detail <- function (path,
                     macro_cat,
                     "Other"
                   )) |>
-    dplyr::group_by(object, macro_cat, phase, clcc_type, clcc_tot) |>
+    dplyr::group_by(object, macro_cat, phase, clcc_type) |>
     dplyr::summarise(dplyr::across(c(clcc, share), sum)) |>
     dplyr::ungroup() |>
     dplyr::arrange(object, desc(share))
@@ -113,8 +115,8 @@ clcc_detail <- function (path,
   plot <- clcc_detail_cat |>
     ggplot2::ggplot(
       ggplot2::aes(area = share, fill = macro_cat, label = paste0(stringr::str_trunc(macro_cat, 20), " ",
-                                                             round(share * 100),
-                                                             "%"))) +
+                                                                  round(share * 100),
+                                                                  "%"))) +
     treemapify::geom_treemap() +
     ggplot2::facet_wrap(~ object) +
     viridis::scale_fill_viridis(discrete = T, option = "turbo") +
