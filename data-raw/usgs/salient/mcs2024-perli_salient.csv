@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,Prod_Crude_kt,Sold_Processed_kt,Imports_kt,Exports_kt,Consump_kt,Price_FOB_dt,Employment_num,NIR_pct
+MCS2024,Perlite,2019,629,397,180,19,560,64,140,29
+MCS2024,Perlite,2020,853,501,160,25,640,61,140,21
+MCS2024,Perlite,2021,879,491,170,27,630,64,150,23
+MCS2024,Perlite,2022,672,458,240,22,680,68,150,32
+MCS2024,Perlite,2023,650,450,170,15,610,68,150,26

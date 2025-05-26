@@ -1,0 +1,6 @@
+DataSource,Commodity,Year,USprod_Marketable_kt,Sales_Marketable_kt,Imports_kt,Exports_kt,Consump_kt,Price_All_dt,Price_Muriate_dt,Employment_Mine_Mll_num,NIR_pct
+MCS2024,Potash,2019,510,480,5150,145,5500,820,480,900,91
+MCS2024,Potash,2020,460,500,5370,147,5700,850,450,900,92
+MCS2024,Potash,2021,480,490,6480,112,6900,1120,650,900,93
+MCS2024,Potash,2022,430,400,4940,267,5100,1790,980,900,92
+MCS2024,Potash,2023,400,470,5000,160,5300,1210,640,900,91

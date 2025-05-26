@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_mmt,Recycled_mmt,Imports_mmt,Exports_mmt,Consump_mmt,Price_Average_dt,Employment_num,NIR_pct
+MCS2024,Stone (Crushed),2019,1470,32,24,Less than ½ unit.,1530,12,69000,2
+MCS2024,Stone (Crushed),2020,1460,31,20,Less than ½ unit.,1510,13,68000,1
+MCS2024,Stone (Crushed),2021,1510,33,19,Less than ½ unit.,1560,13,68900,1
+MCS2024,Stone (Crushed),2022,1550,33,16,Less than ½ unit.,1600,14,70400,1
+MCS2024,Stone (Crushed),2023,1500,33,13,Less than ½ unit.,1600,16,70000,1

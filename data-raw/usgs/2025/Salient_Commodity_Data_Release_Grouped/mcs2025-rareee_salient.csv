@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Concentrate_t,USprod_Compounds-Metals_t,Imports_Compounds_t,Imports_Alloys_t,Imports_Metals_t,Exports_Ores-Compounds_t,Exports_Alloys_t,Exports_Metals_t,Consump_Compounds-Metals_t,Price_CeO2_dkg,Price_Dy2O3_dkg,Price_Eu2O3_dkg,Price_La2O3_dkg,Price_Mischmetal_dkg,Price_Nd2O3_dkg,Price_TbO2_dkg,Employment_,NIR_Compounds-Metals_t,NIR_Concentrate_t
+MCS2025,Rare Earths,2020,39000,0,6510,270,363,40000,626,25,6490,2,261,31,2,5,49,670,185,100,E
+MCS2025,Rare Earths,2021,42400,120,7690,330,580,44200,825,20,7900,2,410,31,2,6,98,1346,293,>95,E
+MCS2025,Rare Earths,2022,42500,95,10700,395,487,45900,1520,24,10200,1,382,30,1,7,134,2051,350,>95,E
+MCS2025,Rare Earths,2023,41600,250,8920,259,476,20700,817,63,10100,1,330,27,1,5,78,1298,450,>95,E
+MCS2025,Rare Earths,2024,45000,1300,8000,220,90,43000,1100,320,6600,1,260,27,1,5,56,810,570,80,E

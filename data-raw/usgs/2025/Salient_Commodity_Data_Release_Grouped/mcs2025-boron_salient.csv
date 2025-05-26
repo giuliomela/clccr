@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_kt,Imports_Refined_kt,Imports_H3BO3_kt,Imports_Colemanite_kt,Imports_Ulexite_kt,Exports_H3BO3_kt,Exports_Refined_kt,Consump_kt,Price_CIF_dt,Employment_num,NIR_pct
+MCS2025,Boron,2020,W,174,39,18,41,257,594,W,380,1330,E
+MCS2025,Boron,2021,W,232,54,3,49,280,607,W,394,1330,E
+MCS2025,Boron,2022,W,168,48,1,38,239,651,W,485,1400,E
+MCS2025,Boron,2023,W,156,38,2,20,253,604,W,606,1430,E
+MCS2025,Boron,2024,W,160,42,1,37,240,590,W,560,1500,E

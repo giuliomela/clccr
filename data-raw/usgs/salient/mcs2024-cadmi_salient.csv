@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Primary_mtl_t,USprod_Secondary_mtl_t,Imports_Unwrought_t,Imports_Wrought_t,Imports_Scrap_t,Imports_Oxide_t,Imports_Pigment_t,Exports_Unwrought_t,Exports_Wrought_t,Exports_Scrap_t,Exports_Pigment_t,Consump_Apparent_t,Price_Refined_dkg,NIR_Metal_pct,,,,
+MCS2024,Cadmium,2019,131,W,385,21,86,33,108,32,84,6,795,W,3,<75,,,,
+MCS2024,Cadmium,2020,211,W,282,3,90,28,69,4,482,Less than 1/2 unit.,2120,W,2,<75,,,,
+MCS2024,Cadmium,2021,241,W,155,2,85,14,101,51,217,0,550,W,3,<50,,,,
+MCS2024,Cadmium,2022,212,W,99,1,40,33,146,68,60,2,747,W,3,<25,,,,
+MCS2024,Cadmium,2023,220,W,80,1,1,30,130,150,14,15,1100,W,4,E,,,,

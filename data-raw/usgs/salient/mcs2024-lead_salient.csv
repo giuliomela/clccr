@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Mine_kt,USprod_Refinery_Primary_kt,USprod_Refinery_Secondary_kt,USprod_Concentrates_kt,Imports_Metal_kt,Imports_Concentrates_kt,Exports_Metal_kt,Exports_kt,Consump_North_American_kt,Price_LME_ctslb,Employment_num,NIR_Metal_pct
+MCS2024,Lead,2019,274,266,0,1150,Less than 1/2 unit.,501,259,25,1630,99.9,1600,29
+MCS2024,Lead,2020,306,297,0,1090,Less than 1/2 unit.,382,265,17,1450,91.3,1790,25
+MCS2024,Lead,2021,294,286,0,1050,1,614,262,22,1640,113,1830,36
+MCS2024,Lead,2022,273,264,0,1010,Less than 1/2 unit.,651,255,26,1630,116.5,1870,38
+MCS2024,Lead,2023,270,260,0,1000,Less than 1/2 unit.,570,270,25,1600,115,1800,35

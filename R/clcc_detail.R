@@ -1,4 +1,4 @@
-#' Compute the realtive share of individual material/energy flows on total CLCC
+#' Compute the relative share of individual material/energy flows on total CLCC
 #'
 #' This function computes the relative shares of each commodity considered for the
 #' computation of the CLCC indicator on the total value of the indicator for both the
@@ -7,6 +7,8 @@
 #' @param path A character vector. Path to the folder in which raw xlsx files are stored.
 #' @param critical A logical value. If set to `TRUE`, shares referred to the critical-clcc indicator
 #'     are returned. Default is set to `FALSE`.
+#' @param critical_type A string. If set to `EU`, the critical CLCC indicator is based on the list of critical
+#'     materials of the European Union. If it is set to `IEA` the International Energy Agency list is used instead. Default is seto to `EU`
 #' @param phase_of_int A character string. The life-cycle phase for which the relative shares
 #'     must be computed. Default is `total`. The user can however select any phase included in the
 #'     inventory file.
@@ -30,6 +32,7 @@
 #' }
 clcc_detail <- function (path,
                          critical = FALSE,
+                         critical_type = "EU",
                          phase_of_int = "total",
                          collapse_share = 0.9,
                          price_source = "2024"
@@ -40,6 +43,9 @@ clcc_detail <- function (path,
 
   if(!is.element(price_source, c("2023", "2024")))
     stop("Please use a valid price source version: either '2023' or '2024'")
+
+  if (!is.element(critical_type, c("EU", "IEA")))
+    stop("Parameter 'critical type' can only assume EU or IEA values")
 
   quantity <- phase <- comm <- object <- clcc_type <- desc <- share <- cum_share <- macro_cat <- NULL
 
@@ -66,9 +72,20 @@ clcc_detail <- function (path,
 
   if (isTRUE(critical)) {
 
-    inv_prices <- inv_prices |>
-      dplyr::filter(critical == "yes") |>
-      dplyr::mutate(clcc_type = "critical-clcc")
+    if (critical_type == "EU") {
+
+      inv_prices <- inv_prices |>
+        dplyr::filter(critical_eu == "yes") |>
+        dplyr::mutate(clcc_type = "critical-clcc_eu")
+
+    } else if (critical_type == "IEA") {
+
+      inv_prices <- inv_prices |>
+        dplyr::filter(critical_iea == "yes") |>
+        dplyr::mutate(clcc_type = "critical-clcc_IEA")
+
+    }
+
 
   } else {
 

@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Mine_kt,Usprod_Sold_kt,Imports_kt,Exports_kt,Consump_kt,Price_dt,Employment_Mine_Mill_Talc_num,Employment_Mine_Mill_Pyrophyllite_num,NIR_pct
+MCS2024,Talc and Pyrophyllite ,2019,578,515,280,229,566,240,208,30,9
+MCS2024,Talc and Pyrophyllite ,2020,491,461,189,186,464,265,187,31,1
+MCS2024,Talc and Pyrophyllite ,2021,577,556,278,232,602,321,334,32,8
+MCS2024,Talc and Pyrophyllite ,2022,511,548,346,196,698,303,316,35,21
+MCS2024,Talc and Pyrophyllite ,2023,450,460,230,200,490,300,350,38,6

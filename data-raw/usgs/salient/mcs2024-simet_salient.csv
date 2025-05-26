@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_FeSi2_Si_kt,Imports_FeSi2_kt,Imports_Si_kt,Exports_FeSi2_kt,Exports_Si_kt,Consump_FeSi2_Si_kt,Price_FeSi2_50_ctslb,Price_FeSi2_75_ctslb,Price_Si_ctslb,Stocks_FeSi2_Si_kt,NIR_FeSi2_pct,NIR_Si_pct,NIR_FeSi2_Si_pct
+MCS2024,Silicon,2019,310,127,124,8,40,517,102,89,105.7,15,<50,<50,40
+MCS2024,Silicon,2020,W,140,97,4,32,W,103,87,96.84,W,>50,<50,<50
+MCS2024,Silicon,2021,W,125,96,7,53,W,138,192,220.31,11,<50,<25,<50
+MCS2024,Silicon,2022,265,175,117,9,47,495,NA,312,361.86,17,>50,<50,46
+MCS2024,Silicon,2023,W,160,80,6,40,W,NA,150,190,19,>50,<50,<50

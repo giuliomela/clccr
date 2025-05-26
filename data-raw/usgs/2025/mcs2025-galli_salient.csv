@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Primary_kg,Imports_Metal_kg,Imports_GaAs_kg,Exports_kg,Consump_kg,Price_High-purity_dkg,Price_Low-purity_dkg,Stocks_kg,NIR_pct
+MCS2025,Gallium,2020,0,4430,208000,NA,15700,596,163,2920,100
+MCS2025,Gallium,2021,0,8890,306000,NA,17100,625,254,2810,100
+MCS2025,Gallium,2022,0,11350,424000,NA,19700,560,394,2780,100
+MCS2025,Gallium,2023,0,11400,163000,NA,19200,450,288,2760,100
+MCS2025,Gallium,2024,0,11000,180000,NA,19000,500,220,2700,100

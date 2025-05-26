@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_kt,Imports_kt,Imports_kt,Exports_kt,Exports_kt,Consump_kt,Price_ctslb,Price_ctslb,Price_ctslb,Stocks_kt,NIR_pct,NIR_pct,
+MCS2025,Silicon,2020,W,140,97,4,32,W,103.38,87.40,96.84,W,>50,<50,<50
+MCS2025,Silicon,2021,W,125,97,7,53,W,137.94,192.28,220.31,11,<50,<25,<50
+MCS2025,Silicon,2022,W,175,116,9,47,W,NA,312.10,361.86,17,>50,<50,<50
+MCS2025,Silicon,2023,W,153,79,5,42,W,NA,142.23,179.69,15,>50,<50,<50
+MCS2025,Silicon,2024,W,150,110,4,40,W,NA,130,180,14,>50,<50,<50

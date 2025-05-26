@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Mine_t,USprod_Refinery_Primary_t,USprod_Refinery_Secondary_t,Imports_t,Exports_t,Consump_t,Price_Bullion_dtoz,Stocks_Industry_t,Stocks_Treasury_t,Stocks_COMEX_t,Employment_num,NIR_pct
+MCS2025,Silver,2020,1080,1360,582,6730,141,8250,20.58,55,498,12334,1175,80
+MCS2025,Silver,2021,1020,1920,908,6160,137,7950,25.23,56,498,11064,1440,76
+MCS2025,Silver,2022,1010,1850,1090,4490,276,6320,21.88,55,498,9299,1396,67
+MCS2025,Silver,2023,1020,1140,1150,4950,73,7070,23.54,27,498,8643,1455,69
+MCS2025,Silver,2024,1100,1200,1200,4200,140,6400,27.7,35,498,9520,1400,64

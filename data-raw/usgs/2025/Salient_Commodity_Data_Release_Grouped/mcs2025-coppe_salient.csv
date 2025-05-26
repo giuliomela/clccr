@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Mine_kt,USprod_Refinery-primary_kt,USprod_Refinery-secondary_kt,USprod_Post-consumer_kt,Imports_Ores_kt,Imports_Refined_kt,Exports_Ores_kt,Exports_Refined_kt,Consump_Reported_kt,Consump_Apparent_kt,Price_US_ctslb,Price_COMEX_ctslb,Price_LME_ctslb,Stocks_t,Employment_um,NIR_ct
+MCS2025,Copper,2020,1200,872,43,161,2,676,383,41,1680,1660,286.7,279.9,279.8,118,11000,38
+MCS2025,Copper,2021,1230,922,49,169,11,919,344,48,1750,1960,432.3,424.3,422.5,117,11400,44
+MCS2025,Copper,2022,1230,930,40,152,12,732,351,27,1720,1820,410.8,400.7,399.8,84,12000,41
+MCS2025,Copper,2023,1130,843,39,150,3,771,339,33,1570,1690,395.3,385.7,384.8,127,12600,41
+MCS2025,Copper,2024,1100,850,40,150,Less than ½ unit.,810,320,60,1600,1800,430,420,420,70,13000,45

@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,Extracted_mcm,Withdrawn_mcm,Grade-A-Salesmcm,Imports_mcm,Exports_mcm,Consump_mcm,NIR_pct,
+MCS2024,Helium,2019,64,22,86,7,58,50,E,
+MCS2024,Helium,2020,72,10,82,7,35,53,E,
+MCS2024,Helium,2021,69,7,76,9,33,52,E,
+MCS2024,Helium,2022,65,12,77,9,32,54,E,
+MCS2024,Helium,2023,60,19,79,12,32,59,E,

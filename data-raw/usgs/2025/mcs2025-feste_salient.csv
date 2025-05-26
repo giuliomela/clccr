@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Pig_iron_mmt,USprod_Steel_mmt,Furnace_BOF_pct,Furnace_EAF_pct,Continuous_Cast_pct,Shipments_Products_mmt,Imports_Finished_mmt,Imports_Semifinished_mmt,Imports_Total_mmt,Exports_Finished_mmt,Exports_SemiFinished_mmt,Exports_Total_mmt,Stocks_Semifinished_mmt,Consump_Total_mmt,Prod_Price_index,Employment_mill_num,Employment_manufacturing_num,NIR_pct
+MCS2025,Iron and Steel,2020,18.3,72.7,29,71,99.8,73.5,14.6,5.3,20,6,0.1,6.1,5.8,82.9,184,83200,54900,12
+MCS2025,Iron and Steel,2021,22.2,85.8,30,70,99.8,85.9,20.6,7.9,28.5,7.4,0.1,7.5,5.8,98.9,351,78300,52700,13
+MCS2025,Iron and Steel,2022,20,80.5,29,71,99.7,81.2,22.9,5.1,28,7.5,0.1,7.6,6.7,96.8,382,80800,55400,17
+MCS2025,Iron and Steel,2023,22.5,81.4,28,72,99.7,81,19.7,5.9,25.6,7.9,0.3,8.2,6.5,93,320,84000,58500,13
+MCS2025,Iron and Steel,2024,22,81,28,72,100,78,20,6,26,8,0.3,8,7,93,290,81000,56000,13

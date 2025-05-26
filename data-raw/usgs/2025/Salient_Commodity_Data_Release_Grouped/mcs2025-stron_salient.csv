@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_t,Imports_Celestite_t,Imports_Compounds_t,Exports_Compounds_t,Consump_Celestite_t,Consump_Compounds_t,Consump_Total_t,Price_dt,NIR_pct
+MCS2025,Strontium,2020,0,1060,4440,32,1060,4410,5470,90,100
+MCS2025,Strontium,2021,0,106,5020,6,106,5010,5120,210,100
+MCS2025,Strontium,2022,0,9160,5740,15,9160,5720,14900,143,100
+MCS2025,Strontium,2023,0,2060,3330,53,2060,3270,5330,82,100
+MCS2025,Strontium,2024,0,100,4000,3,100,4000,4100,390,100

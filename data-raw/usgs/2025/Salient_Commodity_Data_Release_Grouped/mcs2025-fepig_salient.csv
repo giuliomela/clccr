@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,Usprod_t,SoldFinished_t,Imports_t,Exports_t,Consump_t,Price_dkg,Employment_num,NIR_pct
+MCS2025,Iron Oxide Pigments,2020,W,18300,172000,15700,174000,0.72,47,89
+MCS2025,Iron Oxide Pigments,2021,W,26900,189000,12300,203000,1.03,43,87
+MCS2025,Iron Oxide Pigments,2022,W,38200,225000,13800,249000,1.92,45,85
+MCS2025,Iron Oxide Pigments,2023,W,25100,114000,13100,126000,2.03,44,80
+MCS2025,Iron Oxide Pigments,2024,W,25000,180000,10000,200000,2.00,44,87

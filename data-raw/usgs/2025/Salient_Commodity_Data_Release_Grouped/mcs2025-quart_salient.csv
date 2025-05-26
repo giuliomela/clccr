@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,HPQProduction_t,HPQImports_t,HPQExports_t,HPQPrice_dt,HPQNIR_pct,CrystalProduction_t,"CrystalImports, piezoelectric_t","CrystalExports, piezoelectric_t",CrystalPrice_cultured_dkg,CrystalPrice_lumbered_dkg,CrystalNIR_pct
+MCS2025,Quartz Crystal (Industrial),2020,100000,NA,NA,"500–15,000",NA,W,114,37,100,400,NA
+MCS2025,Quartz Crystal (Industrial),2021,100000,NA,NA,"500–16,000",NA,W,69,39,100,300,NA
+MCS2025,Quartz Crystal (Industrial),2022,200000,NA,NA,"500–17,000",NA,W,76,76,100,300,NA
+MCS2025,Quartz Crystal (Industrial),2023,200000,NA,NA,"500–20,000",NA,W,87,133,200,400,NA
+MCS2025,Quartz Crystal (Industrial),2024,200000,NA,NA,"500–17,000",NA,W,120,100,200,500,NA

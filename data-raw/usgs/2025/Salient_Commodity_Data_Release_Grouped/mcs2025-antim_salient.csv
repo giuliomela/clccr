@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Mine_t,USprod_Smelter-primary_t,USprod_Smelter-secondary_t,Imports_Ore_t,Imports_Oxide_t,Imports_Unwrought_t,Imports_Articles_t,Imports_Scrap_t,Exports_Ore_t,Exports_Oxide_t,Exports_Unwrought_t,Exports_Articles_t,Exports_Scrap_t,Consump_t,Price_Metal_dlb,NIR_pct
+MCS2025,Antimony,2020,0,254,3520,105,15000,5200,318,6,10,1230,269,97,11,22400,2.67,83
+MCS2025,Antimony,2021,0,19,4050,31,19100,6970,514,13,9,1530,824,97,136,27800,5.31,85
+MCS2025,Antimony,2022,0,W,4100,29,16900,6510,1790,71,53,2420,1230,585,26,23900,6.18,83
+MCS2025,Antimony,2023,0,W,3490,6,14000,6060,1620,3,24,1740,1510,433,2,20300,5.49,83
+MCS2025,Antimony,2024,0,W,3500,310,20000,4100,330,17,0,2200,1500,79,53,24000,9.5,85

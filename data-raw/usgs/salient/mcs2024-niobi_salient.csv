@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Mine_t,Imports_t,Exports_t,Shipments_Gov_t,Consump_Apparent_t,Consump_Reported_t,Price_dkg,NIR_pct
+MCS2024,Niobium (Columbium),2019,0,10100,655,−84,9330,6680,23,100
+MCS2024,Niobium (Columbium),2020,0,7170,787,−88,6300,6040,21,100
+MCS2024,Niobium (Columbium),2021,0,8230,992,−1,7240,6160,21,100
+MCS2024,Niobium (Columbium),2022,0,9110,687,0,8420,3540,25,100
+MCS2024,Niobium (Columbium),2023,0,9400,980,NA,8400,3000,25,100

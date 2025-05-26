@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_kt,Imports_kt,Exports_kt,Consump_Apparent_kt,Consump_Reported_kt,Price_dt,Price_dst,Stocks_Producer_kt,Employment_num,NIR_pct
+MCS2024,Soda Ash,2019,11700,115,7020,4830,4720,153,139,289,2600,E
+MCS2024,Soda Ash,2020,9990,98,5590,4470,4440,141,128,317,2400,E
+MCS2024,Soda Ash,2021,11300,130,6840,4580,4640,133,121,278,2400,E
+MCS2024,Soda Ash,2022,11300,61,6490,4740,4640,179,162,364,2400,E
+MCS2024,Soda Ash,2023,11000,8,6600,4100,4500,180,160,300,2400,E

@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Mine_kt,USprod_Recycling_kt,Imports_kt,Exports_kt,Shipments_Gov_kt,Consump_Reported_kt,Consump_Apparent_kt,CASE STATEMENT ERROROre_dt,CASE STATEMENT ERRORFerrrochromium_dlb,CASE STATEMENT ERRORMetal_dlb,Stocks_kt,NIR_pct,,,,,,
+MCS2024,Chromium,2019,0,137,530,149,4,482,522,174,1,4,5,74,,,,,,
+MCS2024,Chromium,2020,0,119,448,138,5,386,433,154,1,3,6,73,,,,,,
+MCS2024,Chromium,2021,0,114,571,114,7,364,579,201,2,4,6,80,,,,,,
+MCS2024,Chromium,2022,0,91,609,133,5,275,573,274,3,7,5,84,,,,,,
+MCS2024,Chromium,2023,0,100,440,150,NA,260,380,290,4,6,5,74,,,,,,

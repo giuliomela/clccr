@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_t,Imports_ore_concentrates_t,Imports_products_t,Exports_ore_concentrates_t,Exports_products_t,Consump_Reported_t,Consump_Apparent_t,Price_dkg,Stocks_t,NIR_pct
+MCS2025,Molybdenum,2020,51100,15100,9570,59500,3110,15800,13100,19.19,2010,E
+MCS2025,Molybdenum,2021,41100,15500,14700,55800,4150,16100,11200,35.62,2040,E
+MCS2025,Molybdenum,2022,34600,15700,13100,46200,4860,15800,12300,41.72,2040,E
+MCS2025,Molybdenum,2023,34000,16200,13500,49000,4230,16000,10900,54.32,"1,900",E
+MCS2025,Molybdenum,2024,33000,16000,13000,45000,5500,16000,12000,47,1800,E

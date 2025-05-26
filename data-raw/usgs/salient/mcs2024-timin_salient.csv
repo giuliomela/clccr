@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_kt,Imports_kt,Exports_kt,Consump_kt,Price_Rutile_dt,Price_Ilmente_Leucoxene_dt,Price_Ilmenite_dt,Price_Slag_dt,Employment_num,NIR_pct
+MCS2024,Titanium Mineral Concentrates,2019,100,1160,8,1300,1110,478,186,792,310,92
+MCS2024,Titanium Mineral Concentrates,2020,100,807,18,900,1170,459,215,757,315,89
+MCS2024,Titanium Mineral Concentrates,2021,100,969,30,1000,1300,595,240,774,290,90
+MCS2024,Titanium Mineral Concentrates,2022,200,950,110,1000,1470,530,285,867,305,81
+MCS2024,Titanium Mineral Concentrates,2023,200,670,70,800,1490,330,390,1000,410,75

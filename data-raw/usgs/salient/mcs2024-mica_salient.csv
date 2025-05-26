@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Flake_t,USprod_Flake_t,Imports_Flake_t,Exports_Flake_t,Consump_Flake_t,Price_Flake_dt,Price_Ground_dry_dt,Price_Ground_wet_dt,NIR_Flake_pct,USprod_Sheet_t,Imports_Sheet_t,Exports_Sheet_t,Consump_Sheet_t,Price_Sheet-Block_dt,Price_Sheet-Splittings_dt,NIR_Sheet_pct
+MCS2024,Mica,2019,40100,61300,27300,5500,61900,105,316,394,35,W,3150,779,2370,W,1.66,100
+MCS2024,Mica,2020,34600,59900,20400,3980,50000,120,303,337,31,W,2840,528,2310,W,1.57,100
+MCS2024,Mica,2021,40600,66800,24100,4850,59600,100,299,336,32,NA,3980,633,3350,W,1.88,100
+MCS2024,Mica,2022,42000,66300,22600,4450,60200,100,300,350,30,NA,5410,803,4610,W,1.6,100
+MCS2024,Mica,2023,38000,65000,19000,4000,53000,100,300,350,28,NA,4100,1100,3000,W,1.6,100

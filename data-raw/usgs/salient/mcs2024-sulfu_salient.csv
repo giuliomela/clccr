@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_elemental_kt,USprod_oth_forms_kt,USprod_all_foms_kt,Shipments_all_foms_kt,Imports_elemental_kt,Imports_H2SO4_kt,Exports_elemental_kt,Exports_H2SO4_kt,Consump_Apprnt_kt,Price_elemental_dt,Stocks_producer_kt,Employment_num,NIR_NIR_pct
+MCS2024,Sulfur,2019,8110,596,8710,8700,1850,971,2200,72,9250,51.1,124,2400,6
+MCS2024,Sulfur,2020,7310,581,7890,7900,2230,1190,1330,64,9940,24.6,109,2400,21
+MCS2024,Sulfur,2021,7460,600,8060,8050,2370,1070,1900,129,9460,90.9,113,2400,15
+MCS2024,Sulfur,2022,8000,636,8640,8620,1670,1060,1740,123,9480,178.5,126,2400,9
+MCS2024,Sulfur,2023,8000,600,8600,8600,1500,1100,1800,60,9400,100,100,2400,8

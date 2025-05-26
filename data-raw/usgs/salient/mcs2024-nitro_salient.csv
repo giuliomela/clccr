@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_kt,Imports_kt,Exports_kt,Consump_kt,Stocks_Producer_kt,Price_dst,Employment_num,NIR_pct
+MCS2024,Nitrogen (Fixed)--Ammonia,2019,13500,2020,338,15200,420,232,1600,11
+MCS2024,Nitrogen (Fixed)--Ammonia,2020,14000,1990,369,15700,310,213,1600,11
+MCS2024,Nitrogen (Fixed)--Ammonia,2021,12700,2080,231,14600,270,578,1600,13
+MCS2024,Nitrogen (Fixed)--Ammonia,2022,13800,1930,720,14800,440,1070,1600,7
+MCS2024,Nitrogen (Fixed)--Ammonia,2023,14000,1800,1000,15000,420,480,1600,6

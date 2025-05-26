@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Ores_kt,USprod_Refined_kt,Imports_Ores_kt,Imports_Refined_kt,Exports_Ores_kt,Exports_Refined_kt,Shipments_Gov_kt,Consump_Refined_kt,Price_ctslb,Price_LME_ctslb,Stocks_Refined_kt,Employment_Mine_Mill_num,Employment_Smelter_num,NIR_Ores_pct,NIR_Refined_pct
+MCS2025,Zinc,2020,723,180,3,700,546,2,0,878,110.8,102.7,120,2360,220,E,79
+MCS2025,Zinc,2021,704,220,13,701,644,13,0,908,145.8,136.3,115,2480,220,E,76
+MCS2025,Zinc,2022,763,220,5,762,644,8,1,974,190.2,158.1,134,2500,220,E,77
+MCS2025,Zinc,2023,767,220,18,705,641,3,NA,921,151.3,120.1,120,2630,340,E,76
+MCS2025,Zinc,2024,750,220,15,600,580,2,NA,820,144,126,120,2500,340,E,73

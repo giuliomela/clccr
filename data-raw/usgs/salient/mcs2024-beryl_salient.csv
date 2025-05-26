@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Shipments_t,Imports_t,Exports_t,Shipments_Gov_t,Consump_Apparent_t,Consump_Reported_Ore_t,Price_Alloy_dkg,Stocks_Ore_t,NIR_pct,,,,,,,,
+MCS2024,Beryllium,2019,160,49,37,0,167,160,620,35,4,,,,,,,,
+MCS2024,Beryllium,2020,165,48,25,3,196,170,620,30,16,,,,,,,,
+MCS2024,Beryllium,2021,175,49,30,7,196,170,680,35,11,,,,,,,,
+MCS2024,Beryllium,2022,175,39,61,9,187,170,660,10,6,,,,,,,,
+MCS2024,Beryllium,2023,190,25,75,NA,150,170,1400,0,E,,,,,,,,

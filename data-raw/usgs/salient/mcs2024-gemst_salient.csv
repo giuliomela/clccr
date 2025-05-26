@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Natural_mdol,USprod_Synthetic_mdol,Imports_mdol,Exports_mdol,Consump_mdol,Employment_Mine_num,NIR_pct,
+MCS2024,Gemstones,2019,9,94,24400,1020,23500,1120,99,
+MCS2024,Gemstones,2020,10,55,16300,1330,15000,1100,99,
+MCS2024,Gemstones,2021,9,79,24600,992,23700,1100,99,
+MCS2024,Gemstones,2022,10,87,28000,1890,26200,1100,99,
+MCS2024,Gemstones,2023,10,89,25000,3800,21000,1100,99,

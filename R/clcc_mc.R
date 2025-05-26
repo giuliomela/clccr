@@ -172,7 +172,7 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
       ggplot2::geom_tile() +
       ggplot2::theme(legend.position = "none") +
       viridis::scale_fill_viridis(discrete = F, option = "rocket", direction = -1) +
-      ggfittext::geom_fit_text(contrast = T, family = "Verdana") +
+      ggfittext::geom_fit_text(contrast = T) +
       ggplot2::labs(x = "", y = "") +
       ggplot2::scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 10))
 

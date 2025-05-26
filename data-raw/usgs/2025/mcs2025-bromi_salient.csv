@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_t,Imports_t,Exports_t,Consump_t,Price_Imports_dkg,Employment_num,NIR_pct,
+MCS2025,Bromine,2020,W,30700,36600,W,2.67,1100,E,
+MCS2025,Bromine,2021,W,27200,27900,W,2.85,1100,E,
+MCS2025,Bromine,2022,W,36500,19400,W,3.29,1100,<25,
+MCS2025,Bromine,2023,W,50800,38900,W,2.92,1100,<25,
+MCS2025,Bromine,2024,W,61000,34000,W,2.70,1100,<25,

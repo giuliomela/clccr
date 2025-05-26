@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_t,Imports_t,Exports_t,Consump_t,Consump_t,Price_Crude_CIF_dkg,Employment_num,NIR_pct
+MCS2024,Iodine,2019,W,4300,1230,W,4000,26,60,>50
+MCS2024,Iodine,2020,W,4570,1130,W,3750,32,60,>50
+MCS2024,Iodine,2021,W,4120,1280,W,3720,33,60,>50
+MCS2024,Iodine,2022,W,4270,1140,W,3330,46,60,>50
+MCS2024,Iodine,2023,W,3600,1300,W,3000,61,60,>50

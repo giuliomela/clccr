@@ -52,7 +52,7 @@ inventory_raw <- inventory_raw |>
                                     x |>
                                     dplyr::rename(no = 1, comm = 2, comp = 3,
                                                   um = 4, total = 5) |>
-                                    dplyr::rename_all(tolower) |>
+                                    #dplyr::rename_all(tolower) |>
                                     dplyr::mutate(dplyr::across(!c(comm, comp, um), function(x) as.numeric(x)))
                                   }))
 

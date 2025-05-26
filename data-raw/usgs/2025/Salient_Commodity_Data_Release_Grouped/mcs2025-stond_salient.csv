@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Quantity_kt,USprod_Value_mdol,Imports_Value_mdol,Exports_Value_mdol,Consump_Value_mdol,Price_Average_mdol,Employment_m,NIR_t,Granite_Quantity_kt,Granite_Prod_value_mdol,Granite_Imports_value_mdol,Granite_Exports_value_mdol,Granite_Consumtion_value_mdol,Granite_Price_mdol,Granite_Employment_num,Granite_NIR_pct
+MCS2025,Stone (Dimension),2020,2120,397,1750,48,2100,"Variable, depending on type of product",3800,81,436,105,859,13,951,"Variable, depending on type of product",800,89
+MCS2025,Stone (Dimension),2021,2290,413,2200,50,2560,"Variable, depending on type of product",3700,84,445,108,901,12,997,"Variable, depending on type of product",800,89
+MCS2025,Stone (Dimension),2022,2380,421,2312,54,2680,"Variable, depending on type of product",3800,84,491,102,902,13,991,"Variable, depending on type of product",800,90
+MCS2025,Stone (Dimension),2023,2300,410,1950,55,2300,"Variable, depending on type of product",3700,82,470,94,748,14,828,"Variable, depending on type of product",800,89
+MCS2025,Stone (Dimension),2024,2200,370,1900,58,2200,"Variable, depending on type of product",3700,83,450,86,700,14,770,"Variable, depending on type of product",700,89

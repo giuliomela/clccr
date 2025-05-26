@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Metallurgical_kt,USprod_H2SiF6_kt,Imports_Acid_kt,Imports_Metallurgical_kt,Imports_Total_Fl_kt,Imports_HF_kt,Imports_AlF3_kt,Exports_Cryolite_kt,Consump_All_kt,Price_dt,Price_Acid_dt,Employment_Metallurgical_num,NIR_Mine_pct,,,,,
+MCS2024,Fluorspar,2019, ,NA,29,346,59,405,124,38,21,8,398,304,292,14,100,,,
+MCS2024,Fluorspar,2020, ,NA,22,427,65,492,103,21,26,9,483,309,149,16,100,,,
+MCS2024,Fluorspar,2021, ,NA,40,391,59,451,103,28,42,15,436,322,151,17,100,,,
+MCS2024,Fluorspar,2022, ,NA,e40,438,88,526,99,21,28,24,502,383,223,15,100,,,
+MCS2024,Fluorspar,2023, ,NA,40,350,40,390,100,25,34,22,370,430,360,15,100,,,

@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Mine_t,USprod_Secondary_t,Imports_Concentrate_t,Imports_Other_t,Exports_Concentrate_t,Exports_Other_t,Shipments_Concentrate_t,Shipments_Other_t,Consump_Reported_t,Consump_Apparent_t,Price_WO3_dt,Stocks_,NIR_ct
+MCS2025,Tungsten,2020,0,W,2020,8660,480,2470,728,34,W,W,172,W,>50
+MCS2025,Tungsten,2021,0,W,1600,10500,441,2970,1030,93,W,W,225,W,>50
+MCS2025,Tungsten,2022,0,W,2130,12300,614,3680,689,0,W,W,275,W,>50
+MCS2025,Tungsten,2023,0,W,1640,10000,1510,3180,NA,NA,W,W,258,W,>50
+MCS2025,Tungsten,2024,0,W,1500,8900,2000,3700,NA,NA,W,W,250,W,>50
