@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_sold-used_kt,USprod_processed_kt,Imports_consumption_kt,Imports_general_kt,Exports_kt,Consump_kt,Price_dt,Employment_num,NIR_pct
+MCS2025,Barite,2020,W,1410,1480,869,48,W,183,360,>75
+MCS2025,Barite,2021,W,1670,1660,1440,62,W,167,330,>75
+MCS2025,Barite,2022,W,2220,2330,1890,87,W,145,380,>75
+MCS2025,Barite,2023,W,2260,2420,2220,75,W,223,440,>75
+MCS2025,Barite,2024,W,2300,2000,1900,65,W,220,440,>75

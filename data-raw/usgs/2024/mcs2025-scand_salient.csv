@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,Price_Cmpds_Acetate_dg,Price_Cmpds_Chloride_dg,Price_Cmpds_Fluoride_dg,Price_Cmpds_Iodide_dg,Price_Cmpds_Oxide_dg,Price_Mtl_Dendritic_dg,Price_Mtl_Ingot_dg,Price_Mtl_Alloy_1kg_dkg,Price_Mtl_Alloy_1000kg_dkg,NIR_ct
+MCS2025,Scandium,2020,45,133,214,161,4,233,134,340,NA,100
+MCS2025,Scandium,2021,43,137,216,161,2,238,137,350,NA,100
+MCS2025,Scandium,2022,46,140,250,170,2,260,150,350,98,100
+MCS2025,Scandium,2023,70,166,216,200,NA,269,153,NA,NA,100
+MCS2025,Scandium,2024,60,157,410,208,1,513,153,360,32,100

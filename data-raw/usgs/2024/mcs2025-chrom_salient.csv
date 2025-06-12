@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Mine_kt,USprod_Recycling_kt,Imports_kt,Exports_kt,Shipments_Gov_kt,Consump_Reported_kt,Consump_Apparent_kt,Price_Ore_dt,Price_Ferrochromium_dlb,Price_Metal_dlb,Stocks_kt,NIR_pct
+MCS2025,Chromium,2020,0,119,448,138,5,387,433,158,0.89,3.1,6,73
+MCS2025,Chromium,2021,0,114,571,114,7,364,579,199,1.5,4.23,6,80
+MCS2025,Chromium,2022,0,91,610,132,5,275,574,277,3.19,7.2,5,84
+MCS2025,Chromium,2023,0,126,451,148,NA,290,429,321,2.55,5.05,5,71
+MCS2025,Chromium,2024,0,100,500,160,NA,300,440,340,1.8,5.6,5,77

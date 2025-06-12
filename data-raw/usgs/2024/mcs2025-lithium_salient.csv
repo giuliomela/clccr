@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_t,Imports_t,Exports_t,Consump_t,Price_dt,Employment_num,NIR_pct
+MCS2025,Lithium,2020,W,2460,1200,W,10100,70,>50
+MCS2025,Lithium,2021,W,2640,1870,W,14200,70,>25
+MCS2025,Lithium,2022,W,3260,2440,W,71100,70,>25
+MCS2025,Lithium,2023,W,3390,1960,W,41300,70,>50
+MCS2025,Lithium,2024,W,3300,1700,W,14000,70,>50

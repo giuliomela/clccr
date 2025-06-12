@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Production_kt,USprod_Sales_kt,Imports_kt,Exports_kt,Consump_kt,Price_dt,Stocks_Producer_kt,Employment_num,NIR_pct
+MCS2025,Peat,2020,354,386,1390,46,1690,26.07,288,510,79
+MCS2025,Peat,2021,324,386,1630,37,1970,38.52,235,510,84
+MCS2025,Peat,2022,343,497,1440,43,1740,26.58,235,510,80
+MCS2025,Peat,2023,310,480,1170,42,1500,20.00,200,500,79
+MCS2025,Peat,2024,350,500,1300,50,1600,24,220,500,78

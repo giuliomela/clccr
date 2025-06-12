@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Mine_t,USprod_Refinery_Primary_t,USprod_Refinery_Secondary_t,Imports_t,Exports_t,Consump_t,Stocks_Treasury_t,Price_dtoz,Employment_num,NIR_pct
+MCS2025,Gold,2020,193,181,92,545,297,187,8130,1774,11500,NA
+MCS2025,Gold,2021,187,181,92,192,386,265,8130,1801,11700,E
+MCS2025,Gold,2022,173,181,93,138,420,252,8130,1802,11500,E
+MCS2025,Gold,2023,170,179,96,216,252,253,8130,1945,12200,E
+MCS2025,Gold,2024,160,170,90,150,300,200,8130,2400,12000,E
