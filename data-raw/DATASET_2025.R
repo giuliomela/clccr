@@ -13,8 +13,6 @@ price_version_comparison <-
 
 master_data <- read_excel(here("data-raw/db_comm_master_2025.xlsx"))
 
-download_usgs_data <- FALSE
-
 # loading USGS prices
 
 source(
@@ -417,8 +415,8 @@ simapro_codes <- read_excel(here("data-raw/db_comm_master_2024.xlsx"),
 
 #Loading metadata files to prepare output csv to be loaded in SimaPro
 
-template_names <- c("top", "mid1", "mid2", "bottom", "gruppi_top", "gruppi_bottom",
-                    "gruppi_critical_top", "gruppi_critical_bottom")
+template_names <- c("top", "mid_eu", "mid_iea", "mid2", "bottom", "gruppi_top", "gruppi_bottom",
+                    "gruppi_critical_top", "gruppi_critical_eu_bottom", "gruppi_critical_iea_bottom")
 
 # simapro_template <- lapply(template_names,
 #                            function(x) readLines(here::here("data-raw",
@@ -428,7 +426,7 @@ template_names <- c("top", "mid1", "mid2", "bottom", "gruppi_top", "gruppi_botto
 # )
 
 simapro_template <- lapply(template_names,
-                           function(x) read_delim(here(paste0("data-raw/simapro_template_", x, ".csv")),
+                           function(x) read_delim(here::here(paste0("data-raw/simapro_template_", x, ".csv")),
                                                   delim = ";",
                                                   col_names = FALSE))
 
@@ -448,9 +446,6 @@ names(simapro_template) <- template_names
 #   mutate(critical = NULL) |>
 #   left_join(iea_key)
 
-#usethis::use_data(clcc_prices_ref, overwrite = TRUE)
-
 usethis::use_data(clcc_prices_ref, prices_23, overwrite = TRUE)
 
 usethis::use_data(simapro_template, simapro_codes, overwrite = TRUE, internal = TRUE)
-

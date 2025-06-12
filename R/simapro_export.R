@@ -6,8 +6,10 @@
 #'
 #' @param groups A logical value (either TRUE or FALSE). If set to TRUE, the commodities are grouped
 #'     in macro-categories to make interpretation easier.
-#' @param crit A logical value that can be selected only when `groups = TRUE`. If it is set to `TRUE` a .csv
+#' @param critical A logical value that can be selected only when `groups = TRUE`. If it is set to `TRUE` a .csv
 #'     file containing critical materials only is generated to be exported to Simapro.
+#' @param critical_type A string. If set to `EU`, the critical CLCC indicator is based on the list of critical
+#'     materials of the European Union. If it is set to `IEA` the International Energy Agency list is used instead. Default is set to `EU`
 #' @return A SimaPro-compatible csv file
 #' @export
 #' @examples
@@ -16,34 +18,39 @@
 #'
 #' simapro_export(critical_only = FALSE)
 #' }
-simapro_export <- function(groups = FALSE, crit = FALSE){
+simapro_export <- function(groups = FALSE, critical = FALSE, critical_type = "EU"){
 
   comp <- var1 <- comm <- um <- code1 <- code2 <- critical <- energy <- formula <- price <- NULL
 
-  if (isFALSE(groups) & isTRUE(crit))
+  if (isFALSE(groups) & isTRUE(critical))
     stop("The critical parameter can be selected only when
                                                'groups' == TRUE")
+
+  if (!is.element(critical_type, c("EU", "IEA")))
+    stop("Parameter 'critical type' can only assume EU or IEA values")
 
 
   if (isTRUE(groups)) {
 
 
-    if(isTRUE(crit)){
+    if(isTRUE(critical)){
 
       prices_simple <- clccr::clcc_prices_ref |>
         dplyr::filter(
-            .data[["critical"]] == "yes"
+          .data[[paste0("critical_", tolower(critical_type))]] == "yes"
         ) |>
         dplyr::select(dplyr::all_of(c("comm", "macro_cat", "mean", "um")))
+
 
       top <- simapro_template$gruppi_critical_top
 
       bottom <- simapro_template$gruppi_critical_bottom
 
       comm_to_retain <- clccr::clcc_prices_ref[clccr::clcc_prices_ref$source != "none" &
-                                                 clccr::clcc_prices_ref$critical == "yes", ]$comm
+                                                 clccr::clcc_prices_ref[[paste0("critical_", tolower(critical_type))]] == "yes", ]$comm
 
-    } else if (isFALSE(crit)) {
+
+    } else if (isFALSE(critical)) {
 
       prices_simple <- clccr::clcc_prices_ref |>
         dplyr::select(dplyr::all_of(c("comm", "macro_cat", "mean", "um")))
@@ -146,20 +153,20 @@ simapro_export <- function(groups = FALSE, crit = FALSE){
   data_raw <- simapro_codes |>
     dplyr::left_join(clccr::clcc_prices_ref) |>
     dplyr::filter(source != "none") |>
-    dplyr::select(comp, var1, comm, price = mean, um, code1, code2, critical)
+    dplyr::select(comp, var1, comm, price = mean, um, code1, code2, paste0("critical_", tolower(critical_type)))
 
 
   data_ready <- lapply(list(c("yes", "no"), "yes"),
                        function(x) data_raw |>
                          dplyr::mutate(price = ifelse(
-                           critical %in% x,
+                           !!rlang::sym(paste0("critical_", tolower(critical_type))) %in% x,
                            price,
                            0
                          )) |>
                          dplyr::select(comp, var1, comm, code1, price, um, code2)
   )
 
-  names(data_ready) <- c("CLCC", "critical-CLCC")
+  names(data_ready) <- c("CLCC", paste0("critical-CLCC_", critical_type))
 
   # actual data to export
 
@@ -180,7 +187,7 @@ simapro_export <- function(groups = FALSE, crit = FALSE){
   data_clcc <- as.data.frame(data_ready[["CLCC"]]) |>
     unique()
 
-  data_critical <- as.data.frame(data_ready[["critical-CLCC"]]) |>
+  data_critical <- as.data.frame(data_ready[[paste0("critical-CLCC_", critical_type)]]) |>
     unique()
 
   names(data_clcc) <- NULL
@@ -191,6 +198,8 @@ simapro_export <- function(groups = FALSE, crit = FALSE){
 
   to_append <- list(simapro_template$top, data_clcc, simapro_template$mid1, data_critical,
                     simapro_template$mid2, data_meta, simapro_template$bottom)
+
+
 
   }
 

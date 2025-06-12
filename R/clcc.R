@@ -8,6 +8,7 @@
 #' critical materials only.
 #'
 #' @param path A character vector. Path to the folder in which raw xlsx files are stored.
+#' @param path_weights A character vector. Path to the file containing the critical weights for each commodity and phase.
 #' @param func_unit A string, the functional unit of the LCA analysis the inventories refer to. This parameter
 #'     is needed to plot the data it is not used to compute the indicator.
 #' @param label_digits An integer: the number of digits to display in the plots.
@@ -30,7 +31,9 @@
 #' clcc(path = data_path)
 #'
 #' }
-clcc <- function(path, func_unit = "km", label_digits = 3,
+clcc <- function(path,
+                 path_weights,
+                 func_unit = "km", label_digits = 3,
                  plot_phases = FALSE, plot_phases_critical = FALSE,
                  plot_phases_critical_version = "EU",
                  price_source = "2024"){
@@ -50,6 +53,23 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
   clcc_critical <- object <- phase <- clcc_rel <-  NULL
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
+
+  critical_weights <-
+    critical_weights_load_fn(path_weights = path_weights) # loads the critical weights
+
+  inventories$phase <- tolower(inventories$phase)
+
+  if (length(intersect(unique(critical_weights$object), unique(inventories$object))) == 0)
+    stop("The objects in the critical weights file are not present in the inventories. Please check the files.")
+
+  if (length(intersect(unique(critical_weights$phase), unique(inventories$phase))) == 0)
+    stop("The phases in the critical weights file are not present in the inventories. Please check the files.")
+
+  inventories <-
+    inventories |>
+    dplyr::left_join(critical_weights)
+
+  inventories$weight <- ifelse(is.na(inventories$weight), 1, inventories$weight) # if weight is NA, set it to 1
 
   if (price_source == "2024"){
 
@@ -72,70 +92,29 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
 
   inv_prices <- inv_prices[, -which(names(inv_prices) %in% c("um", "source", "code"))]
 
+
   # Computing the CLCC indicator
 
-  clcc_res <- by(inv_prices, list(inv_prices$object, inv_prices$phase), function(df) {
-    with(df, data.frame(object = object[[1]], phase = phase[[1]],
-                        clcc = sum(mean * quantity)))
+  clcc_res <-
+    inv_prices |>
+    dplyr::group_by(.data[["object"]], .data[["phase"]]) |>
+    dplyr::summarise(
+      clcc = sum(.data[["mean"]] * .data[["quantity"]], na.rm = TRUE),
+      clcc_critical_eu = sum(ifelse(.data[["critical_eu"]] == "yes", .data[["mean"]] * .data[["quantity"]] * .data[["weight"]], 0), na.rm = TRUE),
+      clcc_critical_iea = sum(ifelse(.data[["critical_iea"]] == "yes", .data[["mean"]] * .data[["quantity"]] * .data[["weight"]], 0), na.rm = TRUE)
+    ) |>
+    dplyr::ungroup()
+
+
+  clcc_res <- within(clcc_res, {
+    share_critical_eu <- ifelse(clcc != 0,
+                                clcc_critical_eu / clcc * 100,
+                                0)
+
+    share_critical_iea <- ifelse(clcc != 0,
+                                 clcc_critical_iea / clcc * 100,
+                                 0)
   })
-
-
-  clcc_res <- do.call(rbind, clcc_res)
-
-  # Indicatori critici
-
-  clcc_crit_res <-
-    purrr::map(
-    c("critical_eu", "critical_iea"),
-    \(x) {
-
-      inv_prices_crit <- inv_prices[inv_prices[[x]] == "yes", ]
-
-      clcc_crit_res <- by(inv_prices_crit, list(inv_prices_crit$object,
-                                                inv_prices_crit$phase), function(df) {
-                                                  with(df, data.frame(object = object[[1]], phase = phase[[1]],
-                                                                      clcc_critical = sum(mean * quantity)))
-                                                })
-
-      new_name <- paste0("clcc_", x)
-
-      clcc_crit_res <- do.call(rbind, clcc_crit_res)
-
-      clcc_crit_res <-
-        dplyr::rename(
-          clcc_crit_res,
-          !!new_name := clcc_critical
-        )
-
-
-    }
-  ) |> setNames(c("critical_eu", "critical_iea"))
-
-  # if(critical == TRUE){
-
-    # inv_prices_crit <- inv_prices[inv_prices$critical == "yes", ]
-    #
-    # clcc_crit_res <- by(inv_prices_crit, list(inv_prices_crit$object,
-    #                                           inv_prices_crit$phase), function(df) {
-    #   with(df, data.frame(object = object[[1]], phase = phase[[1]],
-    #                       clcc_critical = sum(mean * quantity)))
-    # })
-    # clcc_crit_res <- do.call(rbind, clcc_crit_res)
-
-    clcc_res <- merge(clcc_res, clcc_crit_res[["critical_eu"]], , all.x = TRUE)
-
-    clcc_res <- merge(clcc_res, clcc_crit_res[["critical_iea"]], , all.x = TRUE)
-
-
-    clcc_res <- within(clcc_res, {
-      share_critical_eu <- ifelse(clcc != 0,
-        clcc_critical_eu / clcc * 100,
-        0)
-
-      share_critical_iea <- ifelse(clcc != 0,
-                                  clcc_critical_iea / clcc * 100,
-                                  0)
-    })
 
   # }
 
@@ -143,7 +122,7 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
     dplyr::arrange(object, phase)
 
 
-    if(isFALSE(plot_phases)) {
+  if(isFALSE(plot_phases)) {
 
     res <- output |>
       dplyr::filter(.data[["phase"]] == "total") |>
@@ -181,38 +160,38 @@ clcc <- function(path, func_unit = "km", label_digits = 3,
                      legend.position = "none") +
       ggplot2::scale_y_discrete(labels = function(x) stringr::str_wrap(x, width = 20))
 
-    } else if (isTRUE(plot_phases)){
+  } else if (isTRUE(plot_phases)){
 
-      indicator <-
-        dplyr::case_when(
-          isTRUE(plot_phases_critical) & plot_phases_critical_version == "EU" ~ "clcc_critical_eu",
-          isTRUE(plot_phases_critical) & plot_phases_critical_version == "IEA" ~ "clcc_critical_iea",
-          isFALSE(plot_phases_critical) ~ "clcc"
-        )
+    indicator <-
+      dplyr::case_when(
+        isTRUE(plot_phases_critical) & plot_phases_critical_version == "EU" ~ "clcc_critical_eu",
+        isTRUE(plot_phases_critical) & plot_phases_critical_version == "IEA" ~ "clcc_critical_iea",
+        isFALSE(plot_phases_critical) ~ "clcc"
+      )
 
-      # indicator <- ifelse(
-      #   isTRUE(plot_phases_critical),
-      #   "clcc_critical",
-      #   "clcc"
-      # )
+    # indicator <- ifelse(
+    #   isTRUE(plot_phases_critical),
+    #   "clcc_critical",
+    #   "clcc"
+    # )
 
-      res <- output |>
-        dplyr::filter(.data$phase != "total", !!rlang::sym(indicator) != 0) |>
-        dplyr::group_by(.data$object) |>
-        dplyr::mutate(clcc_rel = !!rlang::sym(indicator) / sum(!!rlang::sym(indicator)) * 100) |>
-        dplyr::ungroup()
+    res <- output |>
+      dplyr::filter(.data$phase != "total", !!rlang::sym(indicator) != 0) |>
+      dplyr::group_by(.data$object) |>
+      dplyr::mutate(clcc_rel = !!rlang::sym(indicator) / sum(!!rlang::sym(indicator)) * 100) |>
+      dplyr::ungroup()
 
-      plot <- ggplot2::ggplot(res,
-                              ggplot2::aes(
-                                area = !!rlang::sym(indicator), fill = phase,
-                                label = paste0(round(clcc_rel, 0), "%")
-                              )) +
-        treemapify::geom_treemap() +
-        treemapify::geom_treemap_text(colour = "white", place = "middle", reflow = T) +
-        ggplot2::facet_wrap(~ object) +
-        viridis::scale_fill_viridis(discrete = T, option = "cividis")
+    plot <- ggplot2::ggplot(res,
+                            ggplot2::aes(
+                              area = !!rlang::sym(indicator), fill = phase,
+                              label = paste0(round(clcc_rel, 0), "%")
+                            )) +
+      treemapify::geom_treemap() +
+      treemapify::geom_treemap_text(colour = "white", place = "middle", reflow = T) +
+      ggplot2::facet_wrap(~ object) +
+      viridis::scale_fill_viridis(discrete = T, option = "cividis")
 
-    }
+  }
 
   output <- list(output, plot)
 

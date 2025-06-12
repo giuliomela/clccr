@@ -5,10 +5,11 @@
 #' `baseline` and `critical` versions of the indicator itself.
 #'
 #' @param path A character vector. Path to the folder in which raw xlsx files are stored.
+#' @param path_weights A character vector. Path to the file containing the critical weights for each commodity and phase.
 #' @param critical A logical value. If set to `TRUE`, shares referred to the critical-clcc indicator
 #'     are returned. Default is set to `FALSE`.
 #' @param critical_type A string. If set to `EU`, the critical CLCC indicator is based on the list of critical
-#'     materials of the European Union. If it is set to `IEA` the International Energy Agency list is used instead. Default is seto to `EU`
+#'     materials of the European Union. If it is set to `IEA` the International Energy Agency list is used instead. Default is set to `EU`
 #' @param phase_of_int A character string. The life-cycle phase for which the relative shares
 #'     must be computed. Default is `total`. The user can however select any phase included in the
 #'     inventory file.
@@ -25,12 +26,13 @@
 #' \dontrun{
 #' data_path <- path_to_inventory_folder
 #'
-#' clcc_detail(path = data_path)
+#' clcc_detail(path = data_path, path_weights = critical_path)
 #'
-#' clcc_detail(path = data_path, critical = TRUE, collapse_share = 0.5)
+#' clcc_detail(path = data_path, path_weights = critical_path, critical = TRUE, collapse_share = 0.5)
 #'
 #' }
 clcc_detail <- function (path,
+                         path_weights,
                          critical = FALSE,
                          critical_type = "EU",
                          phase_of_int = "total",
@@ -51,6 +53,23 @@ clcc_detail <- function (path,
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
+  critical_weights <-
+    critical_weights_load_fn(path_weights = path_weights) # loads the critical weights
+
+  inventories$phase <- tolower(inventories$phase)
+
+  if (length(intersect(unique(critical_weights$object), unique(inventories$object))) == 0)
+    stop("The objects in the critical weights file are not present in the inventories. Please check the files.")
+
+  if (length(intersect(unique(critical_weights$phase), unique(inventories$phase))) == 0)
+    stop("The phases in the critical weights file are not present in the inventories. Please check the files.")
+
+  inventories <-
+    inventories |>
+    dplyr::left_join(critical_weights)
+
+  inventories$weight <- ifelse(is.na(inventories$weight), 1, inventories$weight) # if weight is NA, set it to 1
+
   if (price_source == "2024"){
 
     prices <- clccr::clcc_prices_ref
@@ -68,7 +87,9 @@ clcc_detail <- function (path,
 
   if(isTRUE(any(test_commodity == F))) stop("At least one commodity in the inventory is not present in the master file") # if true, at least one commodity is not in the master file
 
-  inv_prices <- merge(inventories, prices, all.x = TRUE)
+  inv_prices <-
+    inventories |>
+    dplyr::left_join(prices)
 
   if (isTRUE(critical)) {
 
@@ -93,12 +114,14 @@ clcc_detail <- function (path,
 
   }
 
+
+
   #inv_prices <- inv_prices[, -which(names(inv_prices) %in% c("um", "source", "code"))]
 
   # Computing the CLCC indicator
 
   clcc_raw <- inv_prices |>
-    dplyr::mutate(clcc = mean * quantity) |>
+    dplyr::mutate(clcc = mean * quantity * weight) |>
     dplyr::filter(phase == phase_of_int) |>
     dplyr::group_by(object, phase, clcc_type, macro_cat) |>
     dplyr::summarise(clcc = sum(clcc)) |>

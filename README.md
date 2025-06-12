@@ -4,6 +4,7 @@
 # clccr
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 The clccr package provides a set of functions to compute the commodity
@@ -40,10 +41,25 @@ library(clccr)
 
 # computing the CLCC indicator for three example inventories (cars)
 
-res <- clcc(path = path_to_folder)
+res <- clcc(path = path_to_folder
+            #path_weights = path_to_weights
+            )
 
 res[["table"]]
-#> NULL
+#> # A tibble: 102 × 5
+#>    object     phase                  clcc clcc_critical share_critical
+#>    <chr>      <chr>                 <dbl>         <dbl>          <dbl>
+#>  1 bus_diesel Batteria           0            0                   0   
+#>  2 bus_diesel Manutenzione       0.000391     0.0000505          12.9 
+#>  3 bus_diesel Uso                0            0                   0   
+#>  4 bus_diesel Veicolo            0.00394      0.00176            44.8 
+#>  5 bus_diesel Vettore energetico 0.00986      0.000163            1.65
+#>  6 bus_diesel total              0.0142       0.00198            13.9 
+#>  7 bus_elet   Batteria           0.00268      0.00179            67.0 
+#>  8 bus_elet   Manutenzione       0.000325     0.0000383          11.8 
+#>  9 bus_elet   Uso                0            0                   0   
+#> 10 bus_elet   Veicolo            0.00119      0.000504           42.4 
+#> # ℹ 92 more rows
 ```
 
 The default plot looks like:
@@ -51,8 +67,59 @@ The default plot looks like:
 ``` r
 
 res[["plot"]]
-#> NULL
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
+#> Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+#> famiglia di caratteri non trovata nel database dei caratteri di Windows
 ```
+
+<img src="man/figures/README-example1-plot-1.png" width="100%" />
 
 Even though data on reference prices cannot be updated programmatically
 since not all source have an API, it is possible to extract a tibble
@@ -67,14 +134,15 @@ information on price levels and data sources in the
 prices <- clcc_prices_ref
 
 head(prices, 5)
-#> # A tibble: 5 × 11
-#>   comm      no_comm um    source   code   mean   min   max n_obs ref_yr critical
-#>   <chr>       <dbl> <chr> <chr>    <chr> <dbl> <dbl> <dbl> <int>  <dbl> <chr>   
-#> 1 Acids           1 kg    none     <NA>     0    0      0     NA   2022 no      
-#> 2 Actinium        2 kg    comtrade 2844…  597.  36.8 1107.    10   2022 no      
-#> 3 Additives       3 kg    none     <NA>     0    0      0     NA   2022 no      
-#> 4 Air             4 kg    none     <NA>     0    0      0     NA   2022 no      
-#> 5 Alloys          5 kg    none     <NA>     0    0      0     NA   2022 no
+#> # A tibble: 5 × 12
+#>   comm   no_comm um    source critical macro_cat code   mean     min   max n_obs
+#>   <chr>    <dbl> <chr> <chr>  <chr>    <chr>     <chr> <dbl>   <dbl> <dbl> <int>
+#> 1 Acids        1 kg    none   no       Chemical… <NA>     0  0          0     NA
+#> 2 Actin…       2 kg    comtr… no       Actinium  2844…  254. 0.00929  756.    10
+#> 3 Addit…       3 kg    none   no       Chemical… <NA>     0  0          0     NA
+#> 4 Air          4 kg    none   no       Gases, o… <NA>     0  0          0     NA
+#> 5 Alloys       5 kg    none   no       Other     <NA>     0  0          0     NA
+#> # ℹ 1 more variable: ref_yr <dbl>
 ```
 
 The `clcc` function returns the total CLCC indicator (computed taking
@@ -91,13 +159,29 @@ one of the life-cycle phases.
 ``` r
 
 detail_info <- clcc_detail(path = path_to_folder,
+                           #path_weights = path_to_weights,
                            critical = FALSE,
                            phase_of_int = "total",
                            collapse_share = 0.9)
 #> Joining with `by = join_by(object, phase, clcc_type)`
+```
+
+``` r
 
 head(detail_info[["table"]], 10)
-#> NULL
+#> # A tibble: 10 × 6
+#>    object     macro_cat   phase clcc_type         clcc  share
+#>    <chr>      <chr>       <chr> <chr>            <dbl>  <dbl>
+#>  1 bus_diesel Oil         total baseline-clcc 0.00919  0.647 
+#>  2 bus_diesel Other       total baseline-clcc 0.00206  0.145 
+#>  3 bus_diesel Shale       total baseline-clcc 0.00185  0.130 
+#>  4 bus_diesel PGMs        total baseline-clcc 0.00110  0.0776
+#>  5 bus_elet   Natural gas total baseline-clcc 0.00225  0.322 
+#>  6 bus_elet   Other       total baseline-clcc 0.000816 0.117 
+#>  7 bus_elet   Lithium     total baseline-clcc 0.000770 0.110 
+#>  8 bus_elet   Oil         total baseline-clcc 0.000700 0.100 
+#>  9 bus_elet   Coal        total baseline-clcc 0.000671 0.0961
+#> 10 bus_elet   Nickel      total baseline-clcc 0.000440 0.0630
 ```
 
 Also in this case the function returns a default plot of the results.
@@ -105,8 +189,9 @@ Also in this case the function returns a default plot of the results.
 ``` r
 
 detail_info[["plot"]]
-#> NULL
 ```
+
+<img src="man/figures/README-example4-plot-1.png" width="100%" />
 
 The `clccr` package also allows to run a Monte Carlo simulation, given
 the high volatility that characterizes market prices. Minimum and
@@ -130,12 +215,37 @@ plotting alternatives available.
 rep <- 1000 # number of simulations (default is 10,000)
 phase <- "total" # the life cycle phase for which running the simulation
 
-mc_res <- clcc_mc(path = path_to_folder, rep = rep)
+mc_res <- clcc_mc(path = path_to_folder, 
+                  #path_weights = path_to_weights,
+                  rep = rep)
 #> Joining with `by = join_by(comm, um, no_comm)`
 #> Joining with `by = join_by(object, phase)`
+```
+
+``` r
 
 mc_res[["table"]]
-#> NULL
+#> # A tibble: 17 × 8
+#>    object            phase clcc_sim ecdf_fn    clcc clcc_critical share_critical
+#>    <chr>             <chr> <list>   <list>    <dbl>         <dbl>          <dbl>
+#>  1 bus_diesel        total <dbl>    <ecdf>  0.0142        0.00198           13.9
+#>  2 bus_elet          total <dbl>    <ecdf>  0.00699       0.00263           37.7
+#>  3 car_cng           total <dbl>    <ecdf>  0.0378        0.00412           10.9
+#>  4 car_diesel        total <dbl>    <ecdf>  0.0376        0.00395           10.5
+#>  5 car_diesel_sens   total <dbl>    <ecdf>  0.0341        0.00389           11.4
+#>  6 car_elet_egolf    total <dbl>    <ecdf>  0.0229        0.00813           35.4
+#>  7 car_elet_id3      total <dbl>    <ecdf>  0.0249        0.00903           36.2
+#>  8 car_petrol        total <dbl>    <ecdf>  0.0408        0.00408           10.0
+#>  9 car_phev_dom      total <dbl>    <ecdf>  0.0283        0.00687           24.2
+#> 10 car_phev_pub      total <dbl>    <ecdf>  0.0337        0.00683           20.3
+#> 11 micro_cargobikeS… total <dbl>    <ecdf>  0.0171        0.00581           34.0
+#> 12 micro_cargobikeS… total <dbl>    <ecdf>  0.0177        0.00609           34.4
+#> 13 micro_ebike       total <dbl>    <ecdf>  0.00299       0.00118           39.4
+#> 14 micro_escooter    total <dbl>    <ecdf>  0.00459       0.00205           44.6
+#> 15 van_diesel        total <dbl>    <ecdf>  0.0625        0.00642           10.3
+#> 16 van_elet          total <dbl>    <ecdf>  0.0347        0.0127            36.6
+#> 17 van_phev          total <dbl>    <ecdf>  0.0495        0.0108            21.8
+#> # ℹ 1 more variable: prob_inf_base <dbl>
 ```
 
 Setting the argument `prob_inf_alt` to `TRUE` (default is `FALSE`),
@@ -150,12 +260,30 @@ differences between all the simulated values for each object.
 # Monte Carlo simulation returning the probability that an object's CLCC is lower/higher than that of the
 # other alternatives
 
-mc_res2 <- clcc_mc(path = path_to_folder, rep = rep, prob_inf_alt = TRUE)
+mc_res2 <- clcc_mc(path = path_to_folder, 
+                   #path_weights = path_to_weights,
+                   rep = rep, prob_inf_alt = TRUE)
 #> Joining with `by = join_by(comm, um, no_comm)`
 #> Joining with `by = join_by(object, phase)`
+```
+
+``` r
 
 mc_res2[["table"]]
-#> NULL
+#> # A tibble: 289 × 3
+#>    obj1       obj2             prob
+#>    <chr>      <chr>           <dbl>
+#>  1 bus_diesel bus_diesel         NA
+#>  2 bus_diesel bus_elet            0
+#>  3 bus_diesel car_cng             1
+#>  4 bus_diesel car_diesel          1
+#>  5 bus_diesel car_diesel_sens     1
+#>  6 bus_diesel car_elet_egolf      1
+#>  7 bus_diesel car_elet_id3        1
+#>  8 bus_diesel car_petrol          1
+#>  9 bus_diesel car_phev_dom        1
+#> 10 bus_diesel car_phev_pub        1
+#> # ℹ 279 more rows
 ```
 
 Finally, the package allows the user to export reference prices for both

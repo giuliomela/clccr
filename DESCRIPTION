@@ -35,7 +35,8 @@ Imports:
     viridis,
     treemapify,
     rlang,
-    ggridges
+    ggridges,
+    readr
 Suggests: 
     rmarkdown,
     knitr,

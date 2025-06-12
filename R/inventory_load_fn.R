@@ -25,7 +25,10 @@ file_list <- list.files(path = data_path,
                             recursive = TRUE,
                             pattern = "*.xlsx") # creates a vector with variable names
 
+
+
 inventory_raw <- tidyr::tibble(file_path = file_list) # creates a tibble
+
 
 # identifying the number of rows to skip in each excel file
 
@@ -116,3 +119,5 @@ inventory_tidy
 
 
 }
+
+

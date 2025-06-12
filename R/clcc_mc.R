@@ -10,8 +10,13 @@
 #' than that of any other object belonging to the same project.
 #'
 #' @param path A character vector. Path to the folder in which raw xlsx files are stored.
+#' @param path_weights A character vector. Path to the file containing the critical weights for each commodity and phase.
 #' @param rep Number of Monte Carlo iterations. Default is 10,000
 #' @param phase LCA phase for which the simulation is run. Default is "total"
+#' @param critical A logical value. If set to `TRUE`, shares referred to the critical-clcc indicator
+#'     are returned. Default is set to `FALSE`.
+#' @param critical_type A string. If set to `EU`, the critical CLCC indicator is based on the list of critical
+#'     materials of the European Union. If it is set to `IEA` the International Energy Agency list is used instead. Default is set to `EU`
 #' @param prob_inf_alt If TRUE the function computes the probability that an
 #' object's CLCC is lower than that of the other objects belonging to the same project.
 #' Default is set to FALSE.
@@ -34,10 +39,31 @@
 #' clcc_mc(path = data_path, rep = 5000, prob_inf_alt = TRUE)
 #'
 #' }
-clcc_mc <- function(path, rep = 10000, phase = "total",
+clcc_mc <- function(path,
+                    path_weights,
+                    rep = 10000, phase = "total",
+                    critical = F,
+                    critical_type = "EU",
                     func_unit = "km", prob_inf_alt = FALSE){
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
+
+  inventories$phase <- tolower(inventories$phase)
+
+  critical_weights <-
+    critical_weights_load_fn(path_weights = path_weights) # loads the critical weights
+
+  if (length(intersect(unique(critical_weights$object), unique(inventories$object))) == 0)
+    stop("The objects in the critical weights file are not present in the inventories. Please check the files.")
+
+  if (length(intersect(unique(critical_weights$phase), unique(inventories$phase))) == 0)
+    stop("The phases in the critical weights file are not present in the inventories. Please check the files.")
+
+  inventories <-
+    inventories |>
+    dplyr::left_join(critical_weights)
+
+  inventories$weight <- ifelse(is.na(inventories$weight), 1, inventories$weight) # if weight is NA, set it to 1
 
   prices <- clccr::clcc_prices_ref
 
@@ -47,7 +73,7 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
     clcc_sim <- ecdf_diff <- clcc_diff <- obj1 <- obj2 <- clcc_sim.y <- clcc_sim.x <-
     obj_combinations <- nested_data <- ecdf_fn <- clcc <- NULL # removes notes when running R RMD check
 
-  baseline <- clcc(path = path)[["table"]]
+  baseline <- clcc(path = path, path_weights = path_weights)[["table"]]
 
   baseline <- baseline[baseline$phase == phase_to_cons, ]
 
@@ -66,12 +92,25 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
   inv_prices <- inventories |>
     dplyr::left_join(rnd_prices)
 
+  if (isTRUE(critical)){
+
+    if (critical_type == "EU") {
+      inv_prices <- inv_prices |>
+        dplyr::filter(critical_eu == "yes") |>
+        dplyr::mutate(clcc_type = "critical-clcc_eu")
+    } else if (critical_type == "IEA") {
+      inv_prices <- inv_prices |>
+        dplyr::filter(critical_iea == "yes") |>
+        dplyr::mutate(clcc_type = "critical-clcc_IEA")
+    }
+  }
+
   # running the simulation
 
   sim <- inv_prices |>
     dplyr::filter(phase == phase_to_cons) |>
     dplyr::rowwise() |>
-    dplyr::mutate(p_q = list(quantity * rnd_price)) |>
+    dplyr::mutate(p_q = list(quantity * rnd_price * weight)) |>
     dplyr::group_by(object, phase) |>
     dplyr::summarise(clcc_sim = list(Reduce("+", p_q))) |>
     dplyr::ungroup()
@@ -83,12 +122,19 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
     dplyr::mutate(ecdf_fn = list(stats::ecdf(clcc_sim))) |>
     dplyr::ungroup()
 
-  # joining baseline values and computing the probability that the value is lowr th
+  # joining baseline values and computing the probability that the value is lower than the baseline
+
+  baseline_to_compare <-
+    dplyr::case_when(
+      critical == TRUE & critical_type == "EU" ~ "clcc_critical_eu",
+      critical == TRUE & critical_type == "IEA" ~ "clcc_critical_iea",
+      critical == FALSE ~ "clcc"
+    )
 
   sim <- sim |>
     dplyr::left_join(baseline) |>
     dplyr::rowwise() |>
-    dplyr::mutate(prob_inf_base = ecdf_fn(clcc)) |>
+    dplyr::mutate(prob_inf_base = ecdf_fn(.data[[baseline_to_compare]])) |>
     dplyr::ungroup()
 
   if(prob_inf_alt == FALSE){
@@ -107,7 +153,7 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
       viridis::scale_fill_viridis(discrete = T) +
       viridis::scale_color_viridis(discrete = T) +
       ggplot2::labs(x = paste0("euro/", func_unit), y = "") +
-      ggplot2::geom_point(data = data_plot, ggplot2::aes(x = .data[["clcc"]],
+      ggplot2::geom_point(data = data_plot, ggplot2::aes(x = .data[[baseline_to_compare]],
                                                          y = .data[["object"]]),
                  shape = 8, size = 5)
 
@@ -160,7 +206,7 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
 
     levels_for_plot <- forcats::fct_reorder(
       baseline$object,
-      baseline$clcc
+      baseline[[baseline_to_compare]]
     ) |> levels()
 
     plot <- prob_inf_alt |>
@@ -179,5 +225,5 @@ clcc_mc <- function(path, rep = 10000, phase = "total",
     list(table = prob_inf_alt, plot = plot)
 
   }
-
 }
+

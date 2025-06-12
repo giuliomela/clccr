@@ -2,11 +2,13 @@
 % Please edit documentation in R/clcc_detail.R
 \name{clcc_detail}
 \alias{clcc_detail}
-\title{Compute the realtive share of individual material/energy flows on total CLCC}
+\title{Compute the relative share of individual material/energy flows on total CLCC}
 \usage{
 clcc_detail(
   path,
+  path_weights,
   critical = FALSE,
+  critical_type = "EU",
   phase_of_int = "total",
   collapse_share = 0.9,
   price_source = "2024"
@@ -15,8 +17,13 @@ clcc_detail(
 \arguments{
 \item{path}{A character vector. Path to the folder in which raw xlsx files are stored.}
 
+\item{path_weights}{A character vector. Path to the file containing the critical weights for each commodity and phase.}
+
 \item{critical}{A logical value. If set to `TRUE`, shares referred to the critical-clcc indicator
 are returned. Default is set to `FALSE`.}
+
+\item{critical_type}{A string. If set to `EU`, the critical CLCC indicator is based on the list of critical
+materials of the European Union. If it is set to `IEA` the International Energy Agency list is used instead. Default is set to `EU`}
 
 \item{phase_of_int}{A character string. The life-cycle phase for which the relative shares
 must be computed. Default is `total`. The user can however select any phase included in the
@@ -42,9 +49,9 @@ computation of the CLCC indicator on the total value of the indicator for both t
 \dontrun{
 data_path <- path_to_inventory_folder
 
-clcc_detail(path = data_path)
+clcc_detail(path = data_path, path_weights = critical_path)
 
-clcc_detail(path = data_path, critical = TRUE, collapse_share = 0.5)
+clcc_detail(path = data_path, path_weights = critical_path, critical = TRUE, collapse_share = 0.5)
 
 }
 }

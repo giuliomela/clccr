@@ -76,14 +76,9 @@ if (status_code(response) == 200) {
 
     print(paste("Decompresso:", salient_name))
 
-    #cartella con i file compressi
-
-    folder_name <-
-      list.files(here(output_dir, as.character(ref_yr)))
-
     # Lista di tutti i file CSV estratti
     csv_files <- list.files(
-      file.path(here(output_dir, as.character(ref_yr), folder_name)),
+      file.path(here(output_dir, as.character(ref_yr))),
       pattern = "\\.csv$", full.names = TRUE)
 
 # Creiamo una lista di dataframe e poi li uniamo in un unico dataframe
@@ -93,6 +88,7 @@ lista_nomi <- map(
   df_list,
   \(x) colnames(x)
 )
+
 
 # seleziono solamente i data.frame contenenti i prezzi delle commodity
 

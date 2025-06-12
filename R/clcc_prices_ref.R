@@ -13,7 +13,8 @@
 #' \item{no_comm}{commodity ID}
 #' \item{um}{measurement unit, as in SimaPro output}
 #' \item{source}{Reference price source}
-#' \item{critical}{Whether or not a given commodity belogns to the critical materials group defined by the EU}
+#' \item{critical_eu}{Whether or not a given commodity belogns to the critical materials group defined by the EU}
+#' \item{critical_iea}{Whether or not a given commodity belogns to the critical materials group defined by the IEA}
 #' \item{energy}{Whether or not a given commodity belong to the energy group}
 #' \item{simapro_export}{Whether or not a commodity must be included in the .csv file to be exported to SimaProa}
 #' \item{code}{Commodity code (depends on the source)}

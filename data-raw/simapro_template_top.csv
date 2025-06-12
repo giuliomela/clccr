@@ -23,7 +23,7 @@ Version;
 1;0
 ;
 Comment;
-Commodity life cycle cost (CLCC) indicator.This is the most recent version of the CLCC and critical-CLCC indicators. For more information: https://doi.org/10.3390/su13094870The list of Critical Row Materials corresponds to the 2023 update by the European Commission Raw Materials Initiative (RMI).For more information: https://op.europa.eu/en/publication-detail/-/publication/57318397-fdd4-11ed-a05c-01aa75ed71a1/language-en;
+Commodity life cycle cost (CLCC) indicator.This is the most recent version of the CLCC and critical-CLCC indicators. For more information: https://doi.org/10.3390/su13094870. There are 2 critical indicators. The first is based on the 2023 list of Critical Row Materials published by the European Commission Raw Materials Initiative (RMI). The second is based on the 2024 Global Critical Minerals Outlook of the International Energy Acency.For more information: https://op.europa.eu/en/publication-detail/-/publication/57318397-fdd4-11ed-a05c-01aa75ed71a1/language-en, https://www.iea.org/reports/global-critical-minerals-outlook-2024;
 ;
 Category;
 European;

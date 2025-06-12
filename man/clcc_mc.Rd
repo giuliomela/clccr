@@ -6,8 +6,11 @@
 \usage{
 clcc_mc(
   path,
+  path_weights,
   rep = 10000,
   phase = "total",
+  critical = F,
+  critical_type = "EU",
   func_unit = "km",
   prob_inf_alt = FALSE
 )
@@ -15,9 +18,17 @@ clcc_mc(
 \arguments{
 \item{path}{A character vector. Path to the folder in which raw xlsx files are stored.}
 
+\item{path_weights}{A character vector. Path to the file containing the critical weights for each commodity and phase.}
+
 \item{rep}{Number of Monte Carlo iterations. Default is 10,000}
 
 \item{phase}{LCA phase for which the simulation is run. Default is "total"}
+
+\item{critical}{A logical value. If set to `TRUE`, shares referred to the critical-clcc indicator
+are returned. Default is set to `FALSE`.}
+
+\item{critical_type}{A string. If set to `EU`, the critical CLCC indicator is based on the list of critical
+materials of the European Union. If it is set to `IEA` the International Energy Agency list is used instead. Default is set to `EU`}
 
 \item{func_unit}{A string, the functional unit of the LCA analysis the inventories refer to. This parameter
 is needed to plot the data it is not used to compute the indicator.}

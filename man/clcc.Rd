@@ -6,15 +6,19 @@
 \usage{
 clcc(
   path,
+  path_weights,
   func_unit = "km",
   label_digits = 3,
   plot_phases = FALSE,
   plot_phases_critical = FALSE,
+  plot_phases_critical_version = "EU",
   price_source = "2024"
 )
 }
 \arguments{
 \item{path}{A character vector. Path to the folder in which raw xlsx files are stored.}
+
+\item{path_weights}{A character vector. Path to the file containing the critical weights for each commodity and phase.}
 
 \item{func_unit}{A string, the functional unit of the LCA analysis the inventories refer to. This parameter
 is needed to plot the data it is not used to compute the indicator.}
@@ -26,6 +30,9 @@ the relative importance of each life cycle phase on the CLCC indicator.}
 
 \item{plot_phases_critical}{A logical value. if set to `TRUE` and `plot_phases` is also set to `TRUE`, the
 plot returned refers to the Critical CLCC indicator.}
+
+\item{plot_phases_critical_version}{A string. If set to `EU`, the critical CLCC indicator is based on the list of critical
+materials of the European Union. If it is set to `IEA` the International Energy Agency list is used instead. Default is set to `EU`}
 
 \item{price_source}{A string. If set to `2023` price sources used in the 2023 RDS report are used. If set to `2024`,
 the default, the 2024 updated price sources are used.}

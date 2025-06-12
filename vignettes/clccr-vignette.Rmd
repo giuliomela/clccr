@@ -60,6 +60,12 @@ library(clccr)
 # Usage {#usage}
 
 The package provides a function, `clcc()` to load SimaPro inventories in .xlsx format, from a folder designated by the user, and to compute the CLCC indicator. Each spreadsheet contains inventory data for every phase of a given product/process. The `clcc()` function computes the CLCC indicator for each product and phase using the latest version of reference prices available. Price are updated manually[^2] on a yearly basis by the package developers even though, in the future, a new function allowing the user to directly download the series or to change the time period along which average prices are computed.
+The function returns three types versions of the indicator: 
+- conventional (considering all material flows of the life cycle),
+- critical (considering only materials included in the European Commission's list of critical raw materials)
+- critical (considering only materials included in the International Energy Agency list of critical raw materials).
+
+The SimaPro material classification, sometimes, does not allow to distinguish between critical and non critical flows. For example, the SimaPro flow "Coal, hard" includes both critical (coking coal) and non-critical coal (all the rest). In such cases, the critical CLCC indicator overestimates the critical resource use of the product/process. For this reason, the user must provide a table of weights (which vary according to the underlying LCA that is carried out) to be used to compute the critical CLCC indicator. The table must be in .xlxs format with a given number of columns and a specific format.
 
 [^2]: Some price series cannot be accessed through API services and must be downloaded manually.
 
@@ -71,9 +77,11 @@ library(clccr) # loading the package
 
 # identifying the path the the folder with inventory data
 
-path_to_folder <- here::here("data-raw/example_data") 
+path_to_folder <- here::here("data-raw/example_data")
 
-clcc_results <- clcc(path = path_to_folder)
+path_to_weights <- here::here("data-raw/correzione_coke.xlsx")
+
+clcc_results <- clcc(path = path_to_folder, path_weights = path_to_weights)
 
 clcc_results[["table"]]
 
@@ -102,6 +110,7 @@ The `clcc` function returns the total CLCC indicator (computed taking into accou
 ```{r example-clcc-detail}
 
 detail_info <- clcc_detail(path = path_to_folder,
+                           path_weights = path_to_weights,
                            critical = FALSE,
                            phase_of_int = "total",
                            collapse_share = 0.9)
@@ -127,6 +136,7 @@ The `clccr` package also provides a function which allows to perform a Monte Car
 path_to_folder <- here::here("data-raw/example_data") 
 
 monte_carlo <- clcc_mc(path = path_to_folder,
+                       path_weights = path_to_weights,
                        rep = 10000,
                        phase = "total",
                        prob_inf_alt = FALSE)
@@ -139,10 +149,13 @@ The standard output of the `clcc_mc` function is a tibble containing project and
 
 ```{r example-mc-alt}
 
-monte_carlo_alt <- clcc_mc(path = path_to_folder,
-                       rep = 10000,
-                       phase = "total",
-                       prob_inf_alt = TRUE)
+monte_carlo_alt <- clcc_mc(
+  path = path_to_folder,
+  path_weights = path_to_weights,
+  rep = 10000,
+  phase = "total",
+  prob_inf_alt = TRUE
+  )
 
 monte_carlo_alt
 
