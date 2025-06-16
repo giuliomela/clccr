@@ -8,6 +8,7 @@
 #' critical materials only.
 #'
 #' @param path A character vector. Path to the folder in which raw xlsx files are stored.
+#' @param use_weights A logical value. If set to `TRUE`, the function uses the critical weights
 #' @param path_weights A character vector. Path to the file containing the critical weights for each commodity and phase.
 #' @param func_unit A string, the functional unit of the LCA analysis the inventories refer to. This parameter
 #'     is needed to plot the data it is not used to compute the indicator.
@@ -32,7 +33,8 @@
 #'
 #' }
 clcc <- function(path,
-                 path_weights,
+                 use_weights = FALSE,
+                 path_weights = NULL,
                  func_unit = "km", label_digits = 3,
                  plot_phases = FALSE, plot_phases_critical = FALSE,
                  plot_phases_critical_version = "EU",
@@ -54,22 +56,37 @@ clcc <- function(path,
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
-  critical_weights <-
-    critical_weights_load_fn(path_weights = path_weights) # loads the critical weights
-
   inventories$phase <- tolower(inventories$phase)
 
-  if (length(intersect(unique(critical_weights$object), unique(inventories$object))) == 0)
-    stop("The objects in the critical weights file are not present in the inventories. Please check the files.")
+  if (use_weights){
 
-  if (length(intersect(unique(critical_weights$phase), unique(inventories$phase))) == 0)
-    stop("The phases in the critical weights file are not present in the inventories. Please check the files.")
+    if (is.null(path_weights)) {
 
-  inventories <-
-    inventories |>
-    dplyr::left_join(critical_weights)
+      stop("If 'use_weights' is TRUE, 'path_weights' cannot be NULL, please specify a valid path to the weight table")
 
-  inventories$weight <- ifelse(is.na(inventories$weight), 1, inventories$weight) # if weight is NA, set it to 1
+    }
+
+    critical_weights <-
+      critical_weights_load_fn(path_weights = path_weights) # loads the critical weights
+
+    if (length(intersect(unique(critical_weights$object), unique(inventories$object))) == 0)
+      stop("The objects in the critical weights file are not present in the inventories. Please check the files.")
+
+    if (length(intersect(unique(critical_weights$phase), unique(inventories$phase))) == 0)
+      stop("The phases in the critical weights file are not present in the inventories. Please check the files.")
+
+    inventories <-
+      inventories |>
+      dplyr::left_join(critical_weights)
+
+    inventories$weight <- ifelse(is.na(inventories$weight), 1, inventories$weight) # if weight is NA, set it to 1
+
+  } else {
+
+    inventories$weight <- 1 # if not using weights, set weight to 1
+
+  }
+
 
   if (price_source == "2024"){
 
