@@ -4,7 +4,7 @@
 \alias{simapro_export}
 \title{Generate a SimaPro-compatible csv file of characterization factors}
 \usage{
-simapro_export(groups = FALSE, critical = FALSE, critical_type = "EU")
+simapro_export(groups = F, critical = F, critical_type = "EU")
 }
 \arguments{
 \item{groups}{A logical value (either TRUE or FALSE). If set to TRUE, the commodities are grouped

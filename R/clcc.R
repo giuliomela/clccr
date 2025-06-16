@@ -52,8 +52,6 @@ clcc <- function(path,
   if(!is.element(price_source, c("2023", "2024")))
     stop("Please use a valid price source version: either '2023' or '2024'")
 
-  clcc_critical <- object <- phase <- clcc_rel <-  NULL
-
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
   inventories$phase <- tolower(inventories$phase)
@@ -136,7 +134,7 @@ clcc <- function(path,
   # }
 
   output <- tidyr::as_tibble(clcc_res) |>
-    dplyr::arrange(object, phase)
+    dplyr::arrange(.data[["object"]], .data[["phase"]])
 
 
   if(isFALSE(plot_phases)) {
@@ -193,15 +191,15 @@ clcc <- function(path,
     # )
 
     res <- output |>
-      dplyr::filter(.data$phase != "total", !!rlang::sym(indicator) != 0) |>
+      dplyr::filter(.data[["phase"]] != "total", !!rlang::sym(indicator) != 0) |>
       dplyr::group_by(.data$object) |>
       dplyr::mutate(clcc_rel = !!rlang::sym(indicator) / sum(!!rlang::sym(indicator)) * 100) |>
       dplyr::ungroup()
 
     plot <- ggplot2::ggplot(res,
                             ggplot2::aes(
-                              area = !!rlang::sym(indicator), fill = phase,
-                              label = paste0(round(clcc_rel, 0), "%")
+                              area = !!rlang::sym(indicator), fill = .data[["phase"]],
+                              label = paste0(round(.data[["clcc_rel"]], 0), "%")
                             )) +
       treemapify::geom_treemap() +
       treemapify::geom_treemap_text(colour = "white", place = "middle", reflow = T) +

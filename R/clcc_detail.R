@@ -51,7 +51,7 @@ clcc_detail <- function (path,
   if (!is.element(critical_type, c("EU", "IEA")))
     stop("Parameter 'critical type' can only assume EU or IEA values")
 
-  quantity <- phase <- comm <- object <- clcc_type <- desc <- share <- cum_share <- macro_cat <- NULL
+  quantity <- phase <- comm <- object <- clcc_type <- desc <- share <- cum_share <- macro_cat <- critical_eu <- critical_iea <- weight <- NULL
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 

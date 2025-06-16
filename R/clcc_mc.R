@@ -9,6 +9,7 @@
 #' function) that the CLCC of a given object is lower than the baseline or lower/higher
 #' than that of any other object belonging to the same project.
 #'
+#' @importFrom stats formula
 #' @param path A character vector. Path to the folder in which raw xlsx files are stored.
 #' @param use_weights A logical value. If set to `TRUE`, the function uses the critical weights
 #' @param path_weights A character vector. Path to the file containing the critical weights for each commodity and phase.
@@ -112,11 +113,11 @@ clcc_mc <- function(path,
 
     if (critical_type == "EU") {
       inv_prices <- inv_prices |>
-        dplyr::filter(critical_eu == "yes") |>
+        dplyr::filter(.data[["critical_eu"]] == "yes") |>
         dplyr::mutate(clcc_type = "critical-clcc_eu")
     } else if (critical_type == "IEA") {
       inv_prices <- inv_prices |>
-        dplyr::filter(critical_iea == "yes") |>
+        dplyr::filter(.data[["critical_iea"]] == "yes") |>
         dplyr::mutate(clcc_type = "critical-clcc_IEA")
     }
   }
@@ -126,7 +127,7 @@ clcc_mc <- function(path,
   sim <- inv_prices |>
     dplyr::filter(phase == phase_to_cons) |>
     dplyr::rowwise() |>
-    dplyr::mutate(p_q = list(quantity * rnd_price * weight)) |>
+    dplyr::mutate(p_q = list(.data[["quantity"]] * .data[["rnd_price"]] * .data[["weight"]])) |>
     dplyr::group_by(object, phase) |>
     dplyr::summarise(clcc_sim = list(Reduce("+", p_q))) |>
     dplyr::ungroup()

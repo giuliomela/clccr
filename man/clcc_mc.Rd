@@ -6,6 +6,7 @@
 \usage{
 clcc_mc(
   path,
+  use_weights = FALSE,
   path_weights,
   rep = 10000,
   phase = "total",
@@ -17,6 +18,8 @@ clcc_mc(
 }
 \arguments{
 \item{path}{A character vector. Path to the folder in which raw xlsx files are stored.}
+
+\item{use_weights}{A logical value. If set to `TRUE`, the function uses the critical weights}
 
 \item{path_weights}{A character vector. Path to the file containing the critical weights for each commodity and phase.}
 

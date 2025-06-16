@@ -4,6 +4,8 @@
 #' SimaPro. Such file can be loaded into SimaPro and used by LCA practitioners to compute the CLCC indicator.
 #' The function automatically asks the user where to save the csv file. This function has no arguments.
 #'
+#' @importFrom utils choose.files
+#' @importFrom rlang .data
 #' @param groups A logical value (either TRUE or FALSE). If set to TRUE, the commodities are grouped
 #'     in macro-categories to make interpretation easier.
 #' @param critical A logical value that can be selected only when `groups = TRUE`. If it is set to `TRUE` a .csv
@@ -18,9 +20,7 @@
 #'
 #' simapro_export(critical_only = FALSE)
 #' }
-simapro_export <- function(groups = FALSE, critical = FALSE, critical_type = "EU"){
-
-  comp <- var1 <- comm <- um <- code1 <- code2 <- critical <- energy <- formula <- price <- NULL
+simapro_export <- function(groups = F, critical = F, critical_type = "EU"){
 
   if (isFALSE(groups) & isTRUE(critical))
     stop("The critical parameter can be selected only when
@@ -32,41 +32,55 @@ simapro_export <- function(groups = FALSE, critical = FALSE, critical_type = "EU
 
   if (isTRUE(groups)) {
 
+    prices_simple <- clccr::clcc_prices_ref |>
+      dplyr::select(dplyr::all_of(c("comm", "critical_eu", "critical_iea", "macro_cat", "mean", "um")))
 
-    if(isTRUE(critical)){
+    comm_to_retain <- clccr::clcc_prices_ref[clccr::clcc_prices_ref$source != "none", ]$comm
 
-      prices_simple <- clccr::clcc_prices_ref |>
-        dplyr::filter(
-          .data[[paste0("critical_", tolower(critical_type))]] == "yes"
-        ) |>
-        dplyr::select(dplyr::all_of(c("comm", "macro_cat", "mean", "um")))
-
-
-      top <- simapro_template$gruppi_critical_top
-
-      bottom <- simapro_template$gruppi_critical_bottom
-
-      comm_to_retain <- clccr::clcc_prices_ref[clccr::clcc_prices_ref$source != "none" &
-                                                 clccr::clcc_prices_ref[[paste0("critical_", tolower(critical_type))]] == "yes", ]$comm
-
-
-    } else if (isFALSE(critical)) {
-
-      prices_simple <- clccr::clcc_prices_ref |>
-        dplyr::select(dplyr::all_of(c("comm", "macro_cat", "mean", "um")))
 
     top <- simapro_template$gruppi_top
 
     bottom <- simapro_template$gruppi_bottom
 
-    comm_to_retain <- clccr::clcc_prices_ref[clccr::clcc_prices_ref$source != "none", ]$comm
+
+    if(isTRUE(critical)){
+
+      critical_variable <-
+        ifelse(
+          critical_type == "EU",
+          "critical_eu",
+          "critical_iea"
+        )
+
+
+      prices_simple <- prices_simple |>
+        dplyr::filter(
+          .data[[critical_variable]] == "yes"
+        )
+
+      top <- simapro_template$gruppi_critical_top
+
+      bottom_critical <-
+        paste0("gruppi_", critical_variable, "_bottom")
+
+      bottom <- simapro_template[[bottom_critical]]
+
+      comm_to_retain <- clccr::clcc_prices_ref[clccr::clcc_prices_ref$source != "none" &
+                               clccr::clcc_prices_ref[[critical_variable]] == "yes", ]$comm
+
+
+      indicator_name <- # indicator name to write on the .csv output file
+        paste0(
+          "RSE CLCC Critical ",
+          critical_type,
+          " Group"
+        )
 
     }
 
-
     macro_cat_names <- unique(prices_simple$macro_cat)
 
-    output_data <- simapro_codes |>
+    output_data <- clccr::simapro_codes |>
       dplyr::left_join(prices_simple) |>
       dplyr::select(.data[["comp"]],
                     .data[["var1"]],
@@ -76,8 +90,7 @@ simapro_export <- function(groups = FALSE, critical = FALSE, critical_type = "EU
                     .data[["macro_cat"]],
                     .data[["um"]]) |>
       dplyr::mutate(dplyr::across(dplyr::everything(), \(x) ifelse(is.na(x), "", x))) |>
-      dplyr::filter(comm %in% comm_to_retain)
-
+      dplyr::filter(.data[["comm"]] %in% comm_to_retain)
 
     output_data_l <- split(output_data[-6],
                            output_data$macro_cat)
@@ -130,6 +143,12 @@ simapro_export <- function(groups = FALSE, critical = FALSE, critical_type = "EU
 
     top <- as.matrix(top)
 
+    if(isTRUE(critical)) {
+
+      top[[24]] <- indicator_name
+
+    }
+
     bottom <- bottom |>
       dplyr::mutate(
         dplyr::across(dplyr::everything(), \(x) ifelse(is.na(x), "", x))
@@ -144,66 +163,124 @@ simapro_export <- function(groups = FALSE, critical = FALSE, critical_type = "EU
 
     to_append <- list(top, matrix(rep("", 6), nrow = 1), output_df, bottom)
 
+
+
+
   }
 
   else if (isFALSE(groups)) {
 
-  #selecting flows of interest
+    #selecting flows of interest
 
-  data_raw <- simapro_codes |>
-    dplyr::left_join(clccr::clcc_prices_ref) |>
-    dplyr::filter(source != "none") |>
-    dplyr::select(comp, var1, comm, price = mean, um, code1, code2, paste0("critical_", tolower(critical_type)))
+    data_raw <- clccr::simapro_codes |>
+      dplyr::left_join(clccr::clcc_prices_ref) |>
+      dplyr::filter(source != "none") |>
+      dplyr::select(.data[["comp"]], .data[["var1"]], .data[["comm"]],
+                    price = .data[["mean"]], .data[["um"]], .data[["code1"]],
+                    .data[["code2"]],
+                    .data[["critical_eu"]], .data[["critical_iea"]])
 
 
-  data_ready <- lapply(list(c("yes", "no"), "yes"),
-                       function(x) data_raw |>
-                         dplyr::mutate(price = ifelse(
-                           !!rlang::sym(paste0("critical_", tolower(critical_type))) %in% x,
-                           price,
-                           0
-                         )) |>
-                         dplyr::select(comp, var1, comm, code1, price, um, code2)
-  )
+    data_critical_eu <-
+      data_raw |>
+      dplyr::mutate(price = ifelse(
+        .data[["critical_eu"]] == "yes",
+        .data[["price"]],
+        0
+      ))
 
-  names(data_ready) <- c("CLCC", paste0("critical-CLCC_", critical_type))
+    data_critical_iea <-
+      data_raw |>
+      dplyr::mutate(price = ifelse(
+        .data[["critical_iea"]] == "yes",
+        .data[["price"]],
+        0
+      ))
 
-  # actual data to export
+    data_ready <-
+      list(
+        "CLCC" = data_raw,
+        "critical-CLCC_EU" = data_critical_eu,
+        "critical-CLCC_IEA" = data_critical_iea
+      )
 
-  # commodity metadata to add to the csv file
+    data_ready <-
+      purrr::map(
+        data_ready,
+        \(x) x[, c("comp", "var1", "comm", "code1", "price", "um", "code2")]
+      )
 
-  data_meta <- data_ready[[1]] |>
-    dplyr::bind_rows() |>
-    dplyr::left_join(simapro_codes) |>
-    dplyr::arrange(comm) |>
-    dplyr::select(comm, um, code1, formula, code2) |>
-    as.data.frame() |>
-    unique()
 
-  # Removing variable names
+    # actual data to export
 
-  names(data_meta) <- NULL
+    # commodity metadata to add to the csv file
 
-  data_clcc <- as.data.frame(data_ready[["CLCC"]]) |>
-    unique()
+    data_meta <- data_ready[["CLCC"]] |>
+      dplyr::bind_rows() |>
+      dplyr::left_join(clccr::simapro_codes) |>
+      dplyr::arrange(.data[["comm"]]) |>
+      dplyr::select(.data[["comm"]], .data[["um"]], .data[["code1"]], .data[["formula"]], .data[["code2"]]) |>
+      as.data.frame() |>
+      unique()
 
-  data_critical <- as.data.frame(data_ready[[paste0("critical-CLCC_", critical_type)]]) |>
-    unique()
 
-  names(data_clcc) <- NULL
+    # Removing variable names
 
-  names(data_critical) <- NULL
+    names(data_meta) <- NULL
 
-  #generating the csv file
+    data_clcc <- as.data.frame(data_ready[["CLCC"]]) |>
+      unique()
 
-  to_append <- list(simapro_template$top, data_clcc, simapro_template$mid1, data_critical,
-                    simapro_template$mid2, data_meta, simapro_template$bottom)
+    data_critical_eu <- as.data.frame(data_ready[["critical-CLCC_EU"]]) |>
+      unique()
 
+    data_critical_iea <- as.data.frame(data_ready[["critical-CLCC_IEA"]]) |>
+      unique()
+
+    names(data_clcc) <- NULL
+
+    names(data_critical_eu) <- NULL
+
+    names(data_critical_iea) <- NULL
+
+
+    #generating the csv file
+
+    to_append <- list(simapro_template$top, data_clcc, simapro_template$mid_eu, data_critical_eu,
+                      simapro_template$mid_iea, data_critical_iea,
+                      simapro_template$mid2, data_meta, simapro_template$bottom)
 
 
   }
 
-  file_user <- file.choose() #asking the user where to save the file
+
+  if (isFALSE(groups)) {
+
+    file_name <- "export_indicatori_clcc"
+
+  } else if (isTRUE(groups) & isFALSE(critical)) {
+
+    file_name <- "export_clcc_gruppi"
+
+  } else if (isTRUE(groups) & isTRUE(critical) & critical_type == "EU") {
+
+    file_name <- "export_clcc_critical_eu_gruppi"
+
+  } else if (isTRUE(groups) & isTRUE(critical)& critical_type == "IEA") {
+
+    file_name <- "export_clcc_critical_iea_gruppi"
+  }
+
+  #return(file_name)
+
+  file_user <-
+    choose.files(
+      default = paste0(file_name, ".csv"),
+      caption = "Scegli dove salvare l'export",
+      filters = c("Comma Delimited Files (.csv)","*.csv")
+    )
+
+  #file_user <- file.choose() #asking the user where to save the file
 
   for(i in seq_along(to_append))
   {
