@@ -10,9 +10,9 @@
 #' than that of any other object belonging to the same project.
 #'
 #' @importFrom stats formula
-#' @param path A character vector. Path to the folder in which raw xlsx files are stored.
+#' @param data_path A character vector. Path to the folder in which raw xlsx files are stored.
 #' @param use_weights A logical value. If set to `TRUE`, the function uses the critical weights
-#' @param path_weights A character vector. Path to the file containing the critical weights for each commodity and phase.
+#' @param weights_path A character vector. Path to the file containing the critical weights for each commodity and phase.
 #' @param rep Number of Monte Carlo iterations. Default is 10,000
 #' @param phase LCA phase for which the simulation is run. Default is "total"
 #' @param critical A logical value. If set to `TRUE`, shares referred to the critical-clcc indicator
@@ -36,53 +36,28 @@
 #'
 #' data_path <- path_to_inventory_folder
 #'
-#' clcc_mc(path = data_path)
+#' clcc_mc(data_path = data_path)
 #'
-#' clcc_mc(path = data_path, rep = 5000, prob_inf_alt = TRUE)
+#' clcc_mc(data_path = data_path, rep = 5000, prob_inf_alt = TRUE)
 #'
 #' }
-clcc_mc <- function(path,
+clcc_mc <- function(data_path,
                     use_weights = FALSE,
-                    path_weights,
+                    weights_path,
                     rep = 10000, phase = "total",
                     critical = F,
                     critical_type = "EU",
                     func_unit = "km", prob_inf_alt = FALSE){
 
-  inventories <- inventory_load_fn(data_path = path) # loads the inventories
-
-  inventories$phase <- tolower(inventories$phase)
-
-  if (use_weights){
-
-    if (is.null(path_weights)) {
-
-      stop("If 'use_weights' is TRUE, 'path_weights' cannot be NULL, please specify a valid path to the weight table")
-
-    }
-
-    critical_weights <-
-      critical_weights_load_fn(path_weights = path_weights) # loads the critical weights
-
-    if (length(intersect(unique(critical_weights$object), unique(inventories$object))) == 0)
-      stop("The objects in the critical weights file are not present in the inventories. Please check the files.")
-
-    if (length(intersect(unique(critical_weights$phase), unique(inventories$phase))) == 0)
-      stop("The phases in the critical weights file are not present in the inventories. Please check the files.")
-
-    inventories <-
-      inventories |>
-      dplyr::left_join(critical_weights)
-
-    inventories$weight <- ifelse(is.na(inventories$weight), 1, inventories$weight) # if weight is NA, set it to 1
-
-  } else {
-
-    inventories$weight <- 1 # if not using weights, set weight to 1
-
-  }
+  inventories <- inventory_load_fn(
+    data_path = data_path,
+    use_weights = use_weights,
+    weights_path = weights_path
+  ) # loads the inventories
 
   prices <- clccr::clcc_prices_ref
+
+  prices$comm <- tolower(prices$comm)
 
   phase_to_cons <- phase
 
@@ -90,7 +65,10 @@ clcc_mc <- function(path,
     clcc_sim <- ecdf_diff <- clcc_diff <- obj1 <- obj2 <- clcc_sim.y <- clcc_sim.x <-
     obj_combinations <- nested_data <- ecdf_fn <- clcc <- NULL # removes notes when running R RMD check
 
-  baseline <- clcc(path = path, path_weights = path_weights)[["table"]]
+  baseline <- clcc(
+    data_path = data_path,
+    use_weights = use_weights,
+    weights_path = weights_path)[["table"]]
 
   baseline <- baseline[baseline$phase == phase_to_cons, ]
 
@@ -104,10 +82,11 @@ clcc_mc <- function(path,
                                                         c = mean))) |>
     dplyr::select(!mean:max)
 
-  # joining invetory and random price tibbles
+  # joining inventory and random price tibbles
 
   inv_prices <- inventories |>
-    dplyr::left_join(rnd_prices)
+    dplyr::left_join(rnd_prices) |>
+    tidyr::as_tibble()
 
   if (isTRUE(critical)){
 
@@ -126,12 +105,17 @@ clcc_mc <- function(path,
 
   sim <- inv_prices |>
     dplyr::filter(phase == phase_to_cons) |>
-    dplyr::rowwise() |>
-    dplyr::mutate(p_q = list(.data[["quantity"]] * .data[["rnd_price"]] * .data[["weight"]])) |>
+    dplyr::mutate(p_q =
+                    purrr::pmap(
+                      list(.data[["quantity"]] * .data[["rnd_price"]] * .data[["weight"]]),
+                      \(x, y, z) x * y * z
+                    )
+                  ) |>
     dplyr::group_by(object, phase) |>
     dplyr::summarise(clcc_sim = list(Reduce("+", p_q))) |>
     dplyr::ungroup()
 
+  return(inv_prices)
     # calculating the empirical cumulative distribution function and the probability that the clcc indicator is lower than the baseline
 
   sim <- sim |>

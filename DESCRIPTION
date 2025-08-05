@@ -36,7 +36,8 @@ Imports:
     treemapify,
     rlang,
     ggridges,
-    readr
+    readr,
+    data.table
 Suggests: 
     rmarkdown,
     knitr,

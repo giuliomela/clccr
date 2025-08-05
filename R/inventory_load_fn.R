@@ -4,27 +4,29 @@
 #' software. The function loads all the inventories in a given folder: the file name becomes
 #' the name of the object to be evaluated. The function also converts raw data to measurement
 #' units compatible with those of reference prices.
-#' Land use changes, at the moment, are not considered while computing the indicator and therefore the
-#' `land_use` parameter is set to `FALSE`. Future versions of the CLCC indicator might include this
-#' dimension as well.
+#' This function can optionally load also critical weights from an Excel file. Such weights are project-specific.
+#' Some materials are considered critical by the European Commission of the International Energy Agency (IEA) but are not considered as individual flows by
+#' SimaPro. For example the SimaPro flow "Coal, hard" contains "coking coal" which is critical. The weights are therefore needed to
+#' compute the Critical-CLCC indicators.
 #'
 #' @param data_path A character string. Path to the folder in which raw xlsx files are stored.
 #'     File names will be used as object names on which computing the CLCC indicator.
-#' @param land_use A logical value. If `TRUE`, land use change are evaluated otherwise they are
-#'     excluded from the analysis. Default is set to `FALSE`.
+#' @param use_weights A logical value. If set to `TRUE`, the function uses the critical weights
+#' @param weights_path A character vector. Path to the file containing the critical weights for each commodity and phase.
 #' @return A tidy dataset with inventory data organized by object
-inventory_load_fn <- function(data_path, land_use = FALSE){
+inventory_load_fn <- function(
+    data_path,
+    use_weights,
+    weights_path
+    ){
 
 comm <- file_path <- inventory_raw <- data <- object <- no <- um <-
   um_to <- quantity <- comp <- no_comm <- phase <- NULL # avoids notes (dplyr and NSE)
-
-if (!is.logical(land_use)) stop("The land_use parameter can only assume TRUE or FALSE values")
 
 file_list <- list.files(path = data_path,
                             full.names = TRUE,
                             recursive = TRUE,
                             pattern = "*.xlsx") # creates a vector with variable names
-
 
 
 inventory_raw <- tidyr::tibble(file_path = file_list) # creates a tibble
@@ -94,19 +96,83 @@ inventory_tidy <- merge(inventory_tidy, meas_units, all.x = TRUE)
 inventory_tidy$um <- ifelse(inventory_tidy$um == paste0("\u00b5", "g"), "ug", # \u00b5" unicode character for mu
                                 inventory_tidy$um) # micrograms are expressed wit "ug" in the udunits2 package
 
-if (isFALSE(land_use)) {
+# removing rows referring to land use changes and to renewable energy (measured in MJ)
 
-inventory_tidy <- inventory_tidy[!inventory_tidy$um %in% c("m2a", "m2", "m3y"), ]
+inventory_tidy <- inventory_tidy[!inventory_tidy$um %in% c("m2a", "m2", "m3y", "mj"), ]
 
-}
-
-inventory_tidy <- # all variables in lower case
+inventories <- # all variables in lower case
   inventory_tidy |>
   dplyr::mutate(dplyr::across(
     dplyr::where(is.character), tolower))
 
-return(inventory_tidy)
+# Loading critical weights (is requested)
 
+if (use_weights){
+
+  if (is.null(weights_path)) {
+
+    stop("If 'use_weights' is TRUE, 'weights_path' cannot be NULL, please specify a valid path to the weight table")
+
+  } else {
+
+    critical_weights <-
+      critical_weights_load_fn(weights_path = weights_path) # loads the critical weights
+
+    if (length(intersect(unique(critical_weights$object), unique(inventories$object))) !=
+        length(unique(critical_weights$object)))
+      stop("Not all the objects in the critical weights file are present in the inventories. Please check the files.")
+
+    if (length(intersect(unique(critical_weights[critical_weights$object %in% unique(inventories$object), ]$phase), unique(inventories$phase))) !=
+        length(unique(critical_weights$phase)))
+      stop("Not all the phases in the critical weights file are present in the inventories. Please check the files.")
+
+  # Manipulating critical weights
+
+    # Share of 'sand' which is used to make silicon metal (critical)
+
+    sand_to_silicon <-
+      inventories |>
+      dplyr::filter(.data[["comm"]] == "sand") |>
+      dplyr::left_join(critical_weights) |>
+      dplyr::mutate(weight = ifelse(
+        is.na(.data[["weight"]]),
+        1,
+        weight
+      ),
+      comm = "silicon",
+      no_comm = 1888
+      )
+
+    critical_weights <-
+      critical_weights |>
+      dplyr::mutate(
+        weight = ifelse(
+          .data[["comm"]] == "sand", # sand "real" weight once sand shares used in silicon production are subtracted
+          1 - .data[["weight"]],
+          .data[["weight"]]
+        )
+      )
+
+    inventories <-
+      inventories |>
+      dplyr::left_join(critical_weights) |>
+      dplyr::bind_rows(sand_to_silicon) # adding silicon from sand
+
+
+    inventories$weight <- ifelse(is.na(inventories$weight), 1, inventories$weight) # if weight is NA, set it to 1
+
+
+}
+
+
+} else {
+
+  inventories$weight <- 1 # if not using weights, set weight to 1
+
+}
+
+
+  return(inventories)
 
 }
 

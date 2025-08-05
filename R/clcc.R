@@ -7,9 +7,9 @@
 #' The function can also return the CLCC indicator calculated taking into account
 #' critical materials only.
 #'
-#' @param path A character vector. Path to the folder in which raw xlsx files are stored.
+#' @param data_path A character vector. Path to the folder in which raw xlsx files are stored.
 #' @param use_weights A logical value. If set to `TRUE`, the function uses the critical weights
-#' @param path_weights A character vector. Path to the file containing the critical weights for each commodity and phase.
+#' @param weights_path A character vector. Path to the file containing the critical weights for each commodity and phase.
 #' @param func_unit A string, the functional unit of the LCA analysis the inventories refer to. This parameter
 #'     is needed to plot the data it is not used to compute the indicator.
 #' @param label_digits An integer: the number of digits to display in the plots.
@@ -29,12 +29,12 @@
 #' \dontrun{
 #' data_path <- path_to_inventory_folder
 #'
-#' clcc(path = data_path)
+#' clcc(data_path = data_path)
 #'
 #' }
-clcc <- function(path,
+clcc <- function(data_path,
                  use_weights = TRUE,
-                 path_weights = NULL,
+                 weights_path = NULL,
                  func_unit = "km", label_digits = 3,
                  plot_phases = FALSE, plot_phases_critical = FALSE,
                  plot_phases_critical_version = "EU",
@@ -52,65 +52,11 @@ clcc <- function(path,
   if(!is.element(price_source, c("2023", "2024")))
     stop("Please use a valid price source version: either '2023' or '2024'")
 
-  inventories <- inventory_load_fn(data_path = path) # loads the inventories
-
-  if (use_weights){
-
-    if (is.null(path_weights)) {
-
-      stop("If 'use_weights' is TRUE, 'path_weights' cannot be NULL, please specify a valid path to the weight table")
-
-    }
-
-    critical_weights <-
-      critical_weights_load_fn(path_weights = path_weights) # loads the critical weights
-
-    if (length(intersect(unique(critical_weights$object), unique(inventories$object))) !=
-        length(unique(critical_weights$object)))
-      stop("Not all the objects in the critical weights file are present in the inventories. Please check the files.")
-
-    if (length(intersect(unique(critical_weights[critical_weights$object %in% unique(inventories$object), ]$phase), unique(inventories$phase))) !=
-        length(unique(critical_weights$phase)))
-      stop("Not all the phases in the critical weights file are present in the inventories. Please check the files.")
-
-    # Share of 'sand' which is used to make silicon metal (critical)
-
-    sand_to_silicon <-
-      inventories |>
-      dplyr::filter(.data[["comm"]] == "sand") |>
-      dplyr::left_join(critical_weights) |>
-      dplyr::mutate(weight = ifelse(
-        is.na(.data[["weight"]]),
-        1,
-        weight
-      ),
-      comm = "silicon"
-      )
-
-    critical_weights <-
-      critical_weights |>
-      dplyr::mutate(
-        weight = ifelse(
-          .data[["comm"]] == "sand", # sand "real" weight once sand shares used in silicon production are subtracted
-          1 - .data[["weight"]],
-          .data[["weight"]]
-        )
-      )
-
-    inventories <-
-      inventories |>
-      dplyr::left_join(critical_weights) |>
-      dplyr::bind_rows(sand_to_silicon) # adding silicon from sand
-
-
-    inventories$weight <- ifelse(is.na(inventories$weight), 1, inventories$weight) # if weight is NA, set it to 1
-
-  } else {
-
-    inventories$weight <- 1 # if not using weights, set weight to 1
-
-  }
-
+  inventories <- inventory_load_fn(
+    data_path = data_path,
+    use_weights = use_weights,
+    weights_path = weights_path
+    ) # loads the inventories
 
   if (price_source == "2024"){
 
@@ -127,12 +73,15 @@ clcc <- function(path,
 
   prices$comm <- tolower(prices$comm) # commodity names in lower case
 
+
   test_commodity <- unique(inventories$comm) %in% prices$comm
+
 
   if(isTRUE(any(test_commodity == F))) stop("At least one commodity in the inventory is not present in the master file") # if true, at least one commodity is not in the master file
 
 
   inv_prices <- merge(inventories, prices, all.x = TRUE)
+
 
   inv_prices <- inv_prices[, -which(names(inv_prices) %in% c("um", "source", "code"))]
 
