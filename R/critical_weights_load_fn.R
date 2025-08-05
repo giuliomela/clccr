@@ -1,6 +1,6 @@
 #' Load critical weights from an Excel file
 #'
-#' This function leads critical weights from an Excel file. Such weights are project specific. Some materials are considered
+#' This function loads critical weights from an Excel file. Such weights are project-specific. Some materials are considered
 #' critical by the European Commission of the International Energy Agency (IEA) but are not considered as individual flows by
 #' SimaPro. For example the SimaPro flow "Coal, hard" contains "coking coal" which is critical. The weights are therefore needed to
 #' compute the Critical-CLCC indicator.
@@ -26,7 +26,14 @@ critical_weights_load_fn <-
 
     critical_weights$weight <- suppressWarnings(readr::parse_number(critical_weights$weight)) # converte tutto in numero
 
-    critical_weights$comm <- tolower(critical_weights$comm) # convert all commodities to lower case
+    critical_weights <- # all variables in lower case
+      critical_weights |>
+      dplyr::mutate(
+        dplyr::across(
+          dplyr::where(is.character),
+          tolower
+        )
+      )
 
     return(critical_weights)
 
