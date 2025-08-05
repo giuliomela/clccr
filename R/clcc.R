@@ -33,7 +33,7 @@
 #'
 #' }
 clcc <- function(path,
-                 use_weights = FALSE,
+                 use_weights = TRUE,
                  path_weights = NULL,
                  func_unit = "km", label_digits = 3,
                  plot_phases = FALSE, plot_phases_critical = FALSE,
@@ -54,8 +54,6 @@ clcc <- function(path,
 
   inventories <- inventory_load_fn(data_path = path) # loads the inventories
 
-  inventories$phase <- tolower(inventories$phase)
-
   if (use_weights){
 
     if (is.null(path_weights)) {
@@ -67,15 +65,43 @@ clcc <- function(path,
     critical_weights <-
       critical_weights_load_fn(path_weights = path_weights) # loads the critical weights
 
-    if (length(intersect(unique(critical_weights$object), unique(inventories$object))) == 0)
-      stop("The objects in the critical weights file are not present in the inventories. Please check the files.")
+    if (length(intersect(unique(critical_weights$object), unique(inventories$object))) !=
+        length(unique(critical_weights$object)))
+      stop("Not all the objects in the critical weights file are present in the inventories. Please check the files.")
 
-    if (length(intersect(unique(critical_weights$phase), unique(inventories$phase))) == 0)
-      stop("The phases in the critical weights file are not present in the inventories. Please check the files.")
+    if (length(intersect(unique(critical_weights[critical_weights$object %in% unique(inventories$object), ]$phase), unique(inventories$phase))) !=
+        length(unique(critical_weights$phase)))
+      stop("Not all the phases in the critical weights file are present in the inventories. Please check the files.")
+
+    # Share of 'sand' which is used to make silicon metal (critical)
+
+    sand_to_silicon <-
+      inventories |>
+      dplyr::filter(.data[["comm"]] == "sand") |>
+      dplyr::left_join(critical_weights) |>
+      dplyr::mutate(weight = ifelse(
+        is.na(.data[["weight"]]),
+        1,
+        weight
+      ),
+      comm = "silicon"
+      )
+
+    critical_weights <-
+      critical_weights |>
+      dplyr::mutate(
+        weight = ifelse(
+          .data[["comm"]] == "sand", # sand "real" weight once sand shares used in silicon production are subtracted
+          1 - .data[["weight"]],
+          .data[["weight"]]
+        )
+      )
 
     inventories <-
       inventories |>
-      dplyr::left_join(critical_weights)
+      dplyr::left_join(critical_weights) |>
+      dplyr::bind_rows(sand_to_silicon) # adding silicon from sand
+
 
     inventories$weight <- ifelse(is.na(inventories$weight), 1, inventories$weight) # if weight is NA, set it to 1
 
@@ -99,9 +125,12 @@ clcc <- function(path,
 
   }
 
+  prices$comm <- tolower(prices$comm) # commodity names in lower case
+
   test_commodity <- unique(inventories$comm) %in% prices$comm
 
   if(isTRUE(any(test_commodity == F))) stop("At least one commodity in the inventory is not present in the master file") # if true, at least one commodity is not in the master file
+
 
   inv_prices <- merge(inventories, prices, all.x = TRUE)
 
