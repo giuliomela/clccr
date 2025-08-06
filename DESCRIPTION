@@ -1,7 +1,7 @@
 Package: clccr
 Type: Package
 Title: CLCC indicator for a product/process during its life cycle 
-Version: 0.5.2
+Version: 0.6.0
 Author: Giulio Mela
 Maintainer: Giulio Mela <giulio.mela@rse-web.it>
 Description: provides functions to calculate the commodity life cycle costing indicator,
@@ -17,7 +17,6 @@ URL: https://github.com/giuliomela/clccr
 BugReports: https://github.com/giuliomela/clccr/issues
 Config/testthat/edition: 3
 Imports: 
-    here,
     dplyr,
     readxl,
     stringr,
@@ -36,8 +35,7 @@ Imports:
     treemapify,
     rlang,
     ggridges,
-    readr,
-    data.table
+    readr
 Suggests: 
     rmarkdown,
     knitr,

@@ -5,9 +5,9 @@
 \title{Compute the relative share of individual material/energy flows on total CLCC}
 \usage{
 clcc_detail(
-  path,
+  data_path,
   use_weights = FALSE,
-  path_weights = NULL,
+  weights_path = NULL,
   critical = FALSE,
   critical_type = "EU",
   phase_of_int = "total",
@@ -16,11 +16,11 @@ clcc_detail(
 )
 }
 \arguments{
-\item{path}{A character vector. Path to the folder in which raw xlsx files are stored.}
+\item{data_path}{A character vector. Path to the folder in which raw xlsx files are stored.}
 
 \item{use_weights}{A logical value. If set to `TRUE`, the function uses the critical weights}
 
-\item{path_weights}{A character vector. Path to the file containing the critical weights for each commodity and phase.}
+\item{weights_path}{A character vector. Path to the file containing the critical weights for each commodity and phase.}
 
 \item{critical}{A logical value. If set to `TRUE`, shares referred to the critical-clcc indicator
 are returned. Default is set to `FALSE`.}
@@ -52,9 +52,11 @@ computation of the CLCC indicator on the total value of the indicator for both t
 \dontrun{
 data_path <- path_to_inventory_folder
 
-clcc_detail(path = data_path, path_weights = critical_path)
+clcc_detail(data_path = data_path, weights_path = critical_path)
 
-clcc_detail(path = data_path, path_weights = critical_path, critical = TRUE, collapse_share = 0.5)
+clcc_detail(data_path = data_path,
+weights_path = critical_path,
+critical = TRUE, collapse_share = 0.5)
 
 }
 }

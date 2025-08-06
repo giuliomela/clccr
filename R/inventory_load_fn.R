@@ -16,8 +16,8 @@
 #' @return A tidy dataset with inventory data organized by object
 inventory_load_fn <- function(
     data_path,
-    use_weights,
-    weights_path
+    use_weights = FALSE,
+    weights_path = NULL
     ){
 
 comm <- file_path <- inventory_raw <- data <- object <- no <- um <-
@@ -43,7 +43,7 @@ inventory_raw <- inventory_raw |>
   dplyr::ungroup()
 
 inventory_raw <- within(inventory_raw, {
-  object <- stringr::str_remove(file_path, paste0(here::here(data_path), "/"))
+  object <- stringr::str_remove(file_path, paste0(data_path, "/"))
   object <- stringr::str_remove(object, ".xlsx")
   file_path <- NULL
   skip <- NULL
@@ -81,7 +81,7 @@ meas_units <- within(meas_units, {
   um <- NULL
 })
 
-# filtering data (raw materials only, belonging to the list of materials for which prices are avilable)
+# filtering data (raw materials only, belonging to the list of materials for which prices are available)
 
 # commodities to be considered ####
 comm_names <- unique(clccr::clcc_prices_ref$comm)
@@ -98,7 +98,7 @@ inventory_tidy$um <- ifelse(inventory_tidy$um == paste0("\u00b5", "g"), "ug", # 
 
 # removing rows referring to land use changes and to renewable energy (measured in MJ)
 
-inventory_tidy <- inventory_tidy[!inventory_tidy$um %in% c("m2a", "m2", "m3y", "mj"), ]
+inventory_tidy <- inventory_tidy[!inventory_tidy$um %in% c("m2a", "m2", "m3y", "MJ"), ]
 
 inventories <- # all variables in lower case
   inventory_tidy |>
@@ -117,6 +117,7 @@ if (use_weights){
 
     critical_weights <-
       critical_weights_load_fn(weights_path = weights_path) # loads the critical weights
+
 
     if (length(intersect(unique(critical_weights$object), unique(inventories$object))) !=
         length(unique(critical_weights$object)))
@@ -137,7 +138,7 @@ if (use_weights){
       dplyr::mutate(weight = ifelse(
         is.na(.data[["weight"]]),
         1,
-        weight
+        .data[["weight"]]
       ),
       comm = "silicon",
       no_comm = 1888

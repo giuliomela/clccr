@@ -36,7 +36,8 @@ The starting point for the calculation of the indicator is the list of all raw m
 
 The package allows also the calculation of an alternative version of the indicator, based on the materials included in the European Commission's list of critical raw materials. Such materials are very important for technology-intensive applications but are - at the same time - characterized by high supply risks.
 
-All price data come from open-source databases such as the [International Monetary Fund's Primary Commodity Prices database](https://www.imf.org/en/Research/commodity-prices) or [Eurostat](https://ec.europa.eu/eurostat/data/database). Nonetheless, it is not possible to identify a reference market prices for most of the raw materials considered: for this reason, for such materials, market price is approximated with export unit values at world level. Trade data come from the United Nations' [Comtrade](https://comtrade.un.org/), European Union's [Comext](https://ec.europa.eu/eurostat/web/international-trade-in-goods/data/focus-on-comext) and the United States' [Census Bureau](https://www.census.gov/) databases. More specifically, most of unit values are calculated using four or six-digit trade flow data from Comtrade, except for rare earths materials which require a higher level of detail, which is provided by Comext and US Census international trade databases.
+All price data come from open-source databases such as the [International Monetary Fund's Primary Commodity Prices database](https://www.imf.org/en/Research/commodity-prices) and the [United States Geological Survey](https://www.usgs.gov/) databases. Nonetheless, it is not possible to identify a reference market prices for many of the raw materials considered: for this reason, for such materials, market price is approximated with export unit values at world level. Trade data come from the United Nations' [Comtrade](https://comtrade.un.org/) and European Union's international trade database [Comext](https://ec.europa.eu/eurostat/web/international-trade-in-goods/data/focus-on-comext) databases.
+Most of unit values are calculated using four or six-digit trade flow data from Comtrade, except for rare earths materials which require a higher level of detail, which is provided by Comext.
 
 Reference prices used for the calculation of the CLCC indicator are, for each commodity, the average of price of the previous ten-year period, converted in euros using market exchange rates and adjusted to the price level of the reference year (which can be defined by the user) with the Euro Area GDP deflator. Minimum and maximum prices recorded in the ten-year period considered, are used as a range for the uncertainty assessment through Monte Carlo simulations.
 
@@ -62,10 +63,10 @@ library(clccr)
 The package provides a function, `clcc()` to load SimaPro inventories in .xlsx format, from a folder designated by the user, and to compute the CLCC indicator. Each spreadsheet contains inventory data for every phase of a given product/process. The `clcc()` function computes the CLCC indicator for each product and phase using the latest version of reference prices available. Price are updated manually[^2] on a yearly basis by the package developers even though, in the future, a new function allowing the user to directly download the series or to change the time period along which average prices are computed.
 The function returns three types versions of the indicator: 
 - conventional (considering all material flows of the life cycle),
-- critical (considering only materials included in the European Commission's list of critical raw materials)
-- critical (considering only materials included in the International Energy Agency list of critical raw materials).
+- EU critical (considering only materials included in the European Commission's list of critical raw materials)
+- IEA critical (considering only materials included in the International Energy Agency list of critical raw materials).
 
-The SimaPro material classification, sometimes, does not allow to distinguish between critical and non critical flows. For example, the SimaPro flow "Coal, hard" includes both critical (coking coal) and non-critical coal (all the rest). In such cases, the critical CLCC indicator overestimates the critical resource use of the product/process. For this reason, the user must provide a table of weights (which vary according to the underlying LCA that is carried out) to be used to compute the critical CLCC indicator. The table must be in .xlxs format with a given number of columns and a specific format.
+The SimaPro material classification, sometimes, does not allow to distinguish between critical and non critical flows. For example, the SimaPro flow "Coal, hard" includes both critical (coking coal) and non-critical coal (all the rest). In such cases, the critical CLCC indicator overestimates the critical resource use of the product/process. For this reason, the user must provide a table of weights (which vary according to the underlying LCA that is carried out) to be used to compute the critical CLCC indicator. The table must be provided in `.xlsx` format with four columns containing: the name of the object (must be the same used to name the inventories), the name of the substance, the name of the phase (the same used in the inventories) and the weight.
 
 [^2]: Some price series cannot be accessed through API services and must be downloaded manually.
 
@@ -81,7 +82,7 @@ path_to_folder <- here::here("data-raw/example_data")
 
 path_to_weights <- here::here("data-raw/correzione_coke.xlsx")
 
-clcc_results <- clcc(path = path_to_folder, path_weights = path_to_weights)
+clcc_results <- clcc(data_path = path_to_folder, use_weights = TRUE, weights_path = path_to_weights)
 
 clcc_results[["table"]]
 
@@ -109,8 +110,9 @@ The `clcc` function returns the total CLCC indicator (computed taking into accou
 
 ```{r example-clcc-detail}
 
-detail_info <- clcc_detail(path = path_to_folder,
-                           path_weights = path_to_weights,
+detail_info <- clcc_detail(data_path = path_to_folder,
+                           use_weights = TRUE,
+                           weights_path = path_to_weights,
                            critical = FALSE,
                            phase_of_int = "total",
                            collapse_share = 0.9)
@@ -135,8 +137,9 @@ The `clccr` package also provides a function which allows to perform a Monte Car
 
 path_to_folder <- here::here("data-raw/example_data") 
 
-monte_carlo <- clcc_mc(path = path_to_folder,
-                       path_weights = path_to_weights,
+monte_carlo <- clcc_mc(data_path = path_to_folder,
+                       use_weights = TRUE,
+                       weights_path = path_to_weights,
                        rep = 10000,
                        phase = "total",
                        prob_inf_alt = FALSE)
@@ -150,8 +153,9 @@ The standard output of the `clcc_mc` function is a tibble containing project and
 ```{r example-mc-alt}
 
 monte_carlo_alt <- clcc_mc(
-  path = path_to_folder,
-  path_weights = path_to_weights,
+  data_ path = path_to_folder,
+  use_weights = TRUE,
+  weights_path = path_to_weights,
   rep = 10000,
   phase = "total",
   prob_inf_alt = TRUE

@@ -5,9 +5,9 @@
 \title{Run Monte Carlo analysis for the CLCC indicator}
 \usage{
 clcc_mc(
-  path,
+  data_path,
   use_weights = FALSE,
-  path_weights,
+  weights_path = NULL,
   rep = 10000,
   phase = "total",
   critical = F,
@@ -17,11 +17,11 @@ clcc_mc(
 )
 }
 \arguments{
-\item{path}{A character vector. Path to the folder in which raw xlsx files are stored.}
+\item{data_path}{A character vector. Path to the folder in which raw xlsx files are stored.}
 
 \item{use_weights}{A logical value. If set to `TRUE`, the function uses the critical weights}
 
-\item{path_weights}{A character vector. Path to the file containing the critical weights for each commodity and phase.}
+\item{weights_path}{A character vector. Path to the file containing the critical weights for each commodity and phase.}
 
 \item{rep}{Number of Monte Carlo iterations. Default is 10,000}
 
@@ -62,9 +62,9 @@ than that of any other object belonging to the same project.
 
 data_path <- path_to_inventory_folder
 
-clcc_mc(path = data_path)
+clcc_mc(data_path = data_path)
 
-clcc_mc(path = data_path, rep = 5000, prob_inf_alt = TRUE)
+clcc_mc(data_path = data_path, rep = 5000, prob_inf_alt = TRUE)
 
 }
 }

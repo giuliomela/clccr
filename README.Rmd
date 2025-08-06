@@ -50,7 +50,7 @@ library(clccr)
 
 # computing the CLCC indicator for three example inventories (cars)
 
-res <- clcc(path = path_to_folder
+res <- clcc(data_path = path_to_folder
             #path_weights = path_to_weights
             )
 
@@ -83,8 +83,8 @@ The `clcc` function returns the total CLCC indicator (computed taking into accou
 
 ```{r example4}
 
-detail_info <- clcc_detail(path = path_to_folder,
-                           #path_weights = path_to_weights,
+detail_info <- clcc_detail(data_path = path_to_folder,
+                           #weights_path = path_to_weights,
                            critical = FALSE,
                            phase_of_int = "total",
                            collapse_share = 0.9)
@@ -102,6 +102,21 @@ detail_info[["plot"]]
 
 ```
 
+The package provides two alternative versions of the CLCC indicator, taking into account critical materials only. The first alternative uses the latest version of the European Union list of critical materials, while the second the latest version of the list provided by the International Energy Agency.
+Some materials are considered critical by the European Commission of the International Energy Agency (IEA) but are not considered as individual flows by SimaPro. For example the SimaPro flow "Coal, hard" contains "coking coal" which is critical. The same applies for silicon: some of the "Sand" flow is used to produce silicon metal, which is a critical material. For this reason, adjustments are needed. LCA practitioners have to manually calculate the extent to which "coal, hard" and "sand" flows are used for coking coal and silicon metal production respectively. The `clcc`, `clcc_mc` and `clcc_detail` functions all allow the use to provide a table of weights representing the share of "coal, hard" and "sand" flows used to produce coking coal and silicon metal for each object and phase considered. The table must be provided in `.xlsx` format with four columns containing: the name of the object (must be the same used to name the inventories), the name of the substance, the name of the phase (the same used in the inventories) and the weight.
+
+```{r example-weights}
+
+res_weights <- 
+  clcc(
+    data_path = path_to_folder,
+    use_weights = TRUE,
+    weights_path = path_to_weights
+  )
+
+res_weights[["table"]]
+
+```
 
 The `clccr` package also allows to run a Monte Carlo simulation, given the high volatility that characterizes
 market prices. Minimum and maximum prices are used, for each commodity, to generate random values using 
@@ -116,8 +131,8 @@ number of simulations with the `rep` parameter (default is `rep = 10000`) and th
 rep <- 1000 # number of simulations (default is 10,000)
 phase <- "total" # the life cycle phase for which running the simulation
 
-mc_res <- clcc_mc(path = path_to_folder, 
-                  #path_weights = path_to_weights,
+mc_res <- clcc_mc(data_path = path_to_folder, 
+                  #weights_path = path_to_weights,
                   rep = rep)
 
 mc_res[["table"]]
@@ -131,7 +146,7 @@ Setting the argument `prob_inf_alt` to `TRUE` (default is `FALSE`), `clcc_mc` re
 # Monte Carlo simulation returning the probability that an object's CLCC is lower/higher than that of the
 # other alternatives
 
-mc_res2 <- clcc_mc(path = path_to_folder, 
+mc_res2 <- clcc_mc(data_path = path_to_folder, 
                    #path_weights = path_to_weights,
                    rep = rep, prob_inf_alt = TRUE)
 

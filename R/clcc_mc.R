@@ -43,7 +43,7 @@
 #' }
 clcc_mc <- function(data_path,
                     use_weights = FALSE,
-                    weights_path,
+                    weights_path = NULL,
                     rep = 10000, phase = "total",
                     critical = F,
                     critical_type = "EU",
@@ -107,7 +107,7 @@ clcc_mc <- function(data_path,
     dplyr::filter(phase == phase_to_cons) |>
     dplyr::mutate(p_q =
                     purrr::pmap(
-                      list(.data[["quantity"]] * .data[["rnd_price"]] * .data[["weight"]]),
+                      list(.data[["quantity"]], .data[["rnd_price"]], .data[["weight"]]),
                       \(x, y, z) x * y * z
                     )
                   ) |>
@@ -115,7 +115,7 @@ clcc_mc <- function(data_path,
     dplyr::summarise(clcc_sim = list(Reduce("+", p_q))) |>
     dplyr::ungroup()
 
-  return(inv_prices)
+
     # calculating the empirical cumulative distribution function and the probability that the clcc indicator is lower than the baseline
 
   sim <- sim |>

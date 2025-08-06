@@ -5,9 +5,9 @@
 \title{Calculate the CLCC indicator}
 \usage{
 clcc(
-  path,
+  data_path,
   use_weights = FALSE,
-  path_weights = NULL,
+  weights_path = NULL,
   func_unit = "km",
   label_digits = 3,
   plot_phases = FALSE,
@@ -17,11 +17,11 @@ clcc(
 )
 }
 \arguments{
-\item{path}{A character vector. Path to the folder in which raw xlsx files are stored.}
+\item{data_path}{A character vector. Path to the folder in which raw xlsx files are stored.}
 
 \item{use_weights}{A logical value. If set to `TRUE`, the function uses the critical weights}
 
-\item{path_weights}{A character vector. Path to the file containing the critical weights for each commodity and phase.}
+\item{weights_path}{A character vector. Path to the file containing the critical weights for each commodity and phase.}
 
 \item{func_unit}{A string, the functional unit of the LCA analysis the inventories refer to. This parameter
 is needed to plot the data it is not used to compute the indicator.}
@@ -56,7 +56,7 @@ critical materials only.
 \dontrun{
 data_path <- path_to_inventory_folder
 
-clcc(path = data_path)
+clcc(data_path = data_path)
 
 }
 }

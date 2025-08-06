@@ -33,7 +33,7 @@
 #'
 #' }
 clcc <- function(data_path,
-                 use_weights = TRUE,
+                 use_weights = FALSE,
                  weights_path = NULL,
                  func_unit = "km", label_digits = 3,
                  plot_phases = FALSE, plot_phases_critical = FALSE,
