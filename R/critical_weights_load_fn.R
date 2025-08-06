@@ -17,14 +17,19 @@ critical_weights_load_fn <-
     weights_path
   ){
 
-    critical_weights <- readxl::read_excel(weights_path) |>
-      dplyr::select(1, 2, 3, 6)
+    critical_weights <- readxl::read_excel(weights_path)
+
+    if (ncol(critical_weights) != 4)
+      stop("Critical weights table must contain 4 columns, please check table format.")
 
     colnames(critical_weights) <- c("object", "comm", "phase", "weight")
 
     critical_weights$phase <- tolower(critical_weights$phase)
 
     critical_weights$weight <- suppressWarnings(readr::parse_number(critical_weights$weight)) # converte tutto in numero
+
+    if (isFALSE(is.numeric(critical_weights$weight)))
+      stop("Weights are not in numeric format, please check your weight table")
 
     critical_weights <- # all variables in lower case
       critical_weights |>
