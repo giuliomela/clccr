@@ -4,10 +4,11 @@ author: Giulio Mela
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{clccr-vignette}
-  %\VignetteEngine{rmarkdown::render}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
 ---
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -78,9 +79,21 @@ library(clccr) # loading the package
 
 # identifying the path the the folder with inventory data
 
-path_to_folder <- here::here("data-raw/example_data")
+path_to_folder <- system.file(
+  "extdata",
+  "example_data",
+  package = "clccr"
+)
+  
+  #here::here("data-raw/example_data")
 
-path_to_weights <- here::here("data-raw/correzione_coke.xlsx")
+path_to_weights <- system.file(
+  "extdata",
+  "correzione_coke.xlsx",
+  package = "clccr"
+)
+  
+  #here::here("data-raw/correzione_coke.xlsx")
 
 clcc_results <- clcc(data_path = path_to_folder, use_weights = TRUE, weights_path = path_to_weights)
 
@@ -135,8 +148,6 @@ The `clccr` package also provides a function which allows to perform a Monte Car
 
 # identifying the path the the folder with inventory data
 
-path_to_folder <- here::here("data-raw/example_data") 
-
 monte_carlo <- clcc_mc(data_path = path_to_folder,
                        use_weights = TRUE,
                        weights_path = path_to_weights,
@@ -153,7 +164,7 @@ The standard output of the `clcc_mc` function is a tibble containing project and
 ```{r example-mc-alt}
 
 monte_carlo_alt <- clcc_mc(
-  data_ path = path_to_folder,
+  data_path = path_to_folder,
   use_weights = TRUE,
   weights_path = path_to_weights,
   rep = 10000,
