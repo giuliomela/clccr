@@ -16,8 +16,8 @@
 #' @return A tidy dataset with inventory data organized by object
 inventory_load_fn <- function(
     data_path,
-    use_weights = FALSE,
-    weights_path = NULL
+    use_weights = TRUE,
+    weights_path
     ){
 
 comm <- file_path <- inventory_raw <- data <- object <- no <- um <-
@@ -30,7 +30,6 @@ file_list <- list.files(path = data_path,
 
 
 inventory_raw <- tidyr::tibble(file_path = file_list) # creates a tibble
-
 
 # identifying the number of rows to skip in each excel file
 
@@ -121,11 +120,11 @@ if (use_weights){
 
     if (length(intersect(unique(critical_weights$object), unique(inventories$object))) !=
         length(unique(critical_weights$object)))
-      stop("Not all the objects in the critical weights file are present in the inventories. Please check the files.")
+      warning("Not all the objects in the critical weights file are present in the inventories. Please check the files if it is ok.")
 
     if (length(intersect(unique(critical_weights[critical_weights$object %in% unique(inventories$object), ]$phase), unique(inventories$phase))) !=
         length(unique(critical_weights$phase)))
-      stop("Not all the phases in the critical weights file are present in the inventories. Please check the files.")
+      warning("Not all the phases in the critical weights file are present in the inventories. Please check the files if it is ok.")
 
   # Manipulating critical weights
 
