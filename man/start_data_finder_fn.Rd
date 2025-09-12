@@ -4,10 +4,13 @@
 \alias{start_data_finder_fn}
 \title{Find the number of rows to skipe while importing an xlsx inventory from SimaPro}
 \usage{
-start_data_finder_fn(path_xlsx)
+start_data_finder_fn(path_xlsx, pattern = c("No", "N."))
 }
 \arguments{
 \item{path_xlsx}{Path to SimaPro data in .xlsx format}
+
+\item{pattern}{A string describing the pattern to be searched in the first column of the excel sheet to identify rows to skip
+when importing the file}
 }
 \value{
 The number of rows to skip while importing the file to R (integer)

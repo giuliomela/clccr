@@ -3,6 +3,7 @@
 export(clcc)
 export(clcc_detail)
 export(clcc_mc)
+export(copy_xlsx_files)
 export(simapro_export)
 importFrom(rlang,.data)
 importFrom(stats,formula)

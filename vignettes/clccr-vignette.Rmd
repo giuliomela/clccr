@@ -176,4 +176,6 @@ monte_carlo_alt
 
 ```
 
-Finally, the `simapro_export` function can be used to generate a `.csv` file with all price data to be exported to the LCA software Simapro. The function has no arguments, and, once called, prompts a pop-up window asking the user where to save the `.csv` file.
+The `simapro_export` function can be used to generate a `.csv` file with all price data to be exported to the LCA software Simapro. The function has no arguments, and, once called, prompts a pop-up window asking the user where to save the `.csv` file.
+
+Finally, function `copy_xlsx_files()` allows the user to copy raw SimaPro LCA inventories from a folder to another and, athre same time, changing the file extension from `.XLSX` to `.xlsx` if needed. SimaPro-generated spreadsheets often have this problem, which can prevent the inventories from being loaded correctly by the `clcc()` or the `clcc_mc()` functions.

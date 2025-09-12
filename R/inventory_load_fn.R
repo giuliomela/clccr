@@ -16,7 +16,7 @@
 #' @return A tidy dataset with inventory data organized by object
 inventory_load_fn <- function(
     data_path,
-    use_weights = TRUE,
+    use_weights = FALSE,
     weights_path
     ){
 

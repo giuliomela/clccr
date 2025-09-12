@@ -4,7 +4,7 @@
 \alias{inventory_load_fn}
 \title{Load raw inventory data and make them ready for CLCC calculation}
 \usage{
-inventory_load_fn(data_path, use_weights = TRUE, weights_path)
+inventory_load_fn(data_path, use_weights = FALSE, weights_path)
 }
 \arguments{
 \item{data_path}{A character string. Path to the folder in which raw xlsx files are stored.

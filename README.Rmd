@@ -154,4 +154,6 @@ mc_res2[["table"]]
 
 ```
 
-Finally, the package allows the user to export reference prices for both the baseline and critical indicators to a .csv file compatible with SimaPro, one of the most popular LCA software. To accomplish this task the user can call the `simapro_export()` function. Such function has no arguments and, once called, automatically opens a pop-up windows that asks the user where to save the file.
+The package also allows the user to export reference prices for both the baseline and critical indicators to a .csv file compatible with SimaPro, one of the most popular LCA software. To accomplish this task the user can call the `simapro_export()` function. Such function has no arguments and, once called, automatically opens a pop-up windows that asks the user where to save the file.
+
+Finally, function `copy_xlsx_files()` allows the user to copy raw SimaPro LCA inventories from a folder to another and, at the same time, changing the file extension from `.XLSX` to `.xlsx` if needed. SimaPro-generated spreadsheets often have this problem, which can prevent the inventories from being loaded correctly by the `clcc()` or the `clcc_mc()` functions.
