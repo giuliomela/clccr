@@ -179,7 +179,7 @@ if (use_weights){
       dplyr::filter(comm == "silicon") |>
       dplyr::select(col_to_add_v) |>
       unique() |>
-      dplyr::mutate(no_comm = as.character(.data[["no_comm"]])) |>
+      dplyr::mutate(across(everything(), as.character)) |>
       tidyr::pivot_longer(dplyr::everything(), names_to = "var_names", values_to = "var_values") |>
       tibble::deframe()
 
@@ -188,6 +188,7 @@ if (use_weights){
       dplyr::mutate(!!!col_to_add_v) |>
       dplyr::mutate(no_comm = as.numeric(.data[["no_comm"]]),
                     comm = ifelse(comm == "silicon mg", "silicon"))
+
 
     inventories <- # row binding the new silicon data to inventories and adding values to exisiting ones
       inventories |>
