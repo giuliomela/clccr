@@ -17,9 +17,15 @@ critical_weights_load_fn <-
     weights_path
   ){
 
+    sheets_labels <-
+      readxl::excel_sheets(weights_path)
+
+
     tryCatch(
       {
-        critical_weights_coke <- readxl::read_excel(weights_path, sheet = "coking_coal")
+        coke_sheet <- sheets_labels[stringr::str_detect(sheets_labels, "coal")]
+
+        critical_weights_coke <- readxl::read_excel(weights_path, sheet = coke_sheet)
       }, error = function(e) {
         warning(paste("Something went wrong with the loading of the coking coal critical weights file. Error message:",
                       e$message))
@@ -28,7 +34,9 @@ critical_weights_load_fn <-
 
     tryCatch(
       {
-        critical_weights_silicon <- readxl::read_excel(weights_path, sheet = "siliconMG")
+        silicon_sheet <- sheets_labels[stringr::str_detect(sheets_labels, "silicon")]
+
+        critical_weights_silicon <- readxl::read_excel(weights_path, sheet = silicon_sheet)
       }, error = function(e) {
         warning(paste("Something went wrong with the loading of the coking coal critical weights file. Error:",
                       e$message))
