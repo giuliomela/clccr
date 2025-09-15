@@ -25,7 +25,7 @@ test_that("clcc_mc function returns desired output if weights are provided", {
 
   data_path <- testthat::test_path("testdata", "example_data")
 
-  weights_path <- testthat::test_path("testdata", "correzione_coke.xlsx")
+  weights_path <- testthat::test_path("testdata", "correzione_coke_silicon.xlsx")
 
   clcc_mc <- clcc_mc(
     data_path,

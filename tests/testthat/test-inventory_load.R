@@ -2,7 +2,7 @@ test_that("inventory_load actually loads inventories", {
 
   data_path <- testthat::test_path("testdata", "example_data")
 
-  weights_path <- testthat::test_path("testdata", "correzione_coke.xlsx")
+  weights_path <- testthat::test_path("testdata", "correzione_coke_silicon.xlsx")
 
 inventories <- inventory_load_fn(
   data_path = data_path,

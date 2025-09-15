@@ -17,26 +17,67 @@ critical_weights_load_fn <-
     weights_path
   ){
 
-    critical_weights <- readxl::read_excel(weights_path)
+    tryCatch(
+      {
+        critical_weights_coke <- readxl::read_excel(weights_path, sheet = "coking_coal")
+      }, error = function(e) {
+        warning(paste("Something went wrong with the loading of the coking coal critical weights file. Error message:",
+                      e$message))
+      }
+    )
 
-    if (ncol(critical_weights) != 4)
-      stop("Critical weights table must contain 4 columns, please check table format.")
+    tryCatch(
+      {
+        critical_weights_silicon <- readxl::read_excel(weights_path, sheet = "siliconMG")
+      }, error = function(e) {
+        warning(paste("Something went wrong with the loading of the coking coal critical weights file. Error:",
+                      e$message))
+      }
+    )
 
-    colnames(critical_weights) <- c("object", "comm", "phase", "weight")
+    critical_weights <-
+      list(
+        coke = critical_weights_coke,
+        silicon = critical_weights_silicon
+      )
 
-    critical_weights$phase <- tolower(critical_weights$phase)
+    purrr::walk(
+      critical_weights,
+      \(x){
+        if(ncol(x) !=4) stop("Critical weights table must contain 4 columns, please check table format.")
+      }
+    )
 
-    critical_weights$weight <- suppressWarnings(readr::parse_number(critical_weights$weight)) # converte tutto in numero
+    colnames(critical_weights$coke) <- c("object", "comm", "phase", "value")
 
-    if (isFALSE(is.numeric(critical_weights$weight)))
-      stop("Weights are not in numeric format, please check your weight table")
+    colnames(critical_weights$silicon) <- c("object", "comm", "phase", "value")
+
+    critical_weights <-
+      suppressWarnings(
+        purrr::map(
+        critical_weights,
+        \(x) dplyr::mutate(x, phase = tolower(.data[["phase"]]))
+      )
+      )
+
+    purrr::walk(
+      critical_weights,
+      \(x){
+        if (isFALSE(is.numeric(x[["value"]])))
+          stop("Values are not in numeric format, please check your weight table")
+      }
+    )
+
+
+
 
     critical_weights <- # all variables in lower case
-      critical_weights |>
-      dplyr::mutate(
-        dplyr::across(
-          dplyr::where(is.character),
-          tolower
+      purrr::map(
+        critical_weights,
+        \(x) dplyr::mutate(
+          x,
+          dplyr::across(dplyr::where(is.character),
+                        tolower)
         )
       )
 

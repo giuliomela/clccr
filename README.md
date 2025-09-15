@@ -149,19 +149,21 @@ while the second the latest version of the list provided by the
 International Energy Agency. Some materials are considered critical by
 the European Commission of the International Energy Agency (IEA) but are
 not considered as individual flows by SimaPro. For example the SimaPro
-flow “Coal, hard” contains “coking coal” which is critical. The same
-applies for silicon: some of the “Sand” flow is used to produce silicon
-metal, which is a critical material. For this reason, adjustments are
-needed. LCA practitioners have to manually calculate the extent to which
-“coal, hard” and “sand” flows are used for coking coal and silicon metal
-production respectively. The `clcc`, `clcc_mc` and `clcc_detail`
-functions all allow the use to provide a table of weights representing
-the share of “coal, hard” and “sand” flows used to produce coking coal
-and silicon metal for each object and phase considered. The table must
-be provided in `.xlsx` format with four columns containing: the name of
-the object (must be the same used to name the inventories), the name of
-the substance, the name of the phase (the same used in the inventories)
-and the weight.
+flow “Coal, hard” contains “coking coal” which is critical. A similar
+adjustment is needed for silicon. LCA practitioners have to manually
+calculate the extent to which “coal, hard” is used for coking coal and
+silicon metal production respectively. The `clcc`, `clcc_mc` and
+`clcc_detail` functions all allow the use to provide a table of weights
+representing the share of “coal, hard” used to produce coking coal and a
+table of additional silicon quantities to be added to the inventory
+data. Such additional silicon quantity is calculated by the LCA
+practitioner to take into account of the whole silicon metal flow. These
+additional data must be provided in `.xlsx` format. The spreadsheet must
+contain two sheets (named “coke” and “silicon”) each with four columns
+containing: the name of the object (must be the same used to name the
+inventories), the name of the substance, the name of the phase (the same
+used in the inventories) and the value. In the case of coke the value is
+a weight, while in the case of silicon it is a quantity.
 
 ``` r
 
@@ -171,24 +173,32 @@ res_weights <-
     use_weights = TRUE,
     weights_path = path_to_weights
   )
-#> Joining with `by = join_by(comm, phase, object)`
-#> Joining with `by = join_by(comm, phase, object)`
+#> Warning in .f(.x[[i]], ...): Not all the objects in the coke critical weights
+#> file are present in the inventories. Please check the files if it is ok.
+#> Warning in .f(.x[[i]], ...): Not all the phases in the coke critical weights
+#> file are present in the inventories. Please check the files if it is ok.
+#> Warning in .f(.x[[i]], ...): Not all the objects in the silicon critical
+#> weights file are present in the inventories. Please check the files if it is
+#> ok.
+#> Warning in .f(.x[[i]], ...): Not all the phases in the silicon critical weights
+#> file are present in the inventories. Please check the files if it is ok.
+#> Joining with `by = join_by(object, comm, phase)`
 
 res_weights[["table"]]
-#> # A tibble: 102 × 7
+#> # A tibble: 126 × 7
 #>    object    phase    clcc clcc_critical_eu clcc_critical_iea share_critical_iea
 #>    <chr>     <chr>   <dbl>            <dbl>             <dbl>              <dbl>
-#>  1 bus_dies… batt… 0              0                 0                       0   
-#>  2 bus_dies… manu… 4.41e-4        0.000102          0.000121               27.6 
-#>  3 bus_dies… total 1.45e-2        0.00247           0.00210                14.5 
-#>  4 bus_dies… uso   0              0                 0                       0   
-#>  5 bus_dies… veic… 4.24e-3        0.00198           0.00170                40.0 
-#>  6 bus_dies… vett… 9.78e-3        0.000388          0.000280                2.87
-#>  7 bus_elet  batt… 3.11e-3        0.00222           0.00164                52.8 
-#>  8 bus_elet  manu… 3.60e-4        0.0000755         0.0000683              19.0 
-#>  9 bus_elet  total 8.02e-3        0.00366           0.00262                32.7 
-#> 10 bus_elet  uso   0              0                 0                       0   
-#> # ℹ 92 more rows
+#>  1 bus_dies… batt… 0              0                 0                      0    
+#>  2 bus_dies… manu… 3.93e-4        0.0000293         0.0000737             18.8  
+#>  3 bus_dies… total 1.40e-2        0.00175           0.00167               11.9  
+#>  4 bus_dies… uso   0              0                 0                      0    
+#>  5 bus_dies… veic… 4.07e-3        0.00161           0.00152               37.4  
+#>  6 bus_dies… vett… 9.57e-3        0.000120          0.0000720              0.752
+#>  7 bus_elet  batt… 2.75e-3        0.00161           0.00128               46.6  
+#>  8 bus_elet  manu… 3.26e-4        0.0000181         0.0000344             10.6  
+#>  9 bus_elet  total 7.11e-3        0.00208           0.00172               24.2  
+#> 10 bus_elet  uso   0              0                 0                      0    
+#> # ℹ 116 more rows
 #> # ℹ 1 more variable: share_critical_eu <dbl>
 ```
 

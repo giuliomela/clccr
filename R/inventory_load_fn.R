@@ -95,6 +95,8 @@ inventory_tidy <- merge(inventory_tidy, meas_units, all.x = TRUE)
 inventory_tidy$um <- ifelse(inventory_tidy$um == paste0("\u00b5", "g"), "ug", # \u00b5" unicode character for mu
                                 inventory_tidy$um) # micrograms are expressed wit "ug" in the udunits2 package
 
+inventory_tidy$no <- NULL # removing the no variable which is not needed
+
 # removing rows referring to land use changes and to renewable energy (measured in MJ)
 
 inventory_tidy <- inventory_tidy[!inventory_tidy$um %in% c("m2a", "m2", "m3y", "MJ"), ]
@@ -114,49 +116,86 @@ if (use_weights){
 
   } else {
 
-    critical_weights <-
+    critical_weights <- # it is a list
       critical_weights_load_fn(weights_path = weights_path) # loads the critical weights
 
+    # checking if the coke and silicon tibbles have the same objects and phases
 
-    if (length(intersect(unique(critical_weights$object), unique(inventories$object))) !=
-        length(unique(critical_weights$object)))
-      warning("Not all the objects in the critical weights file are present in the inventories. Please check the files if it is ok.")
+    if (!identical(unique(critical_weights$coke$object), unique(critical_weights$silicon$object)))
+        warning("The objects in the coke and the silicon weight tibbles are not the same, please check")
 
-    if (length(intersect(unique(critical_weights[critical_weights$object %in% unique(inventories$object), ]$phase), unique(inventories$phase))) !=
-        length(unique(critical_weights$phase)))
-      warning("Not all the phases in the critical weights file are present in the inventories. Please check the files if it is ok.")
+    if (!identical(unique(critical_weights$coke$phase), unique(critical_weights$silicon$phase)))
+      warning("The phases in the coke and the silicon weight tibbles are not the same, please check")
+
+    # checking if the inventories and the weights tibbles have the same objects/phases
+
+    purrr::walk(
+      c("coke", "silicon"),
+      \(x){
+
+        if (length(intersect(unique(critical_weights[[x]][["object"]]), unique(inventories$object))) !=
+            length(unique(critical_weights[[x]][["object"]])))
+          warning(paste0(
+            "Not all the objects in the ", x,  " critical weights file are present in the inventories. Please check the files if it is ok.")
+          )
+
+        if (length(intersect(unique(critical_weights[[x]][["phase"]]), unique(inventories$object))) !=
+            length(unique(critical_weights[[x]][["phase"]])))
+          warning(paste0(
+            "Not all the phases in the ", x,  " critical weights file are present in the inventories. Please check the files if it is ok.")
+          )
+
+      }
+    )
+
+
 
   # Manipulating critical weights
 
-    # Share of 'sand' which is used to make silicon metal (critical)
-
-    sand_to_silicon <-
-      inventories |>
-      dplyr::filter(.data[["comm"]] == "sand") |>
-      dplyr::left_join(critical_weights) |>
-      dplyr::mutate(weight = ifelse(
-        is.na(.data[["weight"]]),
-        1,
-        .data[["weight"]]
-      ),
-      comm = "silicon",
-      no_comm = 1888
-      )
-
     critical_weights <-
-      critical_weights |>
-      dplyr::mutate(
-        weight = ifelse(
-          .data[["comm"]] == "sand", # sand "real" weight once sand shares used in silicon production are subtracted
-          1 - .data[["weight"]],
-          .data[["weight"]]
-        )
-      )
+      purrr::map(
+        names(critical_weights),
+        \(x){
+          if(x == "coke"){
 
-    inventories <-
+            dplyr::rename(critical_weights[[x]], "weight" = "value")
+
+          } else if (x == "silicon"){
+
+            dplyr::rename(critical_weights[[x]], "quantity" = "value")
+
+          }
+        }
+      ) |> stats::setNames(names(critical_weights))
+
+
+    # Adding silicon data (to be added to exiting one)
+
+    col_to_add_v <- # columns to add to the critical_weights$silicon tibble to perform bind_rows with inventories
+      setdiff(colnames(inventories), colnames(critical_weights$silicon))
+
+    col_to_add_v <-
       inventories |>
-      dplyr::left_join(critical_weights) |>
-      dplyr::bind_rows(sand_to_silicon) # adding silicon from sand
+      dplyr::filter(comm == "silicon") |>
+      dplyr::select(col_to_add_v) |>
+      unique() |>
+      dplyr::mutate(no_comm = as.character(.data[["no_comm"]])) |>
+      tidyr::pivot_longer(dplyr::everything(), names_to = "var_names", values_to = "var_values") |>
+      tibble::deframe()
+
+    new_data_silicon <- # creating the tibble with the new silicon data
+      critical_weights$silicon |>
+      dplyr::mutate(!!!col_to_add_v) |>
+      dplyr::mutate(no_comm = as.numeric(.data[["no_comm"]]),
+                    comm = ifelse(comm == "silicon mg", "silicon"))
+
+    inventories <- # row binding the new silicon data to inventories and adding values to exisiting ones
+      inventories |>
+      dplyr::bind_rows(new_data_silicon) |> # adding silicon (only has to be added to inventory data)
+      dplyr::group_by(.data[["object"]], .data[["comm"]], .data[["phase"]], .data[["comp"]], .data[["um"]],
+                      .data[["no_comm"]], .data[["um_to"]]) |>
+      dplyr::summarise(quantity = sum(quantity), .groups = "drop") |>
+      dplyr::left_join(critical_weights$coke) # adding coke critical weights
 
 
     inventories$weight <- ifelse(is.na(inventories$weight), 1, inventories$weight) # if weight is NA, set it to 1

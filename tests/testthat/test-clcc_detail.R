@@ -20,7 +20,7 @@ test_that("clcc_detail works id weights are provided", {
 
   data_path <- testthat::test_path("testdata", "example_data")
 
-  weights_path <- testthat::test_path("testdata", "correzione_coke.xlsx")
+  weights_path <- testthat::test_path("testdata", "correzione_coke_silicon.xlsx")
 
   clcc_detail <- clcc_detail(
     data_path,

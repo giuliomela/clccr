@@ -18,9 +18,20 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(clccr)
 
-path_to_folder <- here::here("data-raw/example_data")
+path_to_folder <- system.file(
+  "extdata",
+  "example_data",
+  package = "clccr"
+)
+  
+  #here::here("data-raw/example_data")
 
-path_to_weights <- here::here("data-raw/correzione_coke.xlsx")
+path_to_weights <- system.file(
+  "extdata",
+  "correzione_coke_silicon.xlsx",
+  package = "clccr"
+)
+
 
 ```
 
@@ -103,7 +114,8 @@ detail_info[["plot"]]
 ```
 
 The package provides two alternative versions of the CLCC indicator, taking into account critical materials only. The first alternative uses the latest version of the European Union list of critical materials, while the second the latest version of the list provided by the International Energy Agency.
-Some materials are considered critical by the European Commission of the International Energy Agency (IEA) but are not considered as individual flows by SimaPro. For example the SimaPro flow "Coal, hard" contains "coking coal" which is critical. The same applies for silicon: some of the "Sand" flow is used to produce silicon metal, which is a critical material. For this reason, adjustments are needed. LCA practitioners have to manually calculate the extent to which "coal, hard" and "sand" flows are used for coking coal and silicon metal production respectively. The `clcc`, `clcc_mc` and `clcc_detail` functions all allow the use to provide a table of weights representing the share of "coal, hard" and "sand" flows used to produce coking coal and silicon metal for each object and phase considered. The table must be provided in `.xlsx` format with four columns containing: the name of the object (must be the same used to name the inventories), the name of the substance, the name of the phase (the same used in the inventories) and the weight.
+Some materials are considered critical by the European Commission of the International Energy Agency (IEA) but are not considered as individual flows by SimaPro. For example the SimaPro flow "Coal, hard" contains "coking coal" which is critical. A similar adjustment is needed for silicon. LCA practitioners have to manually calculate the extent to which "coal, hard" is used for coking coal and silicon metal production respectively. The `clcc`, `clcc_mc` and `clcc_detail` functions all allow the use to provide a table of weights representing the share of "coal, hard" used to produce coking coal and a table of additional silicon quantities to be added to the inventory data. Such additional silicon quantity is calculated by the LCA practitioner to take into account of the whole silicon metal flow.
+These additional data must be provided in `.xlsx` format. The spreadsheet must contain two sheets (named "coke" and "silicon") each with four columns containing: the name of the object (must be the same used to name the inventories), the name of the substance, the name of the phase (the same used in the inventories) and the value. In the case of coke the value is a weight, while in the case of silicon it is a quantity.
 
 ```{r example-weights}
 
