@@ -129,26 +129,46 @@ if (use_weights){
 
     # checking if the inventories and the weights tibbles have the same objects/phases
 
-    purrr::walk(
-      c("coke", "silicon"),
-      \(x){
+    inventory_objects <- # all objects contained in the inventories
+      sort(unique(inventories$object))
 
-        if (length(intersect(unique(critical_weights[[x]][["object"]]), unique(inventories$object))) !=
-            length(unique(critical_weights[[x]][["object"]])))
-          warning(paste0(
-            "Not all the objects in the ", x,  " critical weights file are present in the inventories. Please check the files if it is ok.")
-          )
+    weights_objects <-
+      purrr::map(
+        names(critical_weights),
+        \(x) sort(unique(critical_weights[[x]][["object"]]))
+      ) |> stats::setNames(names(critical_weights))
 
-        if (length(intersect(unique(critical_weights[[x]][["phase"]]), unique(inventories$object))) !=
-            length(unique(critical_weights[[x]][["phase"]])))
-          warning(paste0(
-            "Not all the phases in the ", x,  " critical weights file are present in the inventories. Please check the files if it is ok.")
-          )
+    if(!identical(sort(unique(critical_weights$coke$object)), sort(unique(critical_weights$silicon$object))))
+      stop("Objects in the critical weights for coke and silicon do not match. Please check the weight files")
 
-      }
-    )
+# I use a for loop because it handles warning messages better than purrr::walk() and lapply()
 
+    for (x in c("coke", "silicon")) {
+      if(length(inventory_objects) > length(critical_weights[[x]][["object"]]))
+        stop(paste0(stringr::str_to_sentence(x),
+                    " critical weights for one or more objects are missing, please check the files"))
 
+      if(length(intersect(inventory_objects, critical_weights[[x]][["object"]])) == 0)
+        stop(paste0("The inventory and ",
+                    x,
+                    " critical weights files contain completely different objects. Check the files"))
+
+      if(length(inventory_objects) < length(critical_weights[[x]][["object"]]))
+        warning(paste0(
+          "Not all the objects in the ",
+          x,
+          " critical weights file are present in the inventories. Those not present have been removed")
+        )
+    }
+
+  critical_weights <-
+    purrr::map(
+      critical_weights,
+      \(x) dplyr::filter(
+        x,
+        .data[["object"]] %in% inventory_objects
+      )
+    ) |> stats::setNames(names(critical_weights))
 
   # Manipulating critical weights
 
@@ -179,7 +199,7 @@ if (use_weights){
       dplyr::filter(comm == "silicon") |>
       dplyr::select(col_to_add_v) |>
       unique() |>
-      dplyr::mutate(across(everything(), as.character)) |>
+      dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) |>
       tidyr::pivot_longer(dplyr::everything(), names_to = "var_names", values_to = "var_values") |>
       tibble::deframe()
 
