@@ -20,6 +20,8 @@
 #'     `others` category. The parameter must be between `0` and `1`.
 #'@param price_source A string. If set to `2023` price sources used in the 2023 RDS report are used. If set to `2024`,
 #'     the default, the 2024 updated price sources are used.
+#' @param viridis_palette A string indicating the palette (from the Viridis package to be applied to the plots)
+#' @param palette_direction A number (either `1` or `-1`) to provide the palette direction
 #' @return A list containing a table with the results and a `ggplot` object.
 #' @importFrom rlang .data
 #' @export
@@ -41,7 +43,9 @@ clcc_detail <- function (data_path,
                          critical_type = "EU",
                          phase_of_int = "total",
                          collapse_share = 0.9,
-                         price_source = "2024"
+                         price_source = "2024",
+                         viridis_palette = "viridis",
+                         palette_direction = 1
 ) {
 
   if(collapse_share > 1 | collapse_share < 0)
@@ -52,6 +56,12 @@ clcc_detail <- function (data_path,
 
   if (!is.element(critical_type, c("EU", "IEA")))
     stop("Parameter 'critical type' can only assume EU or IEA values")
+
+  valid_palettes <- c("viridis", "plasma", "magma", "inferno", "cividis", "turbo", "mako", "rocket")
+  if (!viridis_palette %in% valid_palettes) {
+    stop("The Viridis palette chosen does not exists. Please choose one from: ",
+         paste(valid_palettes, collapse = ", "))
+  }
 
   quantity <- phase <- comm <- object <- clcc_type <- desc <- share <- cum_share <- macro_cat <- critical_eu <- critical_iea <- weight <- NULL
 
@@ -109,7 +119,6 @@ clcc_detail <- function (data_path,
   }
 
 
-
   #inv_prices <- inv_prices[, -which(names(inv_prices) %in% c("um", "source", "code"))]
 
   # Computing the CLCC indicator
@@ -145,6 +154,51 @@ clcc_detail <- function (data_path,
     dplyr::ungroup() |>
     dplyr::arrange(object, desc(share))
 
+  # Generating palette
+
+  # 1. Recover categories
+  cats <- unique(clcc_detail_cat$macro_cat)
+
+  # 2. Removing the "Other" category
+  cats_viridis <- cats[cats != "Other"]
+  n_viridis <- length(cats_viridis)
+
+  # 3. Generating palette
+  viridis_colors <- viridis::viridis_pal(
+    option = viridis_palette,
+    direction = palette_direction # This improves readability
+  )(n_viridis)
+
+  # 4. Assigning names to colors
+  names(viridis_colors) <- cats_viridis
+
+  # 5. Combining the viridis palette with the Other category (which must be gray)
+  custom_colors <- c(viridis_colors, "Other" = "grey60")
+
+  # Defining tile text colors (white or black according to the background)
+
+  # Removing the alpha part from color codes
+  custom_colors_no_alpha <- substr(custom_colors, 1, 7)
+
+  # default text colors
+  text_colors <- rep("white", length(custom_colors_no_alpha))
+
+  # 2. converting colors
+  rgb_colors <- t(grDevices::col2rgb(custom_colors_no_alpha)) / 255
+
+  # 3. Creating sRGB object
+  srgb_colors <- colorspace::sRGB(rgb_colors)
+
+  # 4. Converting from sRGB to LUV to get luminosity
+  luv_colors <- methods::as(srgb_colors, "LUV")
+
+  # Getting color lumunosity
+  color_luminosity <- luv_colors@coords[, "L"]
+
+  # Defining text color according to luminosity
+  text_colors[color_luminosity > 50] <- "black"
+  names(text_colors) <- names(custom_colors)
+
 
   plot <- clcc_detail_cat |>
     ggplot2::ggplot(
@@ -153,8 +207,15 @@ clcc_detail <- function (data_path,
                                                                   "%"))) +
     treemapify::geom_treemap() +
     ggplot2::facet_wrap(~ object) +
-    viridis::scale_fill_viridis(discrete = T, option = "turbo") +
-    treemapify::geom_treemap_text(color = "white", reflow = T) +
+    ggplot2::scale_fill_manual(values = custom_colors) +
+    treemapify::geom_treemap_text(
+      ggplot2::aes(colour = .data[["macro_cat"]]),
+      reflow = TRUE,
+      place = "centre", # Centra il testo per una migliore leggibilità
+      padding.x = ggplot2::unit(3, "mm"),
+      padding.y = ggplot2::unit(3, "mm")
+    ) +
+    ggplot2::scale_colour_manual(values = text_colors, guide = "none") + # applying text colour
     ggplot2::theme(legend.position = "none")
 
   output <- list(table = clcc_detail_cat, plot = plot)

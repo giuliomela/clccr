@@ -35,7 +35,9 @@ Imports:
     rlang,
     ggridges,
     openxlsx2,
-    writexl
+    writexl,
+    colorspace,
+    methods
 Suggests: 
     rmarkdown,
     knitr,

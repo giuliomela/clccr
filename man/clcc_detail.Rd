@@ -12,7 +12,9 @@ clcc_detail(
   critical_type = "EU",
   phase_of_int = "total",
   collapse_share = 0.9,
-  price_source = "2024"
+  price_source = "2024",
+  viridis_palette = "viridis",
+  palette_direction = 1
 )
 }
 \arguments{
@@ -39,6 +41,10 @@ shares sum up to 90% of the total are returned as output. All the others are sum
 
 \item{price_source}{A string. If set to `2023` price sources used in the 2023 RDS report are used. If set to `2024`,
 the default, the 2024 updated price sources are used.}
+
+\item{viridis_palette}{A string indicating the palette (from the Viridis package to be applied to the plots)}
+
+\item{palette_direction}{A number (either `1` or `-1`) to provide the palette direction}
 }
 \value{
 A list containing a table with the results and a `ggplot` object.

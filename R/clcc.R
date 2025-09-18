@@ -144,14 +144,17 @@ clcc <- function(data_path,
                                    )
       )) +
       ggplot2::geom_bar(stat = "identity", width = 0.6) +
-      ggplot2::facet_wrap(~ .data[["indicator"]], labeller = ggplot2::labeller(indicator = clcc_labs),
+      ggplot2::facet_wrap(~ .data[["indicator"]],
+                          labeller = ggplot2::labeller(indicator = clcc_labs),
                           scales = "free_x") +
       viridis::scale_fill_viridis(discrete = T) +
       ggfittext::geom_bar_text(outside = T, min.size = 10) +
+      ggplot2::theme_minimal() +
       ggplot2::labs(x = "", y = "") +
       ggplot2::theme(axis.text.x = ggplot2::element_text(size = 8),
                      legend.position = "none") +
-      ggplot2::scale_y_discrete(labels = function(x) stringr::str_wrap(x, width = 20))
+      ggplot2::scale_y_discrete(labels = function(x) stringr::str_wrap(x, width = 20)) +
+      ggplot2::geom_vline(xintercept = 0)
 
   } else if (isTRUE(plot_phases)){
 
