@@ -8,7 +8,7 @@ inventory_load_fn(data_path, use_weights = FALSE, weights_path)
 }
 \arguments{
 \item{data_path}{A character string. Path to the folder in which raw xlsx files are stored.
-File names will be used as object names on which computing the CLCC indicator.}
+     File names will be used as object names on which computing the CLCC indicator.}
 
 \item{use_weights}{A logical value. If set to `TRUE`, the function uses the critical weights}
 
