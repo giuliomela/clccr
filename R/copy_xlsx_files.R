@@ -51,20 +51,50 @@ copy_xlsx_files <-
 
         destination_file_path <- file.path(destination_folder, new_file_name)
 
+        # Checking if destination file already exists
+
+        if(file.exists(destination_file_path)){
+
+          source_time <- file.mtime(x)
+
+          destination_time <- file.mtime(destination_file_path)
+
+          if(source_time > destination_time){# file in origin folder more recent than in the destination folder
+
+            tryCatch({
+              sheets_data <- readxl::read_excel(x, col_names = TRUE, .name_repair = "unique_quiet")
+
+              writexl::write_xlsx(sheets_data, destination_file_path)
+
+              message(paste("The", new_file_name, "file has been updated in the destination folder"))
+
+            }, error = function(e){
+
+              warning(paste(file_name, "impossible to read or write", "-", e$message))
+
+            }
+            )
+          } else {
+
+            message(paste("The", new_file_name, "version in the destination folder is already up to date"))
+
+          }
+        } else {
 
         tryCatch({
           sheets_data <- readxl::read_excel(x, col_names = TRUE, .name_repair = "unique_quiet")
 
           writexl::write_xlsx(sheets_data, destination_file_path)
 
-          message(paste(new_file_name, ": copied and saved"))
+          message(paste(new_file_name, "copied in the destination folder"))
 
         }, error = function(e){
 
           warning(paste(file_name, "impossible to read or write", "-", e$message))
 
-          }
+        }
         )
+        }
       }
     )
   }
