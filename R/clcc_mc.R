@@ -149,14 +149,17 @@ clcc_mc <- function(data_path,
       tidyr::unnest(tidyr::all_of("clcc_sim")) |>
       ggplot2::ggplot(ggplot2::aes(x = .data[["clcc_sim"]], y = .data[["object"]],
                  fill = .data[["object"]], color = .data[["object"]])) +
-      ggridges::geom_density_ridges(alpha = 0.4) +
+      ggridges::geom_density_ridges(alpha = 0.35) +
+      ggplot2::theme_minimal() +
       ggplot2::theme(legend.position = "none") +
       viridis::scale_fill_viridis(discrete = T) +
       viridis::scale_color_viridis(discrete = T) +
       ggplot2::labs(x = paste0("euro/", func_unit), y = "") +
       ggplot2::geom_point(data = data_plot, ggplot2::aes(x = .data[[baseline_to_compare]],
                                                          y = .data[["object"]]),
-                 shape = 8, size = 5)
+                 shape = 8, size = 5) +
+      ggplot2::geom_vline(xintercept = 0) +
+      ggplot2::geom_hline(yintercept = 0)
 
     list(table = sim, plot = plot)
 
@@ -219,7 +222,8 @@ clcc_mc <- function(data_path,
       ggplot2::geom_tile() +
       ggplot2::theme(legend.position = "none") +
       viridis::scale_fill_viridis(discrete = F, option = "rocket", direction = -1) +
-      ggfittext::geom_fit_text(contrast = T) +
+      ggplot2::theme_minimal() +
+      ggfittext::geom_fit_text(contrast = T, place = "centre") +
       ggplot2::labs(x = "", y = "") +
       ggplot2::scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 10))
 
