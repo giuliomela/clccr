@@ -162,7 +162,7 @@ inventory_load_fn <- function(
                       x,
                       " critical weights files contain completely different objects. Check the files"))
 
-        if(length(inventory_objects) < length(critical_weights[[x]][["object"]]))
+        if(length(inventory_objects) < length(unique(critical_weights[[x]][["object"]])))
           warning(paste0(
             "Not all the objects in the ",
             x,
