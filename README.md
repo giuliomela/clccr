@@ -146,24 +146,34 @@ The package provides two alternative versions of the CLCC indicator,
 taking into account critical materials only. The first alternative uses
 the latest version of the European Union list of critical materials,
 while the second the latest version of the list provided by the
-International Energy Agency. Some materials are considered critical by
-the European Commission of the International Energy Agency (IEA) but are
-not considered as individual flows by SimaPro. For example the SimaPro
-flow “Coal, hard” contains “coking coal” which is critical. A similar
-adjustment is needed for silicon. LCA practitioners have to manually
-calculate the extent to which “coal, hard” is used for coking coal and
-silicon metal production respectively. The `clcc`, `clcc_mc` and
-`clcc_detail` functions all allow the use to provide a table of weights
-representing the share of “coal, hard” used to produce coking coal and a
-table of additional silicon quantities to be added to the inventory
-data. Such additional silicon quantity is calculated by the LCA
-practitioner to take into account of the whole silicon metal flow. These
-additional data must be provided in `.xlsx` format. The spreadsheet must
-contain two sheets (named “coke” and “silicon”) each with four columns
-containing: the name of the object (must be the same used to name the
-inventories), the name of the substance, the name of the phase (the same
-used in the inventories) and the value. In the case of coke the value is
-a weight, while in the case of silicon it is a quantity.
+International Energy Agency. The critical-CLCC indicator can only
+capture and economically quantify the elementary flow `Coal, hard`,
+which encompasses coking coal (a critical material according to the EU
+list), which is used in steel production. However, this flow is not
+exclusively associated with steel production; it is also used in other
+processes, such as electricity generation. This leads to a significant
+overestimation of the commodity cost because the current methodology
+assumes elementary flows, whereas in this case the flow represents a
+semi-finished product. A similar issue occurs with metallurgical-grade
+silicon, which in Ecoinvent can only be represented through the
+elementary flows Sand and Gravel. In the case of coking coal, to
+mitigate the bias, the LCA practitioners must compute the total quantity
+(in kilograms) of the `Coal, hard` flow for the entire system under
+analysis and then identify the quantity of `Coal, hard` associated with
+the process: `Coke {GLO} | market for coke | Cut-off, U`. The ratio
+between these two quantities represents the share of `Coal, hard` in the
+inventory that can be considered critical. In the case of
+metallurgical-grade silicon, the practitioner must identify the
+contribution of the process
+`Silicon, metallurgical grade {GLO} | market for silicon, metallurgical grade | Cut-off, U`.
+This quantity represents the critical silicon flow. These additional
+data for coal and silicon must be provided in `.xlsx` format. The
+spreadsheet must contain two sheets (named “coke” and “silicon”) each
+with four columns containing: the name of the object (must be the same
+used to name the inventories), the name of the substance, the name of
+the phase (the same used in the inventories) and the value. In the case
+of coke the value is a weight, while in the case of silicon it is a
+quantity.
 
 ``` r
 
@@ -173,19 +183,10 @@ res_weights <-
     use_weights = TRUE,
     weights_path = path_to_weights
   )
-#> Warning in .f(.x[[i]], ...): Not all the objects in the coke critical weights
-#> file are present in the inventories. Please check the files if it is ok.
-#> Warning in .f(.x[[i]], ...): Not all the phases in the coke critical weights
-#> file are present in the inventories. Please check the files if it is ok.
-#> Warning in .f(.x[[i]], ...): Not all the objects in the silicon critical
-#> weights file are present in the inventories. Please check the files if it is
-#> ok.
-#> Warning in .f(.x[[i]], ...): Not all the phases in the silicon critical weights
-#> file are present in the inventories. Please check the files if it is ok.
 #> Joining with `by = join_by(object, comm, phase)`
 
 res_weights[["table"]]
-#> # A tibble: 126 × 7
+#> # A tibble: 102 × 7
 #>    object    phase    clcc clcc_critical_eu clcc_critical_iea share_critical_iea
 #>    <chr>     <chr>   <dbl>            <dbl>             <dbl>              <dbl>
 #>  1 bus_dies… batt… 0              0                 0                      0    
@@ -198,7 +199,7 @@ res_weights[["table"]]
 #>  8 bus_elet  manu… 3.26e-4        0.0000181         0.0000344             10.6  
 #>  9 bus_elet  total 7.11e-3        0.00208           0.00172               24.2  
 #> 10 bus_elet  uso   0              0                 0                      0    
-#> # ℹ 116 more rows
+#> # ℹ 92 more rows
 #> # ℹ 1 more variable: share_critical_eu <dbl>
 ```
 
