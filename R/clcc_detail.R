@@ -38,7 +38,7 @@
 #' }
 clcc_detail <- function (data_path,
                          use_weights = FALSE,
-                         weights_path = NULL,
+                         weights_path,
                          critical = FALSE,
                          critical_type = "EU",
                          phase_of_int = "total",
@@ -123,6 +123,7 @@ clcc_detail <- function (data_path,
 
   # Computing the CLCC indicator
 
+
   clcc_raw <- inv_prices |>
     dplyr::mutate(clcc = .data[["mean"]] * .data[["quantity"]] * .data[["weight"]]) |>
     dplyr::filter(phase == phase_of_int) |>
@@ -132,10 +133,13 @@ clcc_detail <- function (data_path,
     #dplyr::select(comm, object, phase, clcc_type, clcc) |>
     tibble::as_tibble()
 
+
   clcc_tot <- clcc_raw |>
     dplyr::group_by(object, phase, clcc_type) |>
     dplyr::summarise(clcc_tot = sum(clcc)) |>
     dplyr::ungroup()
+
+
 
   clcc_detail_cat <- clcc_raw |>
     dplyr::left_join(clcc_tot) |>

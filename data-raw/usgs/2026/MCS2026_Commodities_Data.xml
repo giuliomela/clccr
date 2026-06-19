@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <idinfo>
+    <citation>
+      <citeinfo>
+        <origin>National Minerals Information Center</origin>
+        <pubdate>20260206</pubdate>
+        <title>Mineral Commodity Summaries 2026</title>
+        <geoform>tabular digital data</geoform>
+        <onlink>https://doi.org/10.5066/P1WKQ63T</onlink>
+        <lworkcit>
+          <citeinfo>
+            <origin>National Minerals Information Center</origin>
+            <pubdate>2026</pubdate>
+            <title>Mineral Commodity Summaries 2026 Data Release</title>
+            <geoform>tabular digital data</geoform>
+            <onlink>https://www.usgs.gov/centers/national-minerals-information-center/mineral-commodity-summaries</onlink>
+          </citeinfo>
+        </lworkcit>
+      </citeinfo>
+    </citation>
+    <descript>
+      <abstract>This data release contains the data extracted from the commodity chapters in the USGS Mineral Commodity Summaries 2026.</abstract>
+      <purpose>Published on an annual basis, the USGS Mineral Commodity Summaries report is the earliest Government publication to furnish estimates covering nonfuel mineral industry data. Data sheets contain information on the domestic industry structure, Government programs, tariffs, and 5-year salient statistics for over 90 individual minerals and materials.</purpose>
+      <supplinf>Where possible, data are those finalized for publication in the 2024 U.S. Geological Survey Minerals Yearbook Volume I - Metals and Minerals. For 2025, USGS National Minerals Information Center provided estimates based on available data from USGS surveys of the minerals industry, other industry sources, and mineral commodity specialist research.</supplinf>
+    </descript>
+    <timeperd>
+      <timeinfo>
+        <rngdates>
+          <begdate>2021</begdate>
+          <enddate>2025</enddate>
+        </rngdates>
+      </timeinfo>
+      <current>ground condition</current>
+    </timeperd>
+    <status>
+      <progress>Complete</progress>
+      <update>Annually</update>
+    </status>
+    <spdom>
+      <bounding>
+        <westbc>-180.0000</westbc>
+        <eastbc>180.0000</eastbc>
+        <northbc>90.0000</northbc>
+        <southbc>-90.0000</southbc>
+      </bounding>
+    </spdom>
+    <keywords>
+      <theme>
+        <themekt>USGS Thesaurus</themekt>
+        <themekey>metallic mineral resources</themekey>
+        <themekey>critical minerals</themekey>
+        <themekey>mineral commodities</themekey>
+        <themekey>industrial minerals</themekey>
+        <themekey>minerals</themekey>
+      </theme>
+      <theme>
+        <themekt>USGS Metadata Identifier</themekt>
+        <themekey>USGS:69837e43b66b01367d7ec7c7</themekey>
+      </theme>
+      <place>
+        <placekt>Common geographic areas</placekt>
+        <placekey>United States</placekey>
+      </place>
+    </keywords>
+    <accconst>None.  Please see 'Distribution Info' for details.</accconst>
+    <useconst>These data are marked with a Creative Common CC0 1.0 Universal License. These data are in the public domain and do not have any use constraints. Users are advised to read the dataset's metadata thoroughly to understand appropriate use and data limitations.</useconst>
+    <ptcontac>
+      <cntinfo>
+        <cntperp>
+          <cntper>Souleymane Hamza Saloum</cntper>
+          <cntorg>USGS - Northeast Region</cntorg>
+        </cntperp>
+        <cntpos>Economist</cntpos>
+        <cntaddr>
+          <addrtype>mailing and physical</addrtype>
+          <address>National Center, John W Powell FB</address>
+          <city>Reston</city>
+          <state>VA</state>
+          <postal>20192</postal>
+        </cntaddr>
+        <cntvoice>703-648-7790</cntvoice>
+        <cntemail>ssaloum@usgs.gov</cntemail>
+      </cntinfo>
+    </ptcontac>
+    <crossref>
+      <citeinfo>
+        <origin>National Minerals Information Center</origin>
+        <pubdate>2026</pubdate>
+        <title>USGS National Minerals Information Center Mineral Commodity Web Page</title>
+        <geoform>application/service</geoform>
+        <othercit>Provides information and links to all available USGS National Minerals Information Center publications for all mineral commodities by publication type and year.</othercit>
+        <onlink>https://www.usgs.gov/centers/national-minerals-information-center</onlink>
+      </citeinfo>
+    </crossref>
+  </idinfo>
+  <dataqual>
+    <attracc>
+      <attraccr>Where possible, data for all years except 2024 have been finalized for publication in the U.S. Geological Survey Minerals Yearbook Volume I - Metals and Minerals; otherwise, the data are noted as estimated.</attraccr>
+    </attracc>
+    <logic>Data were checked to ensure that they matched those published in the U.S. Geological Survey's Mineral Commodity Summaries 2026 (MCS 2026). Data were peer-reviewed by Mineral Commodity Specialists and approved by supervisors in compliance with USGS fundamental science practices.</logic>
+    <complete>This data release contains tabular data found in the associated publication Mineral Commodity Summaries 2026 (MCS 2026); additional detailed information is available in the full text version of MCS 2026.</complete>
+    <lineage>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>National Minerals Information Center</origin>
+            <pubdate>2025</pubdate>
+            <title>USGS Minerals Yearbook Volume I - Metals and Minerals</title>
+            <edition>2024</edition>
+            <geoform>publication</geoform>
+            <onlink>https://www.usgs.gov/centers/national-minerals-information-center/minerals-yearbook-metals-and-minerals</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy</typesrc>
+        <srctime>
+          <timeinfo>
+            <rngdates>
+              <begdate>2024</begdate>
+              <enddate>2025</enddate>
+            </rngdates>
+          </timeinfo>
+          <srccurr>ground condition</srccurr>
+        </srctime>
+        <srccitea>MYB Vol I</srccitea>
+        <srccontr>Source of statistics for 2021 - 2024. The data in the Minerals Yearbook are based on USGS surveys sent to companies involved in the industry for each mineral commodity.</srccontr>
+      </srcinfo>
+      <procstep>
+        <procdesc>Data for each mineral commodity were compiled from published 2024 U.S. Geological Survey Minerals Yearbook Volume I - Metals and Minerals chapters or from preliminary tables of those to be published. Data for 2025 were estimated based on available 2025 data and industry trends. Estimates for world production were made for 2025 in collaboration with USGS National Minerals Information Center Global Minerals Analysis specialists using best available data.</procdesc>
+        <srcused>MYB Vol I</srcused>
+        <procdate>2025</procdate>
+      </procstep>
+    </lineage>
+  </dataqual>
+  <eainfo>
+    <detailed>
+      <enttyp>
+        <enttypl>MCS2026_ALLchapters_Reconcile.csv</enttypl>
+        <enttypd>Comma Separated Value (CSV) file containing data.</enttypd>
+        <enttypds>Producer Defined</enttypds>
+      </enttyp>
+      <attr>
+        <attrlabl>MCS chapter</attrlabl>
+        <attrdef>Publication containing the data.</attrdef>
+        <attrdefs>Producer Defined</attrdefs>
+        <attrdomv>
+          <udom>free text</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Section</attrlabl>
+        <attrdef>Section of the publication</attrdef>
+        <attrdefs>Producer Defined</attrdefs>
+        <attrdomv>
+          <udom>free text</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Commodity</attrlabl>
+        <attrdef>Mineral commodity for which the data were compiled.</attrdef>
+        <attrdefs>Producer Defined</attrdefs>
+        <attrdomv>
+          <codesetd>
+            <codesetn>Mineral Commodities</codesetn>
+            <codesets>USGS National Minerals Information Center</codesets>
+          </codesetd>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Country</attrlabl>
+        <attrdef>Country in which the mineral commodity is produced or processed.</attrdef>
+        <attrdefs>Producer Defined</attrdefs>
+        <attrdomv>
+          <codesetd>
+            <codesetn>Common Geographic Names</codesetn>
+            <codesets>Geopolitical Entities, Names, and Codes (GENC) Standard</codesets>
+          </codesetd>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Statistics</attrlabl>
+        <attrdef>Measured variable type.</attrdef>
+        <attrdefs>Producer Defined</attrdefs>
+        <attrdomv>
+          <udom>free text</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Statistics_detail</attrlabl>
+        <attrdef>Details on measured variable type</attrdef>
+        <attrdefs>Producer Defined</attrdefs>
+        <attrdomv>
+          <udom>free text</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Unit</attrlabl>
+        <attrdef>Unit of measure.</attrdef>
+        <attrdefs>Producer Defined</attrdefs>
+        <attrdomv>
+          <udom>free text</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Year</attrlabl>
+        <attrdef>Year the data represent.</attrdef>
+        <attrdefs>Producer Defined</attrdefs>
+        <attrdomv>
+          <rdom>
+            <rdommin>2021</rdommin>
+            <rdommax>2025</rdommax>
+          </rdom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Value</attrlabl>
+        <attrdef>Value.</attrdef>
+        <attrdefs>Producer Defined</attrdefs>
+        <attrdomv>
+          <edom>
+            <edomv>XX, W, s, NA, E, —</edomv>
+            <edomvd>XX - World totals cannot be calculated because production and reserves are not reported in a consistent manner by all countries.
+W - Withheld
+s - small
+NA - not available
+E - Net exporter
+— - zero</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+        <attrdomv>
+          <rdom>
+            <rdommin>-100000000</rdommin>
+            <rdommax>100000000</rdommax>
+          </rdom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Notes</attrlabl>
+        <attrdef>Notes about the data.</attrdef>
+        <attrdefs>Producer Defined</attrdefs>
+        <attrdomv>
+          <udom>free text</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Other notes</attrlabl>
+        <attrdef>Other notes about the data.</attrdef>
+        <attrdefs>Producer Defined</attrdefs>
+        <attrdomv>
+          <udom>free text</udom>
+        </attrdomv>
+      </attr>
+    </detailed>
+    <overview>
+      <eaover>World Production data were compiled from the U.S. Geological Survey's Minerals Yearbooks in one single file. Units may vary by commodity - the user of the data must select mineral commodities having similar units if comparing quantities.</eaover>
+      <eadetcit>World Production data set accompanying the U.S. Geological Survey Appendices for the Methodology and Technical Input for the 2025 Review and Revision of the U.S. Critical Minerals List.</eadetcit>
+    </overview>
+  </eainfo>
+  <distinfo>
+    <distrib>
+      <cntinfo>
+        <cntperp>
+          <cntper>GS ScienceBase</cntper>
+          <cntorg>U.S. Geological Survey</cntorg>
+        </cntperp>
+        <cntaddr>
+          <addrtype>mailing address</addrtype>
+          <address>Denver Federal Center, Building 810, Mail Stop 302</address>
+          <city>Denver</city>
+          <state>CO</state>
+          <postal>80225</postal>
+          <country>United States</country>
+        </cntaddr>
+        <cntvoice>1-888-275-8747</cntvoice>
+        <cntemail>sciencebase@usgs.gov</cntemail>
+      </cntinfo>
+    </distrib>
+    <distliab>Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected. Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall the act of distribution constitute any such warranty.</distliab>
+    <stdorder>
+      <digform>
+        <digtinfo>
+          <formname>Digital Data</formname>
+        </digtinfo>
+        <digtopt>
+          <onlinopt>
+            <computer>
+              <networka>
+                <networkr>https://doi.org/10.5066/P14BRF29</networkr>
+              </networka>
+            </computer>
+          </onlinopt>
+        </digtopt>
+      </digform>
+      <fees>None</fees>
+    </stdorder>
+  </distinfo>
+  <metainfo>
+    <metd>20260206</metd>
+    <metc>
+      <cntinfo>
+        <cntperp>
+          <cntper>Robert C Goodin</cntper>
+          <cntorg>USGS - Northeast Region</cntorg>
+        </cntperp>
+        <cntpos>Physical Scientist</cntpos>
+        <cntaddr>
+          <addrtype>mailing and physical</addrtype>
+          <address>National Center, John W Powell FB</address>
+          <city>Reston</city>
+          <state>VA</state>
+          <postal>20192</postal>
+        </cntaddr>
+        <cntvoice>703-648-7710</cntvoice>
+        <cntemail>rgoodin@usgs.gov</cntemail>
+      </cntinfo>
+    </metc>
+    <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+    <metstdv>FGDC-STD-001-1998</metstdv>
+  </metainfo>
+</metadata>

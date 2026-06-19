@@ -216,7 +216,7 @@ inventory_load_fn <- function(
         critical_weights$silicon |>
         dplyr::mutate(!!!col_to_add_v) |>
         dplyr::mutate(no_comm = as.numeric(.data[["no_comm"]]),
-                      comm = ifelse(comm == "silicon mg", "silicon"))
+                      comm = ifelse(comm == "silicon mg", "silicon", .data[["comm"]]))
 
 
       inventories <- # row binding the new silicon data to inventories and adding values to exisiting ones
