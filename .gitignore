@@ -6,3 +6,6 @@ inst/doc
 /doc/
 /Meta/
 .positai
+data-raw/usgs/*/MCS*.csv
+data-raw/usgs/*/MCS*.xml
+data-raw/usgs/*/MCS*.zip
