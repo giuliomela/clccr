@@ -1,7 +1,3 @@
-library(dplyr)
-library(readxl)
-library(rdbnomics)
-
 get_imf_prices <- function(master_data_path = here::here("data-raw", "db_comm_master_2026.xlsx"),
                            output_dir = here::here("data-raw", "imf"),
                            usgs_um_legend = "usgs_um.xlsx") {
@@ -53,5 +49,3 @@ get_imf_prices <- function(master_data_path = here::here("data-raw", "db_comm_ma
 
   return(price_imf_def)
 }
-
-get_imf_prices()

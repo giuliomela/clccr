@@ -1,8 +1,3 @@
-library(dplyr)
-library(comtradr)
-library(tidyr)
-library(purrr)
-
 get_comtrade_prices <- function(master_data_path = here::here("data-raw", "db_comm_master_2026.xlsx"),
                                 ref_yr = 2025,
                                 horizon = 10,
@@ -93,4 +88,3 @@ get_comtrade_prices <- function(master_data_path = here::here("data-raw", "db_co
   return(final_comtrade)
 }
 
-get_comtrade_prices()

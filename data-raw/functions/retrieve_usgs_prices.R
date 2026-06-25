@@ -1,12 +1,3 @@
-library(dplyr)
-library(stringr)
-library(readr)
-library(readxl)
-library(openxlsx)
-library(sbtools)
-library(stringi)
-library(purrr)
-
 get_usgs_prices <- function(ref_yr = 2026,
                             output_dir = here::here("data-raw", "usgs"),
                             historical_file = "usgs_historical.xlsx",
@@ -76,28 +67,86 @@ get_usgs_prices <- function(ref_yr = 2026,
 
   log_msg("Loaded USGS correspondence table: ", nrow(usgs_key), " rows")
 
-  # --- ScienceBase Query & Download ---
-  query_res <- sbtools::query_sb_text(paste0("Mineral Commodity Summaries ", ref_yr, " Salient"))
-  titles <- vapply(query_res, function(x) x$title, character(1))
-  idx <- grep("Commodity Salient U\\.S\\. and World Statistics", titles)
+  # --- ScienceBase Query & Download (With callback) ---
+  search_string <- paste0("Mineral Commodity Summaries ", ref_yr)
+  log_msg("Querying ScienceBase for: ", search_string)
 
-  if (length(idx) == 0) stop("No ScienceBase item matched the required pattern.")
+  # Control variables
+  download_success <- FALSE
+  query_res <- NULL
 
-  commodity_item <- query_res[[idx[1]]]
-  sb_id <- commodity_item$id
+  # First attempt: specific year
+  tryCatch({
+    query_res <- sbtools::query_sb_text(search_string)
+  }, error = function(e) {
+    log_msg("Warning: First ScienceBase query failed due to server connection issues.")
+  })
+
+  titles <- if (!is.null(query_res)) vapply(query_res, function(x) x$title, character(1)) else character(0)
+  idx <- grep("Salient|Statistics|Commodities.*Data", titles, ignore.case = TRUE)
+
+  # Second attempt: callback on historical server
+  if (length(idx) == 0) {
+    log_msg("Specific year item not found or server down. Attempting fallback to USGS Historical Salient Hub...")
+    tryCatch({
+      query_res <- sbtools::query_sb_text("Mineral Commodity Summaries Salient U.S. and World Statistics")
+      titles <- vapply(query_res, function(x) x$title, character(1))
+      idx <- grep("Salient|Statistics", titles, ignore.case = TRUE)
+    }, error = function(e) {
+      log_msg("Warning: Historical Hub query failed as well.")
+    })
+  }
 
   year_dir <- file.path(output_dir, ref_yr)
   if (!dir.exists(year_dir)) dir.create(year_dir, recursive = TRUE, showWarnings = FALSE)
 
-  sb_files <- sbtools::item_list_files(sb_id, recursive = FALSE)
-  csv_to_download <- sb_files |> dplyr::filter(grepl("Commodities_Data\\.csv$", fname))
-
-  if (nrow(csv_to_download) != 1) stop("Error: Missing or multiple Commodities_Data.csv on ScienceBase.")
-
-  target_csv_name <- csv_to_download$fname[[1]]
+  # Defining a local file name standard path
+  target_csv_name <- "Commodities_Data.csv"
   csv_file_path <- file.path(year_dir, target_csv_name)
 
-  sbtools::item_file_download(sb_id, files = target_csv_name, dest_dir = year_dir, overwrite_file = TRUE)
+  # If one of the queries worked, attempting to download the file
+  if (length(idx) > 0) {
+    tryCatch({
+      commodity_item <- query_res[[idx[1]]]
+      sb_id <- commodity_item$id
+      sb_files <- sbtools::item_list_files(sb_id, recursive = FALSE)
+
+      csv_to_download <- sb_files |>
+        dplyr::filter(stringr::str_detect(fname, stringr::regex("Commodities_Data\\.csv$|salient.*\\.csv$", ignore_case = TRUE)))
+
+      if (nrow(csv_to_download) > 0) {
+        target_csv_name <- csv_to_download$fname[[1]]
+        csv_file_path <- file.path(year_dir, target_csv_name)
+        log_msg("Downloading refreshed file from ScienceBase: ", target_csv_name)
+        sbtools::item_file_download(sb_id, files = target_csv_name, dest_dir = year_dir, overwrite_file = TRUE)
+        download_success <- TRUE
+      }
+    }, error = function(e) {
+      log_msg("Warning: Error occurred during file extraction from ScienceBase. Switching to offline mode.")
+    })
+  }
+
+  # --- Third attempt: if no files are downloaded, loading local cache copy
+  if (!isTRUE(download_success)) {
+    log_msg("🔴 ScienceBase is completely unreachable or items are missing.")
+
+    # Looking up for old files inside year directory
+    possible_local_files <- list.files(year_dir, pattern = "\\.csv$", full.names = TRUE)
+
+    if (length(possible_local_files) > 0) {
+      csv_file_path <- possible_local_files[1]
+      log_msg("🟢 Safe local fallback activated! Using cached file found at: ", csv_file_path)
+    } else {
+      # Look into main usgs folder as secondary backup plan
+      global_backup <- file.path(output_dir, "Commodities_Data.csv")
+      if (file.exists(global_backup)) {
+        csv_file_path <- global_backup
+        log_msg("🟢 Safe local fallback activated! Using global backup file: ", csv_file_path)
+      } else {
+        stop("Critical: ScienceBase servers are down AND no cached 'Commodities_Data.csv' was found locally.")
+      }
+    }
+  }
 
   # --- Process Downloaded Data ---
   df <- readr::read_csv(csv_file_path, show_col_types = FALSE)
@@ -231,21 +280,3 @@ get_usgs_prices <- function(ref_yr = 2026,
 
   return(list(prices = usgs_prices_all, prices_raw = usgs_prices_all_raw))
 }
-
-# ==============================================================================
-# RUN ENVIRONMENT SETUP (Once-a-year preparation)
-# ==============================================================================
-
-# 1. Execute updating pipeline
-output_data <- get_usgs_prices(ref_yr = 2026, latest_wollastonite = NA_real_)
-
-# 2. Persist the updated un-converted database for next year's logic iteration
-openxlsx::write.xlsx(
-  list(historical = output_data$prices_raw),
-  file = here::here("data-raw", "usgs", "usgs_historical.xlsx"),
-  overwrite = TRUE
-)
-
-# 3. Create/Save the definitive sysdata or object for package execution
-usgs_prices_def <- output_data$prices
-# usethis::use_data(usgs_prices_def, overwrite = TRUE) # Un-comment if you save as package internal data
