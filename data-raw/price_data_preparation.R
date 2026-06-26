@@ -17,6 +17,7 @@ library(fredr)
 ref_yr <- 2026
 h <- 10        # Horizon length for historical analysis
 price_version_comparison <- FALSE # Set to TRUE if you want to perform year-over-year comparison
+download_fresh_data <- FALSE #set to 'TRUE' to download latest data
 
 # Ensure API keys or environment variables are loaded if necessary
 # comtradr key is handled inside its own retrieval function now
@@ -41,7 +42,16 @@ walk(
   \(x) source(x)
 )
 
+# Creting a local cache folder if missing
+
+cache_dir <- here("data-raw", "cache_raw_data")
+
+if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
+
 # --- 2. Running Workers to Fetch Raw/Defensive Prices ---
+if(isTRUE(download_fresh_data)) {
+
+
 message("Executing modular data extraction workers...")
 
 # USGS Module (returns a structured list, tracking prices)
@@ -67,6 +77,23 @@ price_imf_def      <- get_imf_prices(master_data = master_data_path)
 price_comtrade_def <- get_comtrade_prices(master_data = master_data_path,
                                           ref_yr = comtrade_ref_yr, horizon = h) # ref_yr in this case is the year before the actual ref_yr
 price_comext_def   <- get_comext_prices(ref_yr = ref_yr, horizon = h)
+
+# Saving data in the cache folder
+
+save(price_usgs_def, price_imf_def, price_comtrade_def, price_comext_def,
+     file = file.path(cache_dir, paste0("raw_prices_snapshot_", ref_yr, ".RData")))
+
+} else {
+
+  message("🟢 Offline Cache Mode Active: Loading last session raw snapshots...")
+  cache_file <- file.path(cache_dir, paste0("raw_prices_snapshot_", ref_yr, ".RData"))
+
+  if (!file.exists(cache_file)) {
+    stop("Critical error: No local cache file found. You must set download_fresh_data <- TRUE at least once.")
+  }
+  load(cache_file)
+
+}
 
 # --- 3. Downloading Macroeconomic Deflators & Exchange Rates ---
 message("Fetching GDP deflators and exchange rates...")
@@ -111,7 +138,7 @@ message("Consolidating datasets and applying currency conversions (USD -> EUR)..
 prices_all <- bind_rows(price_comtrade_def, price_comext_def,
                         price_imf_def, price_usgs_def) |>
   as_tibble() |>
-  filter(year >= (max(year) - 9) & year <= max(year))
+  filter(year >= (max(year) - 10) & year <= max(year)) #keeping an extra year to be able to compute previous' year average prices
 
 if (max(prices_all$year) > max(gdp_defl$year))
   stop("Critical: GDP deflator data do not cover the latest year of available price data. Please verify FRED/Eurostat updates.")
@@ -142,6 +169,7 @@ message(paste0(
 
 # Computing historical summary metrics over the selected horizon (10 years)
 ref_prices <- prices_all |>
+  filter(year >= (max(year) - 9) & year <= max(year)) |>
   group_by(code, source) |>
   summarise(
     mean  = mean(price_eur, na.rm = TRUE),
@@ -150,6 +178,22 @@ ref_prices <- prices_all |>
     n_obs = sum(!is.na(price_eur)), # Number of years validating the sample average
     .groups = "drop"
   )
+
+# Computing previous year's averages
+
+
+prices_last_year <- prices_all |>
+  filter(year >= (max(year) - 10) & year <= max(year) - 1) |>
+  group_by(code, source) |>
+  summarise(
+    mean_previous_year  = mean(price_eur, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  select(code, source, mean_previous_year)
+
+
+ref_prices <- ref_prices |>
+  left_join(prices_last_year, by = c("code", "source"))
 
 # --- 5. Tidying Commodity Keys and Mapping Configurations ---
 message("Mapping processed prices back to master layout structure...")

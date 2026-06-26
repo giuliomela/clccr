@@ -13,7 +13,7 @@ clcc(
   plot_phases = FALSE,
   plot_phases_critical = FALSE,
   plot_phases_critical_version = "EU",
-  price_source = "2024"
+  price_source = "latest"
 )
 }
 \arguments{
@@ -37,8 +37,8 @@ plot returned refers to the Critical CLCC indicator.}
 \item{plot_phases_critical_version}{A string. If set to `EU`, the critical CLCC indicator is based on the list of critical
 materials of the European Union. If it is set to `IEA` the International Energy Agency list is used instead. Default is set to `EU`}
 
-\item{price_source}{A string. If set to `2023` price sources used in the 2023 RDS report are used. If set to `2024`,
-the default, the 2024 updated price sources are used.}
+\item{price_source}{A string. If set to `latest` latest price data are used. If set to `previous`,
+the previous' year data are used instead.}
 }
 \value{
 A list of 2 elements: a tibble containing the CLCC indicator calculated for each object and phase

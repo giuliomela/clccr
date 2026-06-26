@@ -7,7 +7,7 @@
 clcc_detail(
   data_path,
   use_weights = FALSE,
-  weights_path = NULL,
+  weights_path,
   critical = FALSE,
   critical_type = "EU",
   phase_of_int = "total",

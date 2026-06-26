@@ -19,8 +19,8 @@
 #'     plot returned refers to the Critical CLCC indicator.
 #' @param plot_phases_critical_version A string. If set to `EU`, the critical CLCC indicator is based on the list of critical
 #'     materials of the European Union. If it is set to `IEA` the International Energy Agency list is used instead. Default is set to `EU`
-#' @param price_source A string. If set to `2023` price sources used in the 2023 RDS report are used. If set to `2024`,
-#'     the default, the 2024 updated price sources are used.
+#' @param price_source A string. If set to `latest` latest price data are used. If set to `previous`,
+#'     the previous' year data are used instead.
 #' @return A list of 2 elements: a tibble containing the CLCC indicator calculated for each object and phase
 #'     and a `ggplot` object containing the plot of the results.
 #' @export
@@ -38,7 +38,7 @@ clcc <- function(data_path,
                  func_unit = "km", label_digits = 3,
                  plot_phases = FALSE, plot_phases_critical = FALSE,
                  plot_phases_critical_version = "EU",
-                 price_source = "2024"){
+                 price_source = "latest"){
 
   if (isFALSE(plot_phases) & isTRUE(plot_phases_critical))
     stop("The 'plot_phases_critical' argument can be set to TRUE only if 'plot_phases' = TRUE as well")
@@ -49,8 +49,8 @@ clcc <- function(data_path,
   if(isFALSE(is.numeric(label_digits)))
     stop("The paramter 'label_digits' must be an integer")
 
-  if(!is.element(price_source, c("2023", "2024")))
-    stop("Please use a valid price source version: either '2023' or '2024'")
+  if(!is.element(price_source, c("latest", "previous")))
+    stop("Please use a valid price source version: either 'latest' or 'previous'")
 
   inventories <- inventory_load_fn(
     data_path = data_path,
@@ -58,17 +58,11 @@ clcc <- function(data_path,
     weights_path = weights_path
     ) # loads the inventories
 
-  if (price_source == "2024"){
+  prices <- clccr::clcc_prices_ref
 
-    prices <- clccr::clcc_prices_ref
-
-  } else if (price_source == "2023"){
-
-    prices <- clccr::clcc_prices_ref |>
-      dplyr::left_join(clccr::prices_23) |>
-      dplyr::mutate(mean = NULL) |>
-      dplyr::rename(mean = .data[["price23"]])
-
+  if (price_source == "previous") {
+    prices <- prices |>
+      dplyr::mutate(mean = .data[["mean_previous_year"]])
   }
 
   prices$comm <- tolower(prices$comm) # commodity names in lower case
@@ -87,6 +81,8 @@ clcc <- function(data_path,
 
 
   # Computing the CLCC indicator
+
+
 
   clcc_res <-
     inv_prices |>
