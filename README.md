@@ -50,14 +50,14 @@ res[["table"]]
 #>    object    phase    clcc clcc_critical_eu clcc_critical_iea share_critical_iea
 #>    <chr>     <chr>   <dbl>            <dbl>             <dbl>              <dbl>
 #>  1 bus_dies… batt… 0              0                 0                      0    
-#>  2 bus_dies… manu… 3.93e-4        0.0000541         0.0000735             18.7  
-#>  3 bus_dies… total 1.40e-2        0.00204           0.00166               11.9  
+#>  2 bus_dies… manu… 3.97e-4        0.0000527         0.0000747             18.8  
+#>  3 bus_dies… total 1.42e-2        0.00205           0.00170               11.9  
 #>  4 bus_dies… uso   0              0                 0                      0    
-#>  5 bus_dies… veic… 4.06e-3        0.00180           0.00152               37.3  
-#>  6 bus_dies… vett… 9.57e-3        0.000179          0.0000719              0.752
-#>  7 bus_elet  batt… 2.75e-3        0.00186           0.00128               46.6  
-#>  8 bus_elet  manu… 3.26e-4        0.0000414         0.0000343             10.5  
-#>  9 bus_elet  total 7.10e-3        0.00275           0.00171               24.1  
+#>  5 bus_dies… veic… 4.12e-3        0.00182           0.00155               37.6  
+#>  6 bus_dies… vett… 9.70e-3        0.000175          0.0000748              0.772
+#>  7 bus_elet  batt… 2.80e-3        0.00189           0.00155               55.5  
+#>  8 bus_elet  manu… 3.29e-4        0.0000400         0.0000348             10.6  
+#>  9 bus_elet  total 7.19e-3        0.00275           0.00199               27.7  
 #> 10 bus_elet  uso   0              0                 0                      0    
 #> # ℹ 92 more rows
 #> # ℹ 1 more variable: share_critical_eu <dbl>
@@ -70,7 +70,7 @@ The default plot looks like:
 res[["plot"]]
 ```
 
-<img src="man/figures/README-example1-plot-1.png" width="100%" />
+<img src="man/figures/README-example1-plot-1.png" alt="" width="100%" />
 
 Even though data on reference prices cannot be updated programmatically
 since not all source have an API, it is possible to extract a tibble
@@ -85,15 +85,16 @@ information on price levels and data sources in the
 prices <- clcc_prices_ref
 
 head(prices, 5)
-#> # A tibble: 5 × 13
+#> # A tibble: 5 × 14
 #>   comm      no_comm um    source  critical_eu critical_iea macro_cat code   mean
 #>   <chr>       <dbl> <chr> <chr>   <chr>       <chr>        <chr>     <chr> <dbl>
 #> 1 Acids           1 kg    none    no          no           Chemical… <NA>     0 
-#> 2 Actinium        2 kg    comtra… no          no           Actinium  2844…  218.
+#> 2 Actinium        2 kg    comtra… no          no           Actinium  2844…  348.
 #> 3 Additives       3 kg    none    no          no           Chemical… <NA>     0 
 #> 4 Air             4 kg    none    no          no           Gases, o… <NA>     0 
 #> 5 Alloys          5 kg    none    no          no           Other     <NA>     0 
-#> # ℹ 4 more variables: min <dbl>, max <dbl>, n_obs <int>, ref_yr <dbl>
+#> # ℹ 5 more variables: min <dbl>, max <dbl>, n_obs <int>, update_yr <dbl>,
+#> #   defl_year <dbl>
 ```
 
 The `clcc` function returns the total CLCC indicator (computed taking
@@ -114,23 +115,21 @@ detail_info <- clcc_detail(data_path = path_to_folder,
                            critical = FALSE,
                            phase_of_int = "total",
                            collapse_share = 0.9)
-#> Joining with `by = join_by(comm, um, no_comm)`
-#> Joining with `by = join_by(object, phase, clcc_type)`
 
 head(detail_info[["table"]], 10)
 #> # A tibble: 10 × 6
 #>    object     macro_cat   phase clcc_type         clcc  share
 #>    <chr>      <chr>       <chr> <chr>            <dbl>  <dbl>
-#>  1 bus_diesel Oil         total baseline-clcc 0.00885  0.631 
-#>  2 bus_diesel Shale       total baseline-clcc 0.00195  0.139 
-#>  3 bus_diesel Other       total baseline-clcc 0.00140  0.100 
-#>  4 bus_diesel PGMs        total baseline-clcc 0.00111  0.0792
-#>  5 bus_diesel Natural gas total baseline-clcc 0.000709 0.0506
-#>  6 bus_elet   Natural gas total baseline-clcc 0.00226  0.318 
-#>  7 bus_elet   Other       total baseline-clcc 0.000837 0.118 
-#>  8 bus_elet   Lithium     total baseline-clcc 0.000801 0.113 
-#>  9 bus_elet   Coal        total baseline-clcc 0.000735 0.104 
-#> 10 bus_elet   Oil         total baseline-clcc 0.000674 0.0949
+#>  1 bus_diesel Oil         total baseline-clcc 0.00897  0.631 
+#>  2 bus_diesel Other       total baseline-clcc 0.00212  0.149 
+#>  3 bus_diesel Shale       total baseline-clcc 0.00198  0.140 
+#>  4 bus_diesel PGMs        total baseline-clcc 0.00114  0.0800
+#>  5 bus_elet   Natural gas total baseline-clcc 0.00232  0.322 
+#>  6 bus_elet   Other       total baseline-clcc 0.000837 0.116 
+#>  7 bus_elet   Lithium     total baseline-clcc 0.000834 0.116 
+#>  8 bus_elet   Coal        total baseline-clcc 0.000693 0.0963
+#>  9 bus_elet   Oil         total baseline-clcc 0.000683 0.0950
+#> 10 bus_elet   Nickel      total baseline-clcc 0.000445 0.0619
 ```
 
 Also in this case the function returns a default plot of the results.
@@ -140,7 +139,7 @@ Also in this case the function returns a default plot of the results.
 detail_info[["plot"]]
 ```
 
-<img src="man/figures/README-example4-plot-1.png" width="100%" />
+<img src="man/figures/README-example4-plot-1.png" alt="" width="100%" />
 
 The package provides two alternative versions of the CLCC indicator,
 taking into account critical materials only. The first alternative uses
@@ -183,21 +182,20 @@ res_weights <-
     use_weights = TRUE,
     weights_path = path_to_weights
   )
-#> Joining with `by = join_by(object, comm, phase)`
 
 res_weights[["table"]]
 #> # A tibble: 102 × 7
 #>    object    phase    clcc clcc_critical_eu clcc_critical_iea share_critical_iea
 #>    <chr>     <chr>   <dbl>            <dbl>             <dbl>              <dbl>
 #>  1 bus_dies… batt… 0              0                 0                      0    
-#>  2 bus_dies… manu… 3.93e-4        0.0000293         0.0000737             18.8  
-#>  3 bus_dies… total 1.40e-2        0.00175           0.00167               11.9  
+#>  2 bus_dies… manu… 3.97e-4        0.0000292         0.0000749             18.9  
+#>  3 bus_dies… total 1.42e-2        0.00178           0.00170               12.0  
 #>  4 bus_dies… uso   0              0                 0                      0    
-#>  5 bus_dies… veic… 4.07e-3        0.00161           0.00152               37.4  
-#>  6 bus_dies… vett… 9.57e-3        0.000120          0.0000720              0.752
-#>  7 bus_elet  batt… 2.75e-3        0.00161           0.00128               46.6  
-#>  8 bus_elet  manu… 3.26e-4        0.0000181         0.0000344             10.6  
-#>  9 bus_elet  total 7.11e-3        0.00208           0.00172               24.2  
+#>  5 bus_dies… veic… 4.12e-3        0.00164           0.00155               37.6  
+#>  6 bus_dies… vett… 9.70e-3        0.000120          0.0000749              0.773
+#>  7 bus_elet  batt… 2.80e-3        0.00165           0.00155               55.6  
+#>  8 bus_elet  manu… 3.30e-4        0.0000180         0.0000350             10.6  
+#>  9 bus_elet  total 7.20e-3        0.00213           0.00200               27.7  
 #> 10 bus_elet  uso   0              0                 0                      0    
 #> # ℹ 92 more rows
 #> # ℹ 1 more variable: share_critical_eu <dbl>
@@ -228,30 +226,28 @@ phase <- "total" # the life cycle phase for which running the simulation
 mc_res <- clcc_mc(data_path = path_to_folder, 
                   #weights_path = path_to_weights,
                   rep = rep)
-#> Joining with `by = join_by(comm, um, no_comm)`
-#> Joining with `by = join_by(object, phase)`
 
 mc_res[["table"]]
 #> # A tibble: 17 × 10
 #>    object      phase clcc_sim ecdf_fn    clcc clcc_critical_eu clcc_critical_iea
 #>    <chr>       <chr> <list>   <list>    <dbl>            <dbl>             <dbl>
-#>  1 bus_diesel  total <dbl>    <ecdf>  0.0140           0.00204          0.00166 
-#>  2 bus_elet    total <dbl>    <ecdf>  0.00710          0.00275          0.00171 
-#>  3 car_cng     total <dbl>    <ecdf>  0.0382           0.00447          0.00338 
-#>  4 car_diesel  total <dbl>    <ecdf>  0.0371           0.00428          0.00310 
-#>  5 car_diesel… total <dbl>    <ecdf>  0.0337           0.00422          0.00307 
-#>  6 car_elet_e… total <dbl>    <ecdf>  0.0235           0.00864          0.00608 
-#>  7 car_elet_i… total <dbl>    <ecdf>  0.0256           0.00960          0.00682 
-#>  8 car_petrol  total <dbl>    <ecdf>  0.0402           0.00444          0.00328 
-#>  9 car_phev_d… total <dbl>    <ecdf>  0.0288           0.00738          0.00494 
-#> 10 car_phev_p… total <dbl>    <ecdf>  0.0339           0.00734          0.00506 
-#> 11 micro_carg… total <dbl>    <ecdf>  0.0175           0.00622          0.00146 
-#> 12 micro_carg… total <dbl>    <ecdf>  0.0182           0.00653          0.00156 
-#> 13 micro_ebike total <dbl>    <ecdf>  0.00306          0.00124          0.000529
-#> 14 micro_esco… total <dbl>    <ecdf>  0.00472          0.00213          0.000766
-#> 15 van_diesel  total <dbl>    <ecdf>  0.0614           0.00687          0.00446 
-#> 16 van_elet    total <dbl>    <ecdf>  0.0356           0.0133           0.00887 
-#> 17 van_phev    total <dbl>    <ecdf>  0.0497           0.0114           0.00806 
+#>  1 bus_diesel  total <dbl>    <ecdf>  0.0142           0.00205          0.00170 
+#>  2 bus_elet    total <dbl>    <ecdf>  0.00719          0.00275          0.00199 
+#>  3 car_cng     total <dbl>    <ecdf>  0.0389           0.00442          0.00344 
+#>  4 car_diesel  total <dbl>    <ecdf>  0.0376           0.00424          0.00316 
+#>  5 car_diesel… total <dbl>    <ecdf>  0.0340           0.00418          0.00313 
+#>  6 car_elet_e… total <dbl>    <ecdf>  0.0237           0.00857          0.00682 
+#>  7 car_elet_i… total <dbl>    <ecdf>  0.0257           0.00951          0.00763 
+#>  8 car_petrol  total <dbl>    <ecdf>  0.0407           0.00440          0.00335 
+#>  9 car_phev_d… total <dbl>    <ecdf>  0.0290           0.00727          0.00527 
+#> 10 car_phev_p… total <dbl>    <ecdf>  0.0342           0.00723          0.00540 
+#> 11 micro_carg… total <dbl>    <ecdf>  0.0174           0.00593          0.00156 
+#> 12 micro_carg… total <dbl>    <ecdf>  0.0181           0.00623          0.00175 
+#> 13 micro_ebike total <dbl>    <ecdf>  0.00303          0.00118          0.000564
+#> 14 micro_esco… total <dbl>    <ecdf>  0.00455          0.00191          0.000858
+#> 15 van_diesel  total <dbl>    <ecdf>  0.0622           0.00682          0.00456 
+#> 16 van_elet    total <dbl>    <ecdf>  0.0358           0.0132           0.00996 
+#> 17 van_phev    total <dbl>    <ecdf>  0.0503           0.0113           0.00860 
 #> # ℹ 3 more variables: share_critical_iea <dbl>, share_critical_eu <dbl>,
 #> #   prob_inf_base <dbl>
 ```
@@ -271,8 +267,6 @@ differences between all the simulated values for each object.
 mc_res2 <- clcc_mc(data_path = path_to_folder, 
                    #path_weights = path_to_weights,
                    rep = rep, prob_inf_alt = TRUE)
-#> Joining with `by = join_by(comm, um, no_comm)`
-#> Joining with `by = join_by(object, phase)`
 
 mc_res2[["table"]]
 #> # A tibble: 289 × 3

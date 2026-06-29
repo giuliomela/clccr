@@ -10,7 +10,7 @@ clcc_mc(
   weights_path = NULL,
   rep = 10000,
   phase = "total",
-  critical = F,
+  critical = FALSE,
   critical_type = "EU",
   func_unit = "km",
   prob_inf_alt = FALSE
@@ -50,7 +50,7 @@ CLCC is lower than that of every other object loaded.
 \description{
 This function loads price and inventory data (using other clccr functions)
 and runs a Monte Carlo simulation of the CLCC indicator. A high number
-(decided by the user) of random prices are generated using tringular distributions
+(decided by the user) of random prices are generated using triangular distributions
 (parameters of such distributions are mean, min and max prices of the last decade),
 which are then used to compute as many values of the CLCC indicator.
 The function provides also the probability (computed using the empirical distribution

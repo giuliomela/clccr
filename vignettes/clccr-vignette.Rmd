@@ -61,10 +61,11 @@ library(clccr)
 
 # Usage {#usage}
 
-The package provides a function, `clcc()` to load SimaPro inventories in .xlsx format, from a folder designated by the user, and to compute the CLCC indicator. Each spreadsheet contains inventory data for every phase of a given product/process. The `clcc()` function computes the CLCC indicator for each product and phase using the latest version of reference prices available. Price are updated manually[^2] on a yearly basis by the package developers even though, in the future, a new function allowing the user to directly download the series or to change the time period along which average prices are computed.
-The function returns three types versions of the indicator: 
+The package provides a function, `clcc()` to load SimaPro inventories in .xlsx format, from a folder designated by the user, and to compute the CLCC indicator. Each spreadsheet contains inventory data for every phase of a given product/process. The `clcc()` function computes the CLCC indicator for each product and phase using the reference prices available. Prices are updated on a yearly basis by the package developers in the internal database. The `price_source` parameter allows the user to switch between the latest 10-year rolling average (`"latest"`, the default) or the previous year's rolling average matrix (`"previous"`), which is extremely useful for macro-economic scenario analyses.
+
+The function returns three versions of the indicator: 
 - conventional (considering all material flows of the life cycle),
-- EU critical (considering only materials included in the European Commission's list of critical raw materials)
+- EU critical (considering only materials included in the European Commission's list of critical raw materials),
 - IEA critical (considering only materials included in the International Energy Agency list of critical raw materials).
 
 The package provides two alternative versions of the CLCC indicator, taking into account critical materials only. The first alternative uses the latest version of the European Union list of critical materials, while the second the latest version of the list provided by the International Energy Agency.
@@ -120,6 +121,16 @@ Even though reference prices are loaded manually into the package folders, it is
 ```{r example-price-ref, echo=TRUE}
 
 head(clcc_prices_ref, 10)
+
+```
+
+An alternative scenario using the previous 10-year rolling average price database can be easily computed by changing the `price_source` argument:
+
+```{r example-clcc-previous, eval=FALSE}
+clcc_previous_results <- clcc(
+  data_path = path_to_folder, 
+  price_source = "previous"
+)
 
 ```
 
@@ -182,4 +193,4 @@ monte_carlo_alt
 
 The `simapro_export` function can be used to generate a `.csv` file with all price data to be exported to the LCA software Simapro. The function has no arguments, and, once called, prompts a pop-up window asking the user where to save the `.csv` file.
 
-Finally, function `copy_xlsx_files()` allows the user to copy raw SimaPro LCA inventories from a folder to another and, athre same time, changing the file extension from `.XLSX` to `.xlsx` if needed. SimaPro-generated spreadsheets often have this problem, which can prevent the inventories from being loaded correctly by the `clcc()` or the `clcc_mc()` functions.
+Finally, function `copy_xlsx_files()` allows the user to copy raw SimaPro LCA inventories from a folder to another and, at the same time, changing the file extension from `.XLSX` to `.xlsx` if needed. SimaPro-generated spreadsheets often have this problem, which can prevent the inventories from being loaded correctly by the `clcc()` or the `clcc_mc()` functions.

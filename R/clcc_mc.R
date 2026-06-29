@@ -9,7 +9,7 @@
 #' function) that the CLCC of a given object is lower than the baseline or lower/higher
 #' than that of any other object belonging to the same project.
 #'
-#' @importFrom stats formula ecdf rtriangle
+#' @importFrom stats formula ecdf
 #' @param data_path A character vector. Path to the folder in which raw xlsx files are stored.
 #' @param use_weights A logical value. If set to `TRUE`, the function uses the critical weights
 #' @param weights_path A character vector. Path to the file containing the critical weights for each commodity and phase.

@@ -12,7 +12,7 @@ clcc_detail(
   critical_type = "EU",
   phase_of_int = "total",
   collapse_share = 0.9,
-  price_source = "2024",
+  price_source = "latest",
   viridis_palette = "viridis",
   palette_direction = 1
 )
@@ -39,8 +39,8 @@ commodities considered. For example, if `collapse_share = 0.9` (the default) onl
 shares sum up to 90% of the total are returned as output. All the others are summed up in the
 `others` category. The parameter must be between `0` and `1`.}
 
-\item{price_source}{A string. If set to `2023` price sources used in the 2023 RDS report are used. If set to `2024`,
-the default, the 2024 updated price sources are used.}
+\item{price_source}{A string. If set to `latest` (default), latest 10-year moving average data are used.
+If set to `previous`, previous rolling average data are used instead.}
 
 \item{viridis_palette}{A string indicating the palette (from the Viridis package to be applied to the plots)}
 
