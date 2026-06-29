@@ -114,12 +114,12 @@ clcc_detail <- function (data_path,
 
   clcc_detail_cat <- clcc_raw |>
     dplyr::left_join(clcc_tot, by = c("object", "phase", "clcc_type")) |>
-    dplyr::mutate(share = if_else(clcc_tot != 0, clcc / clcc_tot, 0),
+    dplyr::mutate(share = dplyr::if_else(clcc_tot != 0, clcc / clcc_tot, 0),
                   clcc_tot = NULL) |>
     dplyr::group_by(object) |>
     dplyr::arrange(desc(share), .by_group = TRUE) |>
     dplyr::mutate(cum_share = cumsum(share),
-                  macro_cat = if_else(cum_share <= collapse_share, macro_cat, "Other")) |>
+                  macro_cat = dplyr::if_else(cum_share <= collapse_share, macro_cat, "Other")) |>
     dplyr::group_by(object, macro_cat, phase, clcc_type) |>
     dplyr::summarise(dplyr::across(c(clcc, share), ~ sum(.x, na.rm = TRUE)), .groups = "drop") |>
     dplyr::arrange(object, desc(share))

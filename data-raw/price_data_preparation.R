@@ -277,7 +277,7 @@ if (isTRUE(price_version_comparison)) {
 # --- 8. Processing SimaPro Template Dependencies ---
 message("Loading SimaPro infrastructure metadata templates...")
 
-simapro_codes <- read_excel(here("data-raw/db_comm_master_2024.xlsx"), sheet = "simapro_codes") |>
+simapro_codes <- read_excel(here(paste0("data-raw/db_comm_master_", ref_yr, ".xlsx")), sheet = "simapro_codes") |>
   mutate(formula = noquote(formula))
 
 template_names <- c("top", "mid_eu", "mid_iea", "mid2", "bottom", "gruppi_top", "gruppi_bottom",
@@ -296,11 +296,15 @@ usethis::use_data(clcc_prices_ref, overwrite = TRUE)
 # Save package internal environment datasets (hidden trackers)
 usethis::use_data(simapro_template, simapro_codes, overwrite = TRUE, internal = TRUE)
 
+if (isTRUE(download_fresh_data)) {
+
 # Backup historical text artifacts generated during the current session execution
 openxlsx::write.xlsx(
   list(historical = usgs_output$prices_raw),
   file = here("data-raw", "usgs", "usgs_historical_backup.xlsx"),
   overwrite = TRUE
 )
+
+}
 
 message("Pipeline execution completed successfully. Package internal repositories are updated.")

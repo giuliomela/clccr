@@ -64,7 +64,7 @@ clcc_mc <- function(data_path,
 
   phase <- min <- max <- mean <- quantity <- rnd_price <- object <- p_q <-
     clcc_sim <- ecdf_diff <- clcc_diff <- obj1 <- obj2 <- clcc_sim.y <- clcc_sim.x <-
-    obj_combinations <- nested_data <- ecdf_fn <- clcc <- NULL
+    obj_combinations <- nested_data <- ecdf_fn <- clcc <- comm <-  prob <- NULL
 
   baseline <- clcc(
     data_path = data_path,
