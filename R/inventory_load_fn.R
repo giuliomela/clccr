@@ -10,10 +10,11 @@
 #' compute the Critical-CLCC indicators.
 #'
 #' @param data_path A character string. Path to the folder in which raw xlsx files are stored.
-#'      File names will be used as object names on which computing the CLCC indicator.
+#'      File names will be used as object names on which computing the CLCC indicator.
 #' @param use_weights A logical value. If set to `TRUE`, the function uses the critical weights
 #' @param weights_path A character vector. Path to the file containing the critical weights for each commodity and phase.
 #' @return A tidy dataset with inventory data organized by object
+#' @export
 inventory_load_fn <- function(
     data_path,
     use_weights = FALSE,
@@ -21,31 +22,22 @@ inventory_load_fn <- function(
 ){
 
   comm <- file_path <- inventory_raw <- data <- object <- no <- um <-
-    um_to <- quantity <- comp <- no_comm <- phase <- NULL # avoids notes (dplyr and NSE)
+    um_to <- quantity <- comp <- no_comm <- phase <- NULL
 
   file_list <- list.files(path = data_path,
                           full.names = TRUE,
                           recursive = TRUE,
-                          pattern = "*.xlsx") # creates a vector with variable names
+                          pattern = "*.xlsx")
 
-
-  inventory_raw <- tidyr::tibble(file_path = file_list) # creates a tibble
-
-  # identifying the number of rows to skip in each excel file
+  inventory_raw <- tidyr::tibble(file_path = file_list)
 
   inventory_raw$skip <- purrr::map_dbl(inventory_raw$file_path, start_data_finder_fn)
 
-  # Checking if all columns are numeric
   inventory_raw <- inventory_raw |>
     dplyr::rowwise() |>
     dplyr::mutate(data = purrr::map(file_path, function(file, skip) {
-      # Reads only first row to count columns
       num_cols <- ncol(readxl::read_excel(file, skip = skip, n_max = 1))
-
-      # Creating a vector for column types. Guess for the first 4, text for all the others
       col_types_vec <- c(rep("guess", 4), rep("text", num_cols - 4))
-
-      # Re-loads inventories specifying colum types
       readxl::read_excel(file, skip = skip, col_types = col_types_vec)
     }, skip = skip)) |>
     dplyr::ungroup()
@@ -57,19 +49,16 @@ inventory_load_fn <- function(
     skip <- NULL
   })
 
-  # Renames variables and handling possible problems with decimal separator
   inventory_raw <- inventory_raw |>
     dplyr::mutate(data = purrr::map(data, ~ {
       .x <- .x |>
         dplyr::rename(no = 1, comm = 2, comp = 3, um = 4, total = 5)
 
-      # Converting ',' into '.'
       .x <- .x |>
         dplyr::mutate(dplyr::across(5:ncol(.x), ~as.numeric(gsub(",", ".", .))))
 
       return(.x)
     }))
-  # tidying the dataset (grouping needed because of different number of phases across objects)
 
   inventory_tidy <- inventory_raw |>
     dplyr::mutate(data = purrr::map(data,
@@ -79,56 +68,39 @@ inventory_load_fn <- function(
                                     })) |>
     tidyr::unnest(data)
 
-  # loading data on measurement units
-
-  meas_units <- subset(clccr::clcc_prices_ref,
-                       select = c(comm, no_comm, um))
+  meas_units <- clccr::clcc_prices_ref |>
+    dplyr::select(comm, no_comm, um) |>
+    dplyr::distinct() |>
+    dplyr::mutate(comm = tolower(comm))
 
   meas_units <- within(meas_units, {
     um_to <- um
     um <- NULL
   })
 
-  # filtering data (raw materials only, belonging to the list of materials for which prices are available)
+  comm_names <- unique(tolower(clccr::clcc_prices_ref$comm))
 
-  # commodities to be considered ####
-  comm_names <- unique(clccr::clcc_prices_ref$comm)
+  inventory_tidy <- inventory_tidy |>
+    dplyr::mutate(comm = tolower(comm)) |>
+    dplyr::filter(comp %in% c("Prima", "Raw") & comm %in% comm_names)
 
-  inventory_tidy <- subset(inventory_tidy,
-                           comp %in% c("Prima", "Raw") & comm %in% comm_names)
+  inventory_tidy <- inventory_tidy |>
+    dplyr::left_join(meas_units, by = "comm")
 
-  # converting measurement units
-
-  inventory_tidy <- merge(inventory_tidy, meas_units, all.x = TRUE)
-
-  inventory_tidy$um <- ifelse(inventory_tidy$um == paste0("\u00b5", "g"), "ug", # \u00b5" unicode character for mu
-                              inventory_tidy$um) # micrograms are expressed wit "ug" in the udunits2 package
-
-  inventory_tidy$no <- NULL # removing the no variable which is not needed
-
-  # removing rows referring to land use changes and to renewable energy (measured in MJ)
+  inventory_tidy$um <- ifelse(inventory_tidy$um == paste0("\u00b5", "g"), "ug", inventory_tidy$um)
+  inventory_tidy$no <- NULL
 
   inventory_tidy <- inventory_tidy[!inventory_tidy$um %in% c("m2a", "m2", "m3y", "MJ"), ]
 
-  inventories <- # all variables in lower case
-    inventory_tidy |>
-    dplyr::mutate(dplyr::across(
-      dplyr::where(is.character), tolower))
+  inventories <- inventory_tidy |>
+    dplyr::mutate(dplyr::across(dplyr::where(is.character), tolower))
 
-  # Loading critical weights (is requested)
-
+  # Loading critical weights
   if (use_weights){
-
     if (is.null(weights_path)) {
-
       stop("If 'use_weights' is TRUE, 'weights_path' cannot be NULL, please specify a valid path to the weight table")
-
     } else {
-
-      critical_weights <- # it is a list
-        critical_weights_load_fn(weights_path = weights_path) # loads the critical weights
-
-      # checking if the coke and silicon tibbles have the same objects and phases
+      critical_weights <- critical_weights_load_fn(weights_path = weights_path)
 
       if (!identical(unique(critical_weights$coke$object), unique(critical_weights$silicon$object)))
         warning("The objects in the coke and the silicon weight tibbles are not the same, please check")
@@ -136,21 +108,15 @@ inventory_load_fn <- function(
       if (!identical(unique(critical_weights$coke$phase), unique(critical_weights$silicon$phase)))
         warning("The phases in the coke and the silicon weight tibbles are not the same, please check")
 
-      # checking if the inventories and the weights tibbles have the same objects/phases
+      inventory_objects <- sort(unique(inventories$object))
 
-      inventory_objects <- # all objects contained in the inventories
-        sort(unique(inventories$object))
-
-      weights_objects <-
-        purrr::map(
-          names(critical_weights),
-          \(x) sort(unique(critical_weights[[x]][["object"]]))
-        ) |> stats::setNames(names(critical_weights))
+      weights_objects <- purrr::map(
+        names(critical_weights),
+        \(x) sort(unique(critical_weights[[x]][["object"]]))
+      ) |> stats::setNames(names(critical_weights))
 
       if(!identical(sort(unique(critical_weights$coke$object)), sort(unique(critical_weights$silicon$object))))
         stop("Objects in the critical weights for coke and silicon do not match. Please check the weight files")
-
-      # I use a for loop because it handles warning messages better than purrr::walk() and lapply()
 
       for (x in c("coke", "silicon")) {
         if(length(inventory_objects) > length(critical_weights[[x]][["object"]]))
@@ -158,88 +124,55 @@ inventory_load_fn <- function(
                       " critical weights for one or more objects are missing, please check the files"))
 
         if(length(intersect(inventory_objects, critical_weights[[x]][["object"]])) == 0)
-          stop(paste0("The inventory and ",
-                      x,
-                      " critical weights files contain completely different objects. Check the files"))
+          stop(paste0("The inventory and ", x, " critical weights files contain completely different objects. Check the files"))
 
         if(length(inventory_objects) < length(unique(critical_weights[[x]][["object"]])))
-          warning(paste0(
-            "Not all the objects in the ",
-            x,
-            " critical weights file are present in the inventories. Those not present have been removed")
-          )
+          warning(paste0("Not all the objects in the ", x, " critical weights file are present in the inventories. Those not present have been removed"))
       }
 
-      critical_weights <-
-        purrr::map(
-          critical_weights,
-          \(x) dplyr::filter(
-            x,
-            .data[["object"]] %in% inventory_objects
-          )
-        ) |> stats::setNames(names(critical_weights))
+      critical_weights <- purrr::map(
+        critical_weights,
+        \(x) dplyr::filter(x, .data[["object"]] %in% inventory_objects)
+      ) |> stats::setNames(names(critical_weights))
 
-      # Manipulating critical weights
-
-      critical_weights <-
-        purrr::map(
-          names(critical_weights),
-          \(x){
-            if(x == "coke"){
-
-              dplyr::rename(critical_weights[[x]], "weight" = "value")
-
-            } else if (x == "silicon"){
-
-              dplyr::rename(critical_weights[[x]], "quantity" = "value")
-
-            }
+      critical_weights <- purrr::map(
+        names(critical_weights),
+        \(x){
+          if(x == "coke"){
+            dplyr::rename(critical_weights[[x]], "weight" = "value")
+          } else if (x == "silicon"){
+            dplyr::rename(critical_weights[[x]], "quantity" = "value")
           }
-        ) |> stats::setNames(names(critical_weights))
+        }
+      ) |> stats::setNames(names(critical_weights))
 
+      col_to_add_v <- setdiff(colnames(inventories), colnames(critical_weights$silicon))
 
-      # Adding silicon data (to be added to exiting one)
-
-      col_to_add_v <- # columns to add to the critical_weights$silicon tibble to perform bind_rows with inventories
-        setdiff(colnames(inventories), colnames(critical_weights$silicon))
-
-      col_to_add_v <-
-        inventories |>
+      col_to_add_v <- inventories |>
         dplyr::filter(comm == "silicon") |>
-        dplyr::select(col_to_add_v) |>
+        dplyr::select(dplyr::all_of(col_to_add_v)) |>
         unique() |>
         dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) |>
         tidyr::pivot_longer(dplyr::everything(), names_to = "var_names", values_to = "var_values") |>
         tibble::deframe()
 
-      new_data_silicon <- # creating the tibble with the new silicon data
-        critical_weights$silicon |>
+      new_data_silicon <- critical_weights$silicon |>
         dplyr::mutate(!!!col_to_add_v) |>
         dplyr::mutate(no_comm = as.numeric(.data[["no_comm"]]),
                       comm = ifelse(comm == "silicon mg", "silicon", .data[["comm"]]))
 
-
-      inventories <- # row binding the new silicon data to inventories and adding values to exisiting ones
-        inventories |>
-        dplyr::bind_rows(new_data_silicon) |> # adding silicon (only has to be added to inventory data)
+      inventories <- inventories |>
+        dplyr::bind_rows(new_data_silicon) |>
         dplyr::group_by(.data[["object"]], .data[["comm"]], .data[["phase"]], .data[["comp"]], .data[["um"]],
                         .data[["no_comm"]], .data[["um_to"]]) |>
-        dplyr::summarise(quantity = sum(quantity), .groups = "drop") |>
-        dplyr::left_join(critical_weights$coke) # adding coke critical weights
+        dplyr::summarise(quantity = sum(quantity, na.rm = TRUE), .groups = "drop") |>
+        dplyr::left_join(critical_weights$coke, by = c("object", "phase", "comm"))
 
-
-      inventories$weight <- ifelse(is.na(inventories$weight), 1, inventories$weight) # if weight is NA, set it to 1
-
-
+      inventories$weight <- ifelse(is.na(inventories$weight), 1, inventories$weight)
     }
-
-
   } else {
-
-    inventories$weight <- 1 # if not using weights, set weight to 1
-
+    inventories$weight <- 1
   }
-
 
   return(inventories)
 }
