@@ -73,7 +73,6 @@ clcc_detail <- function (data_path,
 
   prices <- clccr::clcc_prices_ref
 
-  # 🟢 Protezione scenario temporale coerente con clcc()
   if (price_source == "previous") {
     prices <- prices |>
       dplyr::mutate(mean = .data[["mean_previous_year"]])
@@ -85,7 +84,6 @@ clcc_detail <- function (data_path,
   if(isTRUE(any(test_commodity == FALSE)))
     stop("At least one commodity in the inventory is not present in the master file")
 
-  # 🟢 FIX CRITICO DEL JOIN: Specifichiamo l'unione univoca per stringa comm minuscola
   inv_prices <- inventories |>
     dplyr::left_join(prices, by = "comm")
 
@@ -103,7 +101,6 @@ clcc_detail <- function (data_path,
     inv_prices$clcc_type <- "baseline-clcc"
   }
 
-  # 🟢 FIX AGGREGAZIONE SEMANTICA: Protezione contro i raggruppamenti vuoti su macro_cat
   clcc_raw <- inv_prices |>
     dplyr::mutate(clcc = .data[["mean"]] * .data[["quantity"]] * .data[["weight"]]) |>
     dplyr::filter(phase == phase_of_int) |>
