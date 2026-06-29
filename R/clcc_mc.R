@@ -55,7 +55,6 @@ clcc_mc <- function(data_path,
     weights_path = weights_path
   ) # loads the inventories
 
-  # 🟢 FIX ALLINEAMENTO MINUSCOLE PRIMA DEL JOIN
   inventories$comm <- tolower(inventories$comm)
 
   prices <- clccr::clcc_prices_ref
@@ -76,14 +75,12 @@ clcc_mc <- function(data_path,
 
   baseline <- baseline[baseline$phase == phase_to_cons, ]
 
-  # 🟢 OTTIMIZZAZIONE MATRIX-LIKE: Generazione controllata e pulita delle distribuzioni triangolari
   rnd_prices <- prices |>
     dplyr::rowwise() |>
     dplyr::mutate(rnd_price = list(triangle::rtriangle(n = rep, a = min, b = max, c = mean))) |>
     dplyr::select(comm, source, rnd_price) |>
     dplyr::ungroup()
 
-  # 🟢 FIX CRITICO DEL JOIN: Specifichiamo la chiave univoca per impedire prodotti cartesiani
   inv_prices <- inventories |>
     dplyr::left_join(rnd_prices, by = "comm") |>
     tidyr::as_tibble()
@@ -100,7 +97,6 @@ clcc_mc <- function(data_path,
     }
   }
 
-  # 🟢 VELOCIZZAZIONE STRATEGICA: Calcolo vettoriale nativo senza pmap/Reduce per risparmiare RAM
   sim <- inv_prices |>
     dplyr::filter(phase == phase_to_cons) |>
     dplyr::rowwise() |>
