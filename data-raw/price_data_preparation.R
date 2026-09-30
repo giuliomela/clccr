@@ -17,7 +17,7 @@ library(fredr)
 ref_yr <- 2026
 h <- 10        # Horizon length for historical analysis
 price_version_comparison <- FALSE # Set to TRUE if you want to perform year-over-year comparison
-download_fresh_data <- TRUE #set to 'TRUE' to download latest data
+download_fresh_data <- FALSE #set to 'TRUE' to download latest data
 
 # Ensure API keys or environment variables are loaded if necessary
 # comtradr key is handled inside its own retrieval function now
